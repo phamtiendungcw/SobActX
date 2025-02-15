@@ -68,7 +68,7 @@ SobActX/
 │   ├── MBX.UI/              # Angular frontend application
 ├── docs/                    # Project documentation
 ├── tests/                   # Project testing
-├── LICENSE                  # License file
+├── LICENSE.txt              # License file
 ├── README.md                # Project overview
 ├── CONTRIBUTING.md          # Contribute to the project
 └── SobActX.sln              # Solution file
