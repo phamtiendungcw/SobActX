@@ -38,12 +38,12 @@ cd SobActX
   ```bash
   dotnet ef database update
   ```
-- Set MBX.Server as the startup project. Then, press **F5** or click the Start button (with the green play icon) to run the project.
+- Set SAX.Server as the startup project. Then, press **F5** or click the Start button (with the green play icon) to run the project.
 
 ### 3️⃣ **Set Up Frontend**
 - Navigate to the Angular frontend folder:
   ```bash
-  cd src/MBX.UI
+  cd src/SAX.UI
   ```
 - Install dependencies:
   ```bash
@@ -60,12 +60,12 @@ cd SobActX
 ```plaintext
 SobActX/
 ├── src/
-│   ├── MBX.Application/     # Application logic
-│   ├── MBX.Domain/          # Core domain models
-│   ├── MBX.Infrastructure/  # Infrastructure services
-│   ├── MBX.Persistence/     # Database migrations and access
-│   ├── MBX.Server/          # ASP.NET Core Web API
-│   ├── MBX.UI/              # Angular frontend application
+│   ├── SAX.Application/     # Application logic
+│   ├── SAX.Domain/          # Core domain models
+│   ├── SAX.Infrastructure/  # Infrastructure services
+│   ├── SAX.Persistence/     # Database migrations and access
+│   ├── SAX.Server/          # ASP.NET Core Web API
+│   ├── SAX.UI/              # Angular frontend application
 ├── docs/                    # Project documentation
 ├── tests/                   # Project testing
 ├── LICENSE.txt              # License file
