@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Orders;
 
-public class Order
+public class Order : BaseEntity
 {
-    public int OrderId { get; set; }
     public int CustomerId { get; set; } // Foreign key to Customer
     public Customer? Customer { get; set; } // Navigation property
     public DateTime OrderDate { get; set; }

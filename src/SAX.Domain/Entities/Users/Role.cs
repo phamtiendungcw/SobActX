@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Users;
 
-public class Role
+public class Role : BaseEntity
 {
-    public int RoleId { get; set; }
     public string RoleName { get; set; } = string.Empty;
     public string? Description { get; set; }
     public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>(); // Navigation property

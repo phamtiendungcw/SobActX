@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Marketing;
 
-public class Campaign
+public class Campaign : BaseEntity
 {
-    public int CampaignId { get; set; }
     public string CampaignName { get; set; } = string.Empty;
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; } // Campaign might not have an end date

@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Inventory;
 
-public class ProductInventory
+public class ProductInventory : BaseEntity
 {
-    public int ProductInventoryId { get; set; }
     public int ProductId { get; set; } // Foreign key to Product
     public Products.Product? Product { get; set; } // Navigation property
     public int QuantityOnHand { get; set; }

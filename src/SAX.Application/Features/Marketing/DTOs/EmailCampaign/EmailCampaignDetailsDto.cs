@@ -2,5 +2,4 @@
 
 public class EmailCampaignDetailsDto : EmailCampaignDto
 {
-    // Kế thừa EmailCampaignDTO là đủ, không cần thêm gì nhiều
 }

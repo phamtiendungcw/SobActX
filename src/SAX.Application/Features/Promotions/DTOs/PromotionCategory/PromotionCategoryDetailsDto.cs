@@ -2,5 +2,4 @@
 
 public class PromotionCategoryDetailsDto : PromotionCategoryDto
 {
-    // Kế thừa PromotionCategoryDTO là đủ, không cần thêm gì nhiều
 }

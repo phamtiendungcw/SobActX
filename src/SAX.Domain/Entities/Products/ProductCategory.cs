@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Products;
 
-public class ProductCategory
+public class ProductCategory : BaseEntity
 {
-    public int ProductCategoryId { get; set; }
     public string CategoryName { get; set; } = string.Empty;
     public string? Description { get; set; }
     public ICollection<Product> Products { get; set; } = new List<Product>(); // Navigation property

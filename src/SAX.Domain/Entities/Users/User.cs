@@ -3,9 +3,8 @@ using SAX.Domain.Entities.Logging;
 
 namespace SAX.Domain.Entities.Users;
 
-public class User
+public class User : BaseEntity
 {
-    public int UserId { get; set; }
     public string Username { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty; // Store hashed password
     public string Email { get; set; } = string.Empty;

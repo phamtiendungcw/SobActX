@@ -8,4 +8,5 @@ public class CustomerDto
     public string Email { get; set; } = string.Empty;
     public string? PhoneNumber { get; set; }
     public DateTime RegistrationDate { get; set; }
+    public AddressDto? Address { get; set; }
 }

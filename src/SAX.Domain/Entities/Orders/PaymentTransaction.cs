@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Orders;
 
-public class PaymentTransaction
+public class PaymentTransaction : BaseEntity
 {
-    public int PaymentTransactionId { get; set; }
     public int OrderId { get; set; } // Foreign key to Order
     public Order? Order { get; set; } // Navigation property
     public DateTime TransactionDate { get; set; }
