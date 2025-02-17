@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Orders;
 
-public class ShoppingCart
+public class ShoppingCart : BaseEntity
 {
-    public int ShoppingCartId { get; set; }
     public int CustomerId { get; set; } // Foreign key to Customer
     public Customers.Customer? Customer { get; set; } // Navigation property
     public DateTime CreatedDate { get; set; }

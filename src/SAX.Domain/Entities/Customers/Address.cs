@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Customers;
 
-public class Address
+public class Address : BaseEntity
 {
-    public int AddressId { get; set; }
     public string StreetAddress { get; set; } = string.Empty;
     public string City { get; set; } = string.Empty;
     public string? State { get; set; }

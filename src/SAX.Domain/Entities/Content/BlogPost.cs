@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Content;
 
-public class BlogPost
+public class BlogPost : BaseEntity
 {
-    public int BlogPostId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string? ContentBody { get; set; }

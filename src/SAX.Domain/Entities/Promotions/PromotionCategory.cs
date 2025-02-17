@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Promotions;
 
-public class PromotionCategory
+public class PromotionCategory : BaseEntity
 {
-    public int PromotionCategoryId { get; set; }
     public int PromotionId { get; set; } // Foreign key to Promotion
     public Promotion? Promotion { get; set; } // Navigation property
     public int ProductCategoryId { get; set; } // Foreign key to ProductCategory

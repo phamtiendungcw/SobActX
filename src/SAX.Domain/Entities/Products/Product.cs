@@ -4,9 +4,8 @@ using SAX.Domain.Entities.Promotions;
 
 namespace SAX.Domain.Entities.Products;
 
-public class Product
+public class Product : BaseEntity
 {
-    public int ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string SKU { get; set; } = string.Empty; // Stock Keeping Unit

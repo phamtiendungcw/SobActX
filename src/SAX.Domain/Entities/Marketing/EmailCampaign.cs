@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Marketing;
 
-public class EmailCampaign
+public class EmailCampaign : BaseEntity
 {
-    public int EmailCampaignId { get; set; }
     public int CampaignId { get; set; } // Foreign key to Campaign
     public Campaign? Campaign { get; set; } // Navigation property
     public int EmailTemplateId { get; set; } // Foreign key to EmailTemplate

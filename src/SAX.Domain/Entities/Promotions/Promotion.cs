@@ -1,8 +1,7 @@
 ﻿namespace SAX.Domain.Entities.Promotions;
 
-public class Promotion
+public class Promotion : BaseEntity
 {
-    public int PromotionId { get; set; }
     public string PromotionName { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string PromotionType { get; set; } = string.Empty; // e.g., "Percentage", "FixedAmount"

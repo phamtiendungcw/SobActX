@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Logging
 {
-    public class LogEntry
+    public class LogEntry : BaseEntity
     {
-        public int LogEntryId { get; set; }
         public DateTime Timestamp { get; set; }
         public string LogLevel { get; set; } = string.Empty; // e.g., "Information", "Warning", "Error"
         public string Source { get; set; } = string.Empty; // Source of the log (e.g., ClassName, MethodName)

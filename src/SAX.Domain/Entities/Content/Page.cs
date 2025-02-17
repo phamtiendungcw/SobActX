@@ -2,9 +2,8 @@
 
 namespace SAX.Domain.Entities.Content;
 
-public class Page
+public class Page : BaseEntity
 {
-    public int PageId { get; set; }
     public string Title { get; set; } = string.Empty; // Non-nullable for required fields
     public string Slug { get; set; } = string.Empty; // Non-nullable
     public string? ContentBody { get; set; } // Nullable as content might be optional initially
