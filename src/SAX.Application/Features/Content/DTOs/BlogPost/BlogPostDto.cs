@@ -1,4 +1,6 @@
-﻿namespace SAX.Application.Features.Content.DTOs.BlogPost
+﻿using SAX.Application.Features.Content.DTOs.Tag;
+
+namespace SAX.Application.Features.Content.DTOs.BlogPost
 {
     public class BlogPostDto
     {
@@ -7,5 +9,6 @@
         public string Slug { get; set; } = string.Empty;
         public string? ContentBody { get; set; }
         public DateTime PublishDate { get; set; }
+        public List<TagDto> Tags { get; set; } = new();
     }
 }

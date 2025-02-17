@@ -2,5 +2,4 @@
 
 public class StockMovementDetailsDto : StockMovementDto
 {
-    // Kế thừa StockMovementDTO là đủ, không cần thêm gì nhiều
 }

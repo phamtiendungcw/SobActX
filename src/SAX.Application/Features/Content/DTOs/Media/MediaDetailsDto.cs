@@ -2,5 +2,4 @@
 
 public class MediaDetailsDto : MediaDto
 {
-    // Kế thừa MediaDTO là đủ, không cần thêm gì nhiều
 }
