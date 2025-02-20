@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Contracts\Persistence\Repositories\" />
     <Folder Include="Common\Exceptions\" />
     <Folder Include="Features\Content\Commands\" />
     <Folder Include="Features\Content\Queries\" />
