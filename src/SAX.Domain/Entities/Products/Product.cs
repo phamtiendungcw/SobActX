@@ -8,7 +8,7 @@ public class Product : BaseEntity
 {
     public string ProductName { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string SKU { get; set; } = string.Empty; // Stock Keeping Unit
+    public string Sku { get; set; } = string.Empty; // Stock Keeping Unit
     public decimal UnitPrice { get; set; }
     public string? ImageUrl { get; set; }
     public int CategoryId { get; set; } // Foreign key to ProductCategory
