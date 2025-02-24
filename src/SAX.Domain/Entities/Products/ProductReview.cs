@@ -1,11 +1,13 @@
-﻿namespace SAX.Domain.Entities.Products;
+﻿using SAX.Domain.Entities.Customers;
+
+namespace SAX.Domain.Entities.Products;
 
 public class ProductReview : BaseEntity
 {
     public int ProductId { get; set; } // Foreign key to Product
     public Product? Product { get; set; } // Navigation property
     public int CustomerId { get; set; } // Foreign key to Customer
-    public Customers.Customer? Customer { get; set; } // Navigation property
+    public Customer? Customer { get; set; } // Navigation property
     public int Rating { get; set; } // e.g., 1 to 5 stars
     public string? Comment { get; set; }
     public DateTime ReviewDate { get; set; }

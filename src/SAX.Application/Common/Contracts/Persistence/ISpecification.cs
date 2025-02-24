@@ -1,6 +1,6 @@
-﻿using SAX.Domain.Entities;
+﻿using System.Linq.Expressions;
 
-using System.Linq.Expressions;
+using SAX.Domain.Entities;
 
 namespace SAX.Application.Common.Contracts.Persistence;
 
