@@ -8,9 +8,9 @@ public class BlogPost : BaseEntity
     public string Slug { get; set; } = string.Empty;
     public string? ContentBody { get; set; }
     public DateTime PublishDate { get; set; }
-    public int AuthorId { get; set; } // Foreign key to User
+    public Guid AuthorId { get; set; } // Foreign key to User
     public User? Author { get; set; } // Navigation property
-    public int CategoryId { get; set; } // Foreign key to Category
+    public Guid CategoryId { get; set; } // Foreign key to Category
     public Category? Category { get; set; } // Navigation property
     public ICollection<Tag> Tags { get; set; } = new List<Tag>(); // Collection of tags
 }

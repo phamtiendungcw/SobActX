@@ -4,12 +4,12 @@ namespace SAX.Domain.Entities.Inventory;
 
 public class ProductInventory : BaseEntity
 {
-    public int ProductId { get; set; } // Foreign key to Product
+    public Guid ProductId { get; set; } // Foreign key to Product
     public Product? Product { get; set; } // Navigation property
     public int QuantityOnHand { get; set; }
     public int QuantityAvailable { get; set; }
     public DateTime LastStockUpdate { get; set; }
-    public int WarehouseId { get; set; } // Foreign key to Warehouse
+    public Guid WarehouseId { get; set; } // Foreign key to Warehouse
     public Warehouse? Warehouse { get; set; } // Navigation property
     public ICollection<StockMovement> StockMovements { get; set; } = new List<StockMovement>(); // Navigation property
 }

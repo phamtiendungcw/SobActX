@@ -1,5 +1,11 @@
-﻿namespace SAX.Infrastructure;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class InfrastructureServiceRegistration
+namespace SAX.Infrastructure;
+
+public static class InfrastructureServiceRegistration
 {
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+    {
+        return services;
+    }
 }

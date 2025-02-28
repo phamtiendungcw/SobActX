@@ -8,12 +8,12 @@ public class Product : BaseEntity
 {
     public string ProductName { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public string Sku { get; set; } = string.Empty; // Stock Keeping Unit
+    public string SKU { get; set; } = string.Empty; // Stock Keeping Unit
     public decimal UnitPrice { get; set; }
     public string? ImageUrl { get; set; }
-    public int CategoryId { get; set; } // Foreign key to ProductCategory
+    public Guid CategoryId { get; set; } // Foreign key to ProductCategory
     public ProductCategory? Category { get; set; } // Navigation property
-    public int? BrandId { get; set; } // Foreign key to ProductBrand, nullable
+    public Guid? BrandId { get; set; } // Foreign key to ProductBrand, nullable
     public ProductBrand? Brand { get; set; } // Navigation property
     public ICollection<ProductInventory> ProductInventories { get; set; } = new List<ProductInventory>(); // Navigation property
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>(); // Navigation property

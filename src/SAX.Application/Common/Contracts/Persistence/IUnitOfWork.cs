@@ -10,9 +10,9 @@ public interface IUnitOfWork : IDisposable
     /// <summary>
     ///     Lấy repository cho một entity cụ thể.
     /// </summary>
-    /// <typeparam name="TEntity">Loại entity.</typeparam>
+    /// <typeparam name="T">Loại entity.</typeparam>
     /// <returns>Repository cho entity.</returns>
-    IGenericRepository<TEntity> Repository<TEntity>() where TEntity : BaseEntity;
+    IGenericRepository<T> Repository<T>() where T : BaseEntity;
 
     /// <summary>
     ///     Lưu tất cả các thay đổi vào database trong transaction hiện tại một cách bất đồng bộ.

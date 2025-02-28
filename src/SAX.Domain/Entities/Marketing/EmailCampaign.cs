@@ -2,10 +2,10 @@
 
 public class EmailCampaign : BaseEntity
 {
-    public int CampaignId { get; set; } // Foreign key to Campaign
+    public Guid CampaignId { get; set; } // Foreign key to Campaign
     public Campaign? Campaign { get; set; } // Navigation property
-    public int EmailTemplateId { get; set; } // Foreign key to EmailTemplate
+    public Guid EmailTemplateId { get; set; } // Foreign key to EmailTemplate
     public EmailTemplate? EmailTemplate { get; set; } // Navigation property
-    public int? SegmentId { get; set; } // Foreign key to Segment, optional segment
+    public Guid? SegmentId { get; set; } // Foreign key to Segment, optional segment
     public Segment? Segment { get; set; } // Navigation property
 }

@@ -12,7 +12,7 @@ public interface IProductRepository : IGenericRepository<Product>
     /// <summary>
     ///     Tìm kiếm sản phẩm theo tên sản phẩm hoặc mô tả sản phẩm.
     /// </summary>
-    Task<IReadOnlyList<Product>> SearchProductsAsync(string searchTerm, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Product>> SearchProductsByNameAsync(string productName, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Liệt kê các sản phẩm nổi bật (ví dụ: sản phẩm mới, sản phẩm giảm giá, sản phẩm bán chạy nhất - cần thêm trường

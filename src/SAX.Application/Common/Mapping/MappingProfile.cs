@@ -20,6 +20,7 @@ using SAX.Application.Features.Orders.DTOs.Order;
 using SAX.Application.Features.Orders.DTOs.OrderItem;
 using SAX.Application.Features.Products.DTOs;
 using SAX.Application.Features.Products.DTOs.Product;
+using SAX.Application.Features.Products.DTOs.ProductReview;
 using SAX.Application.Features.Promotions.DTOs.Promotion;
 using SAX.Application.Features.Promotions.DTOs.PromotionCategory;
 using SAX.Application.Features.Promotions.DTOs.PromotionProduct;
@@ -227,20 +228,24 @@ public class MappingProfile : Profile
         CreateMap<OrderStatusHistory, OrderStatusHistoryDto>()
             .ForMember(dest => dest.OrderStatusHistoryId, opt => opt.MapFrom(src => src.Id))
             .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderStatusHistoryId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderStatusHistoryId))
+            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId));
         CreateMap<PaymentTransaction, PaymentTransactionDto>()
             .ForMember(dest => dest.PaymentTransactionId, opt => opt.MapFrom(src => src.Id))
             .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PaymentTransactionId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PaymentTransactionId))
+            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId));
 
         CreateMap<ShoppingCart, ShoppingCartDto>()
             .ForMember(dest => dest.ShoppingCartId, opt => opt.MapFrom(src => src.Id))
             .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ShoppingCartId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ShoppingCartId))
+            .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId));
         CreateMap<ShoppingCartItem, ShoppingCartItemDto>()
             .ForMember(dest => dest.ShoppingCartItemId, opt => opt.MapFrom(src => src.Id))
             .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ShoppingCartItemId));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ShoppingCartItemId))
+            .ForMember(dest => dest.ShoppingCartId, opt => opt.MapFrom(src => src.ShoppingCartId));
 
         // Products Feature Mappings
         CreateMap<Product, ProductDto>()
@@ -270,10 +275,17 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.ProductAttributeValueId, opt => opt.MapFrom(src => src.Id))
             .ReverseMap()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductAttributeValueId));
+
         CreateMap<ProductReview, ProductReviewDto>()
             .ForMember(dest => dest.ProductReviewId, opt => opt.MapFrom(src => src.Id))
             .ReverseMap()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductReviewId));
+        CreateMap<ProductReview, ProductReviewDetailsDto>()
+            .ForMember(dest => dest.ProductReviewId, opt => opt.MapFrom(src => src.Id))
+            .ReverseMap()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductReviewId));
+        CreateMap<ProductReview, CreateProductReviewDto>().ReverseMap();
+        CreateMap<ProductReview, UpdateProductReviewDto>().ReverseMap();
 
         // Promotions Feature Mappings
         CreateMap<Promotion, PromotionDto>()
