@@ -12,7 +12,7 @@ public interface IProductReviewRepository : IGenericRepository<ProductReview>
     /// <summary>
     ///     Liệt kê các product reviews chưa được duyệt (cho trang quản lý admin).
     /// </summary>
-    Task<IReadOnlyList<ProductReview>> GetPendingProductReviewsAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<ProductReview>> GetPendingProductReviewsAsync(Guid productId, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Lấy product review theo customer ID và product ID (cho mục đích kiểm tra xem khách hàng đã review sản phẩm hay

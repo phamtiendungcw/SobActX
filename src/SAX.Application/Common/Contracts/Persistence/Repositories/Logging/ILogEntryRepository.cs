@@ -14,8 +14,8 @@ public interface ILogEntryRepository : IGenericRepository<LogEntry>
     /// </summary>
     Task<IReadOnlyList<LogEntry>> SearchLogEntriesAsync(string searchTerm, CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Liệt kê các log entries trong một khoảng thời gian cụ thể (cho dashboard log).
-    /// </summary>
-    Task<IReadOnlyList<LogEntry>> ListLogEntriesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
+    ///// <summary>
+    /////     Liệt kê các log entries trong một khoảng thời gian cụ thể (cho dashboard log).
+    ///// </summary>
+    //Task<IReadOnlyList<LogEntry>> ListLogEntriesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
 }

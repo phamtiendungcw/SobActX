@@ -5,6 +5,7 @@ namespace SAX.Application.Features.Orders.DTOs;
 public class ShoppingCartItemDto
 {
     public Guid ShoppingCartItemId { get; set; }
+    public Guid ShoppingCartId { get; set; }
     public ProductDto? Product { get; set; }
     public int Quantity { get; set; }
     public DateTime AddedDate { get; set; }

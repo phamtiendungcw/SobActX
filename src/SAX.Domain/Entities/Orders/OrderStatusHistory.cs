@@ -2,7 +2,7 @@
 
 public class OrderStatusHistory : BaseEntity
 {
-    public int OrderId { get; set; } // Foreign key to Order
+    public Guid OrderId { get; set; } // Foreign key to Order
     public Order? Order { get; set; } // Navigation property
     public string Status { get; set; } = string.Empty; // Order status value
     public DateTime StatusDate { get; set; }

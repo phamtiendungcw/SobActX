@@ -1,4 +1,5 @@
 ﻿using SAX.Application.Features.Inventory.DTOs.ProductInventory;
+using SAX.Application.Features.Products.DTOs.ProductReview;
 
 namespace SAX.Application.Features.Products.DTOs.Product;
 

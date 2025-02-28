@@ -4,13 +4,13 @@ namespace SAX.Domain.Entities.Orders;
 
 public class Order : BaseEntity
 {
-    public int CustomerId { get; set; } // Foreign key to Customer
+    public Guid CustomerId { get; set; } // Foreign key to Customer
     public Customer? Customer { get; set; } // Navigation property
     public DateTime OrderDate { get; set; }
     public string OrderStatus { get; set; } = string.Empty; // e.g., "Pending", "Processing", "Shipped", "Completed"
-    public int? ShippingAddressId { get; set; } // Foreign key to Address, nullable
+    public Guid? ShippingAddressId { get; set; } // Foreign key to Address, nullable
     public Address? ShippingAddress { get; set; } // Navigation property
-    public int? BillingAddressId { get; set; } // Foreign key to Address, nullable
+    public Guid? BillingAddressId { get; set; } // Foreign key to Address, nullable
     public Address? BillingAddress { get; set; } // Navigation property
     public string PaymentMethod { get; set; } = string.Empty; // e.g., "Credit Card", "PayPal"
     public decimal TotalAmount { get; set; }

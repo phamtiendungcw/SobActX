@@ -3,6 +3,7 @@
 public class PaymentTransactionDto
 {
     public Guid PaymentTransactionId { get; set; }
+    public Guid OrderId { get; set; }
     public DateTime TransactionDate { get; set; }
     public decimal Amount { get; set; }
     public string PaymentStatus { get; set; } = string.Empty;

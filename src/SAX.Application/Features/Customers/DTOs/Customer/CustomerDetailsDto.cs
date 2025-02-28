@@ -1,6 +1,6 @@
 ﻿using SAX.Application.Features.Orders.DTOs;
 using SAX.Application.Features.Orders.DTOs.Order;
-using SAX.Application.Features.Products.DTOs;
+using SAX.Application.Features.Products.DTOs.ProductReview;
 
 namespace SAX.Application.Features.Customers.DTOs.Customer;
 

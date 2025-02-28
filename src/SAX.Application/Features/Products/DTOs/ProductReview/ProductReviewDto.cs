@@ -1,7 +1,7 @@
 ﻿using SAX.Application.Features.Customers.DTOs.Customer;
 using SAX.Application.Features.Products.DTOs.Product;
 
-namespace SAX.Application.Features.Products.DTOs;
+namespace SAX.Application.Features.Products.DTOs.ProductReview;
 
 public class ProductReviewDto
 {

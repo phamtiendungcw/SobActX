@@ -2,7 +2,7 @@
 
 public class PaymentTransaction : BaseEntity
 {
-    public int OrderId { get; set; } // Foreign key to Order
+    public Guid OrderId { get; set; } // Foreign key to Order
     public Order? Order { get; set; } // Navigation property
     public DateTime TransactionDate { get; set; }
     public decimal Amount { get; set; }
