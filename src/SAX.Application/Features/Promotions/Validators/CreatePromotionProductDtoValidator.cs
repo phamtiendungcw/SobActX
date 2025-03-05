@@ -9,9 +9,9 @@ public class CreatePromotionProductDtoValidator : AbstractValidator<CreatePromot
     public CreatePromotionProductDtoValidator()
     {
         RuleFor(p => p.PromotionId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.ProductId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
     }
 }

@@ -9,14 +9,14 @@ public class UpdatePermissionDtoValidator : AbstractValidator<UpdatePermissionDt
     public UpdatePermissionDtoValidator()
     {
         RuleFor(p => p.PermissionId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.PermissionName)
-            .MaximumLength(100).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.")
+            .MaximumLength(100).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
             .When(p => !string.IsNullOrEmpty(p.PermissionName));
 
         RuleFor(p => p.Description)
-            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.")
+            .MaximumLength(500).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
             .When(p => !string.IsNullOrEmpty(p.Description));
     }
 }

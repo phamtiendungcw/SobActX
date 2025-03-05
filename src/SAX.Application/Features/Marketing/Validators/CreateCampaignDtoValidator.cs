@@ -9,20 +9,20 @@ public class CreateCampaignDtoValidator : AbstractValidator<CreateCampaignDto>
     public CreateCampaignDtoValidator()
     {
         RuleFor(p => p.CampaignName)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(100).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
 
         RuleFor(p => p.StartDate)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .LessThanOrEqualTo(p => p.EndDate).WithMessage("{PropertyName} phải nhỏ hơn hoặc bằng {ComparisonValue}.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.EndDate)
-            .GreaterThanOrEqualTo(p => p.StartDate).WithMessage("{PropertyName} phải lớn hơn hoặc bằng {ComparisonValue}.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .GreaterThanOrEqualTo(p => p.StartDate).WithMessage("{PropertyName} must be greater than or equal to {ComparisonValue}.");
 
         RuleFor(p => p.TargetAudience)
-            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
 
         RuleFor(p => p.Budget)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} phải lớn hơn hoặc bằng 0.");
+            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.");
     }
 }

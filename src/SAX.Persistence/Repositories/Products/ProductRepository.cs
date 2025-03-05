@@ -47,7 +47,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     public async Task<IReadOnlyList<Product>> SearchProductsByNameAsync(string productName, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Products
-            .Where(p => p.ProductName.Contains(productName) || p.Description.Contains(productName))
+            .Where(p => p.Description != null && (p.ProductName.Contains(productName) || p.Description.Contains(productName)))
             .Include(p => p.Category) // Eager load Category và Brand
             .Include(p => p.Brand)
             .ToListAsync(cancellationToken);

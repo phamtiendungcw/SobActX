@@ -9,9 +9,9 @@ public class CreateEmailCampaignDtoValidator : AbstractValidator<CreateEmailCamp
     public CreateEmailCampaignDtoValidator()
     {
         RuleFor(p => p.CampaignId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.EmailTemplateId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
     }
 }

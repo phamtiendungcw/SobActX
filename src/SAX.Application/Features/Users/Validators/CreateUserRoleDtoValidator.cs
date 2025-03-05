@@ -9,9 +9,9 @@ public class CreateUserRoleDtoValidator : AbstractValidator<CreateUserRoleDto>
     public CreateUserRoleDtoValidator()
     {
         RuleFor(p => p.UserId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.RoleId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
     }
 }

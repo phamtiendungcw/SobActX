@@ -9,14 +9,14 @@ public class UpdateRolePermissionDtoValidator : AbstractValidator<UpdateRolePerm
     public UpdateRolePermissionDtoValidator()
     {
         RuleFor(p => p.RolePermissionId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.RoleId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.RoleId.HasValue);
 
         RuleFor(p => p.PermissionId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.PermissionId.HasValue);
     }
 }

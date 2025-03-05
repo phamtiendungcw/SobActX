@@ -9,21 +9,21 @@ public class CreatePageDtoValidator : AbstractValidator<CreatePageDto>
     public CreatePageDtoValidator()
     {
         RuleFor(p => p.Title)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(200).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.");
 
         RuleFor(p => p.Slug)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(200).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.");
 
         RuleFor(p => p.ContentBody)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.PublishDate)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .LessThanOrEqualTo(DateTime.Now).WithMessage("{PropertyName} phải là ngày trong quá khứ hoặc hiện tại.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("{PropertyName} must be a date in the past or present.");
 
         RuleFor(p => p.AuthorId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
     }
 }

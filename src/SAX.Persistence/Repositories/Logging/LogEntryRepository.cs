@@ -23,7 +23,7 @@ public class LogEntryRepository : GenericRepository<LogEntry>, ILogEntryReposito
     public async Task<IReadOnlyList<LogEntry>> SearchLogEntriesAsync(string searchTerm, CancellationToken cancellationToken = default)
     {
         return await _dbContext.LogEntries
-            .Where(le => le.Message.Contains(searchTerm) || le.Exception.Contains(searchTerm) || le.Source.Contains(searchTerm))
+            .Where(le => le.Exception != null && (le.Message.Contains(searchTerm) || le.Exception.Contains(searchTerm) || le.Source.Contains(searchTerm)))
             .Include(le => le.User) // Eager load User
             .ToListAsync(cancellationToken);
     }

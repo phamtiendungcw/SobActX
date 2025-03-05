@@ -70,7 +70,7 @@ public interface IGenericRepository<T> where T : BaseEntity
     /// <param name="entity">Entity cần thêm.</param>
     /// <param name="cancellationToken">Token hủy bỏ.</param>
     /// <returns>Entity đã được thêm.</returns>
-    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
+    Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Cập nhật một entity đã tồn tại một cách bất đồng bộ.

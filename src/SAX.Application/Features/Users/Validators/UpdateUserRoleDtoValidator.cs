@@ -9,14 +9,14 @@ public class UpdateUserRoleDtoValidator : AbstractValidator<UpdateUserRoleDto>
     public UpdateUserRoleDtoValidator()
     {
         RuleFor(p => p.UserRoleId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.RoleId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.RoleId.HasValue);
 
         RuleFor(p => p.UserId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.UserId.HasValue);
     }
 }

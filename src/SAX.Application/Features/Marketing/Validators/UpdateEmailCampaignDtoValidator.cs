@@ -9,14 +9,14 @@ public class UpdateEmailCampaignDtoValidator : AbstractValidator<UpdateEmailCamp
     public UpdateEmailCampaignDtoValidator()
     {
         RuleFor(p => p.EmailCampaignId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.CampaignId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.CampaignId.HasValue);
 
         RuleFor(p => p.EmailTemplateId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.EmailTemplateId.HasValue);
     }
 }

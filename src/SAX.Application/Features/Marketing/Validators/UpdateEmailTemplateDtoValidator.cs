@@ -9,18 +9,18 @@ public class UpdateEmailTemplateDtoValidator : AbstractValidator<UpdateEmailTemp
     public UpdateEmailTemplateDtoValidator()
     {
         RuleFor(p => p.EmailTemplateId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.TemplateName)
-            .MaximumLength(100).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.")
+            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.")
             .When(p => !string.IsNullOrEmpty(p.TemplateName));
 
         RuleFor(p => p.Subject)
-            .MaximumLength(200).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.")
+            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
             .When(p => !string.IsNullOrEmpty(p.Subject));
 
         RuleFor(p => p.Body)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => !string.IsNullOrEmpty(p.Body)); // Body có thể null khi update
     }
 }
