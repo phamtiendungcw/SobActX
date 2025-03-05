@@ -33,7 +33,7 @@ public class CreateStockMovementCommandHandler : IRequestHandler<CreateStockMove
             return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var stockMovementDto = request.StockMovement;
+        var stockMovementDto = request.StockMovementDto;
         var stockMovementToCreate = _mapper.Map<Domain.Entities.Inventory.StockMovement>(stockMovementDto);
         var createdStockMovement = await _stockMovementRepository.CreateAsync(stockMovementToCreate, cancellationToken);
 

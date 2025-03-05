@@ -9,6 +9,6 @@ public class UpdateTagCommandValidator : AbstractValidator<UpdateTagCommand>
     public UpdateTagCommandValidator()
     {
         RuleFor(x => x.UpdateTagDto).NotNull().WithMessage("UpdateTagDto cannot be null.");
-        RuleFor(x => x.UpdateTagDto).SetValidator(new UpdateTagDtoValidator());
+        RuleFor(x => x.UpdateTagDto!).SetValidator(new UpdateTagDtoValidator());
     }
 }

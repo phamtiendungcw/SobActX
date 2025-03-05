@@ -9,6 +9,6 @@ public class UpdateMediaCommandValidator : AbstractValidator<UpdateMediaCommand>
     public UpdateMediaCommandValidator()
     {
         RuleFor(x => x.UpdateMediaDto).NotNull().WithMessage("UpdateMediaDto cannot be null.");
-        RuleFor(x => x.UpdateMediaDto).SetValidator(new UpdateMediaDtoValidator());
+        RuleFor(x => x.UpdateMediaDto!).SetValidator(new UpdateMediaDtoValidator());
     }
 }

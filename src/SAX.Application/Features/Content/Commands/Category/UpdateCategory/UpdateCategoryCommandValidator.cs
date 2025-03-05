@@ -9,6 +9,6 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
     public UpdateCategoryCommandValidator()
     {
         RuleFor(x => x.UpdateCategoryDto).NotNull().WithMessage("UpdateCategoryDto cannot be null.");
-        RuleFor(x => x.UpdateCategoryDto).SetValidator(new UpdateCategoryDtoValidator());
+        RuleFor(x => x.UpdateCategoryDto!).SetValidator(new UpdateCategoryDtoValidator());
     }
 }
