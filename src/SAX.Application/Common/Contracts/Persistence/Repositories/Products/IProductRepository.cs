@@ -15,7 +15,7 @@ public interface IProductRepository : IGenericRepository<Product>
     Task<IReadOnlyList<Product>> SearchProductsByNameAsync(string productName, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Liệt kê các sản phẩm nổi bật (ví dụ: sản phẩm mới, sản phẩm giảm giá, sản phẩm bán chạy nhất - cần thêm trường
+    ///     Liệt kê các sản phẩm nổi bật (sản phẩm mới, sản phẩm giảm giá, sản phẩm bán chạy nhất - cần thêm trường
     ///     IsFeatured hoặc logic xác định sản phẩm nổi bật).
     /// </summary>
     Task<IReadOnlyList<Product>> GetFeaturedProductsAsync(int count, CancellationToken cancellationToken = default);

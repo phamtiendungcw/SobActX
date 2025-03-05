@@ -5,7 +5,7 @@ namespace SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 public interface IMediaRepository : IGenericRepository<Media>
 {
     /// <summary>
-    ///     Liệt kê các media theo loại media (ví dụ: hình ảnh, video).
+    ///     Liệt kê các media theo loại media (hình ảnh, video).
     /// </summary>
     Task<IReadOnlyList<Media>> ListMediaByTypeAsync(string mediaType, CancellationToken cancellationToken = default);
 

@@ -9,9 +9,9 @@ public class CreateRolePermissionDtoValidator : AbstractValidator<CreateRolePerm
     public CreateRolePermissionDtoValidator()
     {
         RuleFor(p => p.RoleId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.PermissionId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
     }
 }

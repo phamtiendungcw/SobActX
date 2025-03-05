@@ -9,17 +9,21 @@ public class StockMovementDtoValidator : AbstractValidator<StockMovementDto>
     public StockMovementDtoValidator()
     {
         RuleFor(p => p.ProductInventory)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotNull().WithMessage("{PropertyName} cannot be null.");
 
         RuleFor(p => p.QuantityChanged)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .NotEqual(0).WithMessage("{PropertyName} phải khác 0.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .NotEqual(0).WithMessage("{PropertyName} must not be zero.");
 
         RuleFor(p => p.MovementType)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(50).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
+
+        RuleFor(p => p.MovementDate)
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("{PropertyName} must be a date in the past or present.");
 
         RuleFor(p => p.Reason)
-            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
     }
 }

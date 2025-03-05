@@ -9,22 +9,26 @@ public class UpdatePageDtoValidator : AbstractValidator<UpdatePageDto>
     public UpdatePageDtoValidator()
     {
         RuleFor(p => p.PageId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.Title)
-            .MaximumLength(200).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.")
+            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
             .When(p => !string.IsNullOrEmpty(p.Title));
 
         RuleFor(p => p.Slug)
-            .MaximumLength(200).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.")
+            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
             .When(p => !string.IsNullOrEmpty(p.Slug));
 
+        RuleFor(p => p.ContentBody)
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .When(p => !string.IsNullOrEmpty(p.ContentBody));
+
         RuleFor(p => p.PublishDate)
-            .LessThanOrEqualTo(DateTime.Now).WithMessage("{PropertyName} phải là ngày trong quá khứ hoặc hiện tại.")
+            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("{PropertyName} must be a date in the past or present.")
             .When(p => p.PublishDate.HasValue);
 
         RuleFor(p => p.AuthorId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.AuthorId.HasValue);
     }
 }

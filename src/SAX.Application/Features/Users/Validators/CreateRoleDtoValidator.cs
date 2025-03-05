@@ -9,10 +9,10 @@ public class CreateRoleDtoValidator : AbstractValidator<CreateRoleDto>
     public CreateRoleDtoValidator()
     {
         RuleFor(p => p.RoleName)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(50).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
 
         RuleFor(p => p.Description)
-            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .MaximumLength(500).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
     }
 }

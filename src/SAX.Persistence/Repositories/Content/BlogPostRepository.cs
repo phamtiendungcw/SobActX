@@ -50,7 +50,7 @@ public class BlogPostRepository : GenericRepository<BlogPost>, IBlogPostReposito
     public async Task<IReadOnlyList<BlogPost>> SearchBlogPostsAsync(string searchTerm, CancellationToken cancellationToken = default)
     {
         return await _dbContext.BlogPosts
-            .Where(bp => bp.Title.Contains(searchTerm) || bp.ContentBody.Contains(searchTerm))
+            .Where(bp => bp.ContentBody != null && (bp.Title.Contains(searchTerm) || bp.ContentBody.Contains(searchTerm)))
             .ToListAsync(cancellationToken);
     }
 }

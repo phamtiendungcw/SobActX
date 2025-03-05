@@ -15,7 +15,7 @@ public interface IPromotionRepository : IGenericRepository<Promotion>
     Task<Promotion?> GetPromotionByCouponCodeAsync(string couponCode, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Liệt kê các promotions theo loại promotion (ví dụ: Percentage, FixedAmount).
+    ///     Liệt kê các promotions theo loại promotion (Percentage, FixedAmount).
     /// </summary>
     Task<IReadOnlyList<Promotion>> ListPromotionsByTypeAsync(string promotionType, CancellationToken cancellationToken = default);
 

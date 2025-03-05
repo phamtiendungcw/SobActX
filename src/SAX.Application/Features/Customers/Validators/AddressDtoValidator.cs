@@ -9,21 +9,21 @@ public class AddressDtoValidator : AbstractValidator<AddressDto>
     public AddressDtoValidator()
     {
         RuleFor(p => p.StreetAddress)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(255).WithMessage("{PropertyName} must not exceed 255 characters.");
 
         RuleFor(p => p.City)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(100).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
 
         RuleFor(p => p.State)
-            .MaximumLength(100).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
 
         RuleFor(p => p.ZipCode)
-            .MaximumLength(20).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .MaximumLength(20).WithMessage("{PropertyName} must not exceed 20 characters.");
 
         RuleFor(p => p.Country)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
-            .MaximumLength(100).WithMessage("{PropertyName} không được vượt quá {MaxLength} ký tự.");
+            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
     }
 }

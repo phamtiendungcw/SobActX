@@ -30,6 +30,6 @@ public class PromotionProductRepository : GenericRepository<PromotionProduct>, I
     public async Task<bool> IsProductInPromotionAsync(Guid productId, CancellationToken cancellationToken = default)
     {
         return await _dbContext.PromotionProducts
-            .AnyAsync(pp => pp.ProductId == productId && pp.Promotion.StartDate <= DateTime.Now && pp.Promotion.EndDate >= DateTime.Now, cancellationToken);
+            .AnyAsync(pp => pp.ProductId == productId && pp.Promotion != null && pp.Promotion.StartDate <= DateTime.Now && pp.Promotion.EndDate >= DateTime.Now, cancellationToken);
     }
 }

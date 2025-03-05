@@ -5,7 +5,7 @@ namespace SAX.Application.Common.Contracts.Persistence.Repositories.Logging;
 public interface ILogEntryRepository : IGenericRepository<LogEntry>
 {
     /// <summary>
-    ///     Liệt kê các log entries theo mức độ log (ví dụ: Information, Warning, Error).
+    ///     Liệt kê các log entries theo mức độ log (Information, Warning, Error).
     /// </summary>
     Task<IReadOnlyList<LogEntry>> ListLogEntriesByLevelAsync(string logLevel, CancellationToken cancellationToken = default);
 

@@ -12,7 +12,7 @@ public static class SpecificationEvaluator<T> where T : BaseEntity
         var query = inputQuery;
 
         // Apply criteria
-        if (specification.Criteria != null) query = query.Where(specification.Criteria);
+        query = query.Where(specification.Criteria);
 
         // Apply includes
         query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));

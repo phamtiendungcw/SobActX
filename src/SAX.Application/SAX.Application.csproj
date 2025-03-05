@@ -15,14 +15,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Content\Queries\" />
-    <Folder Include="Features\Customers\Queries\" />
-    <Folder Include="Features\Inventory\Queries\" />
-    <Folder Include="Features\Marketing\Queries\" />
-    <Folder Include="Features\Orders\Queries\" />
-    <Folder Include="Features\Products\Queries\" />
-    <Folder Include="Features\Promotions\Queries\" />
-    <Folder Include="Features\Users\Queries\" />
+    <Folder Include="Features\Content\Queries\BlogPost\" />
+    <Folder Include="Features\Content\Queries\Category\" />
+    <Folder Include="Features\Content\Queries\Media\" />
+    <Folder Include="Features\Content\Queries\Tag\" />
+    <Folder Include="Features\Content\Queries\Page\" />
+    <Folder Include="Features\Customers\Queries\Customer\" />
+    <Folder Include="Features\Inventory\Queries\ProductInventory\" />
+    <Folder Include="Features\Inventory\Queries\StockMovement\" />
+    <Folder Include="Features\Inventory\Queries\Warehouse\" />
+    <Folder Include="Features\Marketing\Queries\Campaign\" />
+    <Folder Include="Features\Marketing\Queries\EmailCampaign\" />
+    <Folder Include="Features\Marketing\Queries\EmailTemplate\" />
+    <Folder Include="Features\Marketing\Queries\Segment\" />
+    <Folder Include="Features\Orders\Queries\Order\" />
+    <Folder Include="Features\Products\Queries\Product\" />
+    <Folder Include="Features\Promotions\Queries\PromotionProduct\" />
+    <Folder Include="Features\Promotions\Queries\PromotionCategory\" />
+    <Folder Include="Features\Promotions\Queries\Promotion\" />
+    <Folder Include="Features\Users\Queries\User\" />
+    <Folder Include="Features\Users\Queries\Role\" />
+    <Folder Include="Features\Users\Queries\Permission\" />
   </ItemGroup>
 
   <ItemGroup>

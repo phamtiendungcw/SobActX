@@ -9,14 +9,14 @@ public class UpdatePromotionProductDtoValidator : AbstractValidator<UpdatePromot
     public UpdatePromotionProductDtoValidator()
     {
         RuleFor(p => p.PromotionProductId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.");
+            .NotEmpty().WithMessage("{PropertyName} is required.");
 
         RuleFor(p => p.PromotionId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.PromotionId.HasValue);
 
         RuleFor(p => p.ProductId)
-            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotEmpty().WithMessage("{PropertyName} is required.")
             .When(p => p.ProductId.HasValue);
     }
 }
