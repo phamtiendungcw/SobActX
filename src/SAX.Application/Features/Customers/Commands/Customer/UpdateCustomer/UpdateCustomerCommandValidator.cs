@@ -9,6 +9,6 @@ public class UpdateCustomerCommandValidator : AbstractValidator<UpdateCustomerCo
     public UpdateCustomerCommandValidator()
     {
         RuleFor(x => x.UpdateCustomerDto).NotNull().WithMessage("UpdateCustomerDto is required");
-        RuleFor(x => x.UpdateCustomerDto).SetValidator(new UpdateCustomerDtoValidator());
+        RuleFor(x => x.UpdateCustomerDto!).SetValidator(new UpdateCustomerDtoValidator());
     }
 }

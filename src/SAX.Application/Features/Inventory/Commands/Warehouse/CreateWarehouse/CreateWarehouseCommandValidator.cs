@@ -9,6 +9,6 @@ public class CreateWarehouseCommandValidator : AbstractValidator<CreateWarehouse
     public CreateWarehouseCommandValidator()
     {
         RuleFor(x => x.CreateWarehouseDto).NotNull().WithMessage("{PropertyName} is required.");
-        RuleFor(x => x.CreateWarehouseDto).SetValidator(new CreateWarehouseDtoValidator());
+        RuleFor(x => x.CreateWarehouseDto!).SetValidator(new CreateWarehouseDtoValidator());
     }
 }

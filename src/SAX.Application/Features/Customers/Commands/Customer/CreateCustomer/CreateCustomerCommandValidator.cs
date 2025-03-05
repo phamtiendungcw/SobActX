@@ -9,6 +9,6 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
     public CreateCustomerCommandValidator()
     {
         RuleFor(x => x.CreateCustomerDto).NotNull().WithMessage("CreateCustomerDto is required");
-        RuleFor(x => x.CreateCustomerDto).SetValidator(new CreateCustomerDtoValidator());
+        RuleFor(x => x.CreateCustomerDto!).SetValidator(new CreateCustomerDtoValidator());
     }
 }

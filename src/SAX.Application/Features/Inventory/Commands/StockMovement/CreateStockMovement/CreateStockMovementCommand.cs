@@ -8,5 +8,5 @@ namespace SAX.Application.Features.Inventory.Commands.StockMovement.CreateStockM
 
 public record CreateStockMovementCommand : IRequest<Result<Guid>>
 {
-    public StockMovementDto? StockMovement { get; set; }
+    public StockMovementDto? StockMovementDto { get; set; }
 }

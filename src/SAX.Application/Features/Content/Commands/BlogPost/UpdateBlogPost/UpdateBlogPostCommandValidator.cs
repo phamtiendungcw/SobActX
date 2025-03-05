@@ -9,6 +9,6 @@ public class UpdateBlogPostCommandValidator : AbstractValidator<UpdateBlogPostCo
     public UpdateBlogPostCommandValidator()
     {
         RuleFor(p => p.UpdateBlogPostDto).NotNull().WithMessage("UpdateBlogPostDto cannot be null.");
-        RuleFor(x => x.UpdateBlogPostDto).SetValidator(new UpdateBlogPostDtoValidator());
+        RuleFor(x => x.UpdateBlogPostDto!).SetValidator(new UpdateBlogPostDtoValidator());
     }
 }

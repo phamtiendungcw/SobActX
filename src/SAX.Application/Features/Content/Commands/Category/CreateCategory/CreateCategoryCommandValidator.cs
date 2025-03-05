@@ -9,6 +9,6 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
     public CreateCategoryCommandValidator()
     {
         RuleFor(x => x.CreateCategoryDto).NotNull().WithMessage("CreateCategoryDto cannot be null.");
-        RuleFor(x => x.CreateCategoryDto).SetValidator(new CreateCategoryDtoValidator());
+        RuleFor(x => x.CreateCategoryDto!).SetValidator(new CreateCategoryDtoValidator());
     }
 }

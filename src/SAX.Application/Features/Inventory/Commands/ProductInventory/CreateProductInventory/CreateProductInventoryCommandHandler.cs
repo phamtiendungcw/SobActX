@@ -33,7 +33,7 @@ public class CreateProductInventoryCommandHandler : IRequestHandler<CreateProduc
             return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var productInventoryDto = request.CreateProductDto;
+        var productInventoryDto = request.CreateProductInventoryDto;
         var productInventoryToCreate = _mapper.Map<Domain.Entities.Inventory.ProductInventory>(productInventoryDto);
         var createdProductInventory = await _productInventoryRepository.CreateAsync(productInventoryToCreate, cancellationToken);
 

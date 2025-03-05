@@ -9,6 +9,6 @@ public class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
     public CreateTagCommandValidator()
     {
         RuleFor(x => x.CreateTagDto).NotNull().WithMessage("CreateTagDto cannot be null.");
-        RuleFor(x => x.CreateTagDto).SetValidator(new CreateTagDtoValidator());
+        RuleFor(x => x.CreateTagDto!).SetValidator(new CreateTagDtoValidator());
     }
 }

@@ -9,6 +9,6 @@ public class CreateMediaCommandValidator : AbstractValidator<CreateMediaCommand>
     public CreateMediaCommandValidator()
     {
         RuleFor(x => x.CreateMediaDto).NotNull().WithMessage("CreateMediaDto cannot be null.");
-        RuleFor(x => x.CreateMediaDto).SetValidator(new CreateMediaDtoValidator());
+        RuleFor(x => x.CreateMediaDto!).SetValidator(new CreateMediaDtoValidator());
     }
 }

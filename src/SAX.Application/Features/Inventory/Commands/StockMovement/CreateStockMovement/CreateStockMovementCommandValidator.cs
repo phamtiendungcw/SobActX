@@ -8,8 +8,7 @@ public class CreateStockMovementCommandValidator : AbstractValidator<CreateStock
 {
     public CreateStockMovementCommandValidator()
     {
-        RuleFor(p => p.StockMovement)
-            .NotNull().WithMessage("{PropertyName} cannot be null.")
-            .SetValidator(new StockMovementDtoValidator());
+        RuleFor(p => p.StockMovementDto).NotNull().WithMessage("{PropertyName} cannot be null.");
+        RuleFor(p => p.StockMovementDto!).SetValidator(new StockMovementDtoValidator());
     }
 }
