@@ -32,7 +32,6 @@ public class RolePermissionRepository : GenericRepository<RolePermission>, IRole
 
     public async Task<RolePermission?> GetRolePermissionByRoleAndPermissionAsync(Guid roleId, Guid permissionId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.RolesPermissions
-            .FirstOrDefaultAsync(rp => rp.RoleId == roleId && rp.PermissionId == permissionId, cancellationToken);
+        return await _dbContext.RolesPermissions.FirstOrDefaultAsync(rp => rp.RoleId == roleId && rp.PermissionId == permissionId, cancellationToken);
     }
 }

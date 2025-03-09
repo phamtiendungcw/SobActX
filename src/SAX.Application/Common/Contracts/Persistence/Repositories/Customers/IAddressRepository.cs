@@ -2,10 +2,9 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Customers;
 
+/// <summary>
+///     Interface cho repository của entity Address.
+/// </summary>
 public interface IAddressRepository : IGenericRepository<Address>
 {
-    /// <summary>
-    ///     Liệt kê các địa chỉ theo quốc gia (cho dropdown chọn quốc gia).
-    /// </summary>
-    Task<IReadOnlyList<Address>> ListAddressesByCountryAsync(string country, CancellationToken cancellationToken = default);
 }

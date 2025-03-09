@@ -7,25 +7,28 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Logging;
 
+/// <summary>
+///     Repository cho entity LogEntry.
+/// </summary>
 public class LogEntryRepository : GenericRepository<LogEntry>, ILogEntryRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của LogEntryRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public LogEntryRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<LogEntry>> ListLogEntriesByLevelAsync(LogLevel logLevel, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<LogEntry>> GetLogEntriesByLevelAsync(LogLevel logLevel, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.LogEntries
-            .Where(le => le.LogLevel == logLevel)
-            .Include(le => le.User) // Eager load User
-            .ToListAsync(cancellationToken);
+        return await _dbContext.LogEntries.Where(log => log.LogLevel == logLevel && !log.IsDeleted && log.IsActive).ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<LogEntry>> SearchLogEntriesAsync(string searchTerm, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<LogEntry>> GetLogEntriesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.LogEntries
-            .Where(le => le.Exception != null && (le.Message.Contains(searchTerm) || le.Exception.Contains(searchTerm) || le.Source.Contains(searchTerm)))
-            .Include(le => le.User) // Eager load User
-            .ToListAsync(cancellationToken);
+        return await _dbContext.LogEntries.Where(log => log.Timestamp >= startDate && log.Timestamp <= endDate && !log.IsDeleted && log.IsActive).ToListAsync(cancellationToken);
     }
 }

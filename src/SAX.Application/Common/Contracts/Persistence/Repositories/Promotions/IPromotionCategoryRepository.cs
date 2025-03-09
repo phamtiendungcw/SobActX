@@ -1,22 +1,19 @@
-﻿using SAX.Domain.Entities.Promotions;
+﻿// File: Application/Common/Contracts/Persistence/Repositories/Promotions/IPromotionCategoryRepository.cs
+
+using SAX.Domain.Entities.Promotions;
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Promotions;
 
+/// <summary>
+///     Interface cho repository của entity PromotionCategory.
+/// </summary>
 public interface IPromotionCategoryRepository : IGenericRepository<PromotionCategory>
 {
     /// <summary>
-    ///     Liệt kê các promotion categories thuộc về một promotion cụ thể.
+    ///     Lấy danh sách các PromotionCategory theo PromotionId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<PromotionCategory>> ListPromotionCategoriesForPromotionAsync(Guid promotionId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Kiểm tra xem một danh mục sản phẩm cụ thể có đang được áp dụng promotion nào không.
-    /// </summary>
-    Task<bool> IsCategoryInPromotionAsync(Guid productCategoryId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy promotion category theo promotion ID và category ID (cho mục đích kiểm tra trùng lặp hoặc lấy thông tin chi
-    ///     tiết).
-    /// </summary>
-    Task<PromotionCategory?> GetPromotionCategoryByPromotionAndCategoryAsync(Guid promotionId, Guid categoryId, CancellationToken cancellationToken = default);
+    /// <param name="promotionId">Id của Promotion.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách PromotionCategory theo PromotionId.</returns>
+    Task<IReadOnlyList<PromotionCategory>> GetPromotionCategoriesByPromotionAsync(Guid promotionId, CancellationToken cancellationToken = default);
 }

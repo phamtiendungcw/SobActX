@@ -6,31 +6,32 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Products;
 
+/// <summary>
+///     Repository cho entity ProductReview.
+/// </summary>
 public class ProductReviewRepository : GenericRepository<ProductReview>, IProductReviewRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của ProductReviewRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public ProductReviewRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<ProductReview>> GetApprovedProductReviewsAsync(Guid productId, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<ProductReview>> GetProductReviewsByProductAsync(Guid productId, CancellationToken cancellationToken = default)
     {
         return await _dbContext.ProductReviews
-            .Where(pr => pr.ProductId == productId && pr.IsApproved)
-            .Include(pr => pr.Customer) // Eager load Customer
+            .Where(pr => pr.ProductId == productId && !pr.IsDeleted && pr.IsActive)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<ProductReview?> GetProductReviewByCustomerAndProductAsync(Guid customerId, Guid productId, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<ProductReview>> GetApprovedProductReviewsAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.ProductReviews
-            .FirstOrDefaultAsync(pr => pr.CustomerId == customerId && pr.ProductId == productId, cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<ProductReview>> GetPendingProductReviewsAsync(Guid productId, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.ProductReviews
-            .Where(pr => pr.ProductId == productId && !pr.IsApproved)
-            .Include(pr => pr.Customer) // Eager load Customer
+            .Where(pr => pr.IsApproved && !pr.IsDeleted && pr.IsActive)
             .ToListAsync(cancellationToken);
     }
 }

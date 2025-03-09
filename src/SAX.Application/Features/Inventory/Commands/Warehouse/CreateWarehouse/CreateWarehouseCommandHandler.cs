@@ -35,7 +35,7 @@ public class CreateWarehouseCommandHandler : IRequestHandler<CreateWarehouseComm
 
         var createWarehouseDto = request.CreateWarehouseDto;
         var warehouseToCreate = _mapper.Map<Domain.Entities.Inventory.Warehouse>(createWarehouseDto);
-        var createdWarehouse = await _warehouseRepository.CreateAsync(warehouseToCreate, cancellationToken);
+        var createdWarehouse = await _warehouseRepository.AddAsync(warehouseToCreate, cancellationToken);
 
         return Result.Ok(createdWarehouse.Id);
     }

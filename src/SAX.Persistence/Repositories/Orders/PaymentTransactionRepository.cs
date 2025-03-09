@@ -6,22 +6,24 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Orders;
 
+/// <summary>
+///     Repository cho entity PaymentTransaction.
+/// </summary>
 public class PaymentTransactionRepository : GenericRepository<PaymentTransaction>, IPaymentTransactionRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của PaymentTransactionRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public PaymentTransactionRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<PaymentTransaction>> ListPaymentTransactionsForOrderAsync(Guid orderId, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<PaymentTransaction>> GetPaymentTransactionsByOrderAsync(Guid orderId, CancellationToken cancellationToken = default)
     {
         return await _dbContext.PaymentTransactions
-            .Where(pt => pt.OrderId == orderId)
+            .Where(pt => pt.OrderId == orderId && !pt.IsDeleted && pt.IsActive)
             .ToListAsync(cancellationToken);
-    }
-
-    public async Task<PaymentTransaction?> GetPaymentTransactionByGatewayReferenceAsync(string paymentGatewayReference, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.PaymentTransactions
-            .FirstOrDefaultAsync(pt => pt.PaymentGatewayReference == paymentGatewayReference, cancellationToken);
     }
 }

@@ -3,25 +3,23 @@ using SAX.Domain.Entities.Promotions;
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Promotions;
 
+/// <summary>
+///     Interface cho repository của entity Promotion.
+/// </summary>
 public interface IPromotionRepository : IGenericRepository<Promotion>
 {
     /// <summary>
-    ///     Liệt kê các promotions đang hoạt động (trong thời gian hiệu lực và có thể có coupon code).
+    ///     Lấy danh sách các Promotion đang active một cách bất đồng bộ.
     /// </summary>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách Promotion đang active.</returns>
     Task<IReadOnlyList<Promotion>> GetActivePromotionsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Lấy promotion theo coupon code (cho việc áp dụng mã giảm giá).
+    ///     Lấy danh sách các Promotion theo PromotionType một cách bất đồng bộ.
     /// </summary>
-    Task<Promotion?> GetPromotionByCouponCodeAsync(string couponCode, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các promotions theo loại promotion (Percentage, FixedAmount).
-    /// </summary>
-    Task<IReadOnlyList<Promotion>> ListPromotionsByTypeAsync(PromotionType promotionType, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các promotions mới nhất (cho trang khuyến mãi hoặc dashboard marketing).
-    /// </summary>
-    Task<IReadOnlyList<Promotion>> ListLatestPromotionsAsync(int count, CancellationToken cancellationToken = default);
+    /// <param name="promotionType">PromotionType để lọc.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách Promotion theo PromotionType.</returns>
+    Task<IReadOnlyList<Promotion>> GetPromotionsByTypeAsync(PromotionType promotionType, CancellationToken cancellationToken = default);
 }

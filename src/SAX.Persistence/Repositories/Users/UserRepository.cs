@@ -6,42 +6,36 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Users;
 
+/// <summary>
+///     Repository cho entity User.
+/// </summary>
 public class UserRepository : GenericRepository<User>, IUserRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của UserRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public UserRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
+    /// <inheritdoc />
     public async Task<User?> GetUserByUsernameAsync(string username, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username && !u.IsDeleted && u.IsActive, cancellationToken);
     }
 
+    /// <inheritdoc />
     public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted && u.IsActive, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<User>> GetUsersByRoleAsync(Guid roleId, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.UsersRoles
-            .Where(ur => ur.RoleId == roleId)
-            .Select(ur => ur.User) // Select User từ UserRole
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<User>> SearchUsersAsync(string searchTerm, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Users
-            .Where(u => u.FirstName.Contains(searchTerm) || u.LastName.Contains(searchTerm) || u.Username.Contains(searchTerm))
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<User>> ListLatestRegisteredUsersAsync(int count, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Users
-            .OrderByDescending(u => u.RegistrationDate)
-            .Take(count)
+            .Where(u => u.UserRoles.Any(ur => ur.Role!.RoleName == roleName) && !u.IsDeleted && u.IsActive)
             .ToListAsync(cancellationToken);
     }
 }

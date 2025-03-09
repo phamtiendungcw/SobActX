@@ -3,20 +3,25 @@ using SAX.Domain.Entities.Logging;
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Logging;
 
+/// <summary>
+///     Interface cho repository của entity LogEntry.
+/// </summary>
 public interface ILogEntryRepository : IGenericRepository<LogEntry>
 {
     /// <summary>
-    ///     Liệt kê các log entries theo mức độ log (Information, Warning, Error).
+    ///     Lấy danh sách các LogEntry theo LogLevel một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<LogEntry>> ListLogEntriesByLevelAsync(LogLevel logLevel, CancellationToken cancellationToken = default);
+    /// <param name="logLevel">LogLevel để lọc.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách LogEntry theo LogLevel.</returns>
+    Task<IReadOnlyList<LogEntry>> GetLogEntriesByLevelAsync(LogLevel logLevel, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Tìm kiếm log entries theo từ khóa trong message.
+    ///     Lấy danh sách các LogEntry trong một khoảng thời gian nhất định một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<LogEntry>> SearchLogEntriesAsync(string searchTerm, CancellationToken cancellationToken = default);
-
-    ///// <summary>
-    /////     Liệt kê các log entries trong một khoảng thời gian cụ thể (cho dashboard log).
-    ///// </summary>
-    //Task<IReadOnlyList<LogEntry>> ListLogEntriesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
+    /// <param name="startDate">Thời gian bắt đầu.</param>
+    /// <param name="endDate">Thời gian kết thúc.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách LogEntry trong khoảng thời gian.</returns>
+    Task<IReadOnlyList<LogEntry>> GetLogEntriesByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
 }

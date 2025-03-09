@@ -2,10 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 
+/// <summary>
+///     Interface cho repository của entity OrderStatusHistory.
+/// </summary>
 public interface IOrderStatusHistoryRepository : IGenericRepository<OrderStatusHistory>
 {
     /// <summary>
-    ///     Liệt kê lịch sử trạng thái đơn hàng của một đơn hàng cụ thể.
+    ///     Lấy danh sách các OrderStatusHistory theo OrderId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<OrderStatusHistory>> ListOrderStatusHistoryForOrderAsync(Guid orderId, CancellationToken cancellationToken = default);
+    /// <param name="orderId">Id của Order.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách OrderStatusHistory theo OrderId.</returns>
+    Task<IReadOnlyList<OrderStatusHistory>> GetOrderStatusHistoriesByOrderAsync(Guid orderId, CancellationToken cancellationToken = default);
 }

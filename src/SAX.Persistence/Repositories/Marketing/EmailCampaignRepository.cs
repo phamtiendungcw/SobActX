@@ -1,39 +1,27 @@
-﻿using SAX.Persistence.DatabaseContext;
-
-namespace SAX.Persistence.Repositories.Marketing;
-
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 using SAX.Domain.Entities.Marketing;
+using SAX.Persistence.DatabaseContext;
 
+namespace SAX.Persistence.Repositories.Marketing;
+
+/// <summary>
+///     Repository cho entity EmailCampaign.
+/// </summary>
 public class EmailCampaignRepository : GenericRepository<EmailCampaign>, IEmailCampaignRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của EmailCampaignRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public EmailCampaignRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<EmailCampaign>> ListEmailCampaignsForCampaignAsync(Guid campaignId, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<EmailCampaign>> GetEmailCampaignsByCampaignAsync(Guid campaignId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.EmailCampaigns
-            .Where(ec => ec.CampaignId == campaignId)
-            .Include(ec => ec.Campaign) // Eager load Campaign, EmailTemplate và Segment
-            .Include(ec => ec.EmailTemplate)
-            .Include(ec => ec.Segment)
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<EmailCampaign>> ListLatestSentEmailCampaignsAsync(int count, CancellationToken cancellationToken = default)
-    {
-        // Cần thêm trường "SentDate" vào Entity EmailCampaign để có thể order by date
-        // Code mẫu này chỉ trả về latest email campaigns dựa trên ID (không đúng logic "sent date")
-        return await _dbContext.EmailCampaigns
-            .OrderByDescending(ec => ec.Id)
-            .Take(count)
-            .ToListAsync(cancellationToken);
+        return await _dbContext.EmailCampaigns.Where(ec => ec.CampaignId == campaignId && !ec.IsDeleted && ec.IsActive).ToListAsync(cancellationToken);
     }
 }

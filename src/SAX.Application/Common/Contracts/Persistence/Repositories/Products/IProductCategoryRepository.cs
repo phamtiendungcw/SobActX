@@ -2,15 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Products;
 
+/// <summary>
+///     Interface cho repository của entity ProductCategory.
+/// </summary>
 public interface IProductCategoryRepository : IGenericRepository<ProductCategory>
 {
     /// <summary>
-    ///     Lấy danh mục sản phẩm theo tên danh mục (cho mục đích kiểm tra tính duy nhất).
+    ///     Lấy một ProductCategory theo CategoryName một cách bất đồng bộ.
     /// </summary>
+    /// <param name="categoryName">CategoryName của ProductCategory.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>ProductCategory nếu tìm thấy, ngược lại trả về null.</returns>
     Task<ProductCategory?> GetProductCategoryByNameAsync(string categoryName, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các danh mục sản phẩm, bao gồm cả số lượng sản phẩm trong mỗi danh mục (cho menu danh mục hoặc dashboard).
-    /// </summary>
-    Task<IReadOnlyList<ProductCategory>> ListProductCategoriesWithProductCountsAsync(CancellationToken cancellationToken = default);
 }

@@ -35,7 +35,7 @@ public class CreateEmailTemplateCommandHandler : IRequestHandler<CreateEmailTemp
         if (createEmailTemplateDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo mẫu email không hợp lệ: CreateEmailTemplateDto không được null.").Message);
 
         var emailTemplate = _mapper.Map<Domain.Entities.Marketing.EmailTemplate>(createEmailTemplateDto);
-        await _emailTemplateRepository.CreateAsync(emailTemplate, cancellationToken);
+        await _emailTemplateRepository.AddAsync(emailTemplate, cancellationToken);
 
         return Result.Ok(emailTemplate.Id);
     }

@@ -37,7 +37,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         if (createProductDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo sản phẩm không hợp lệ: CreateProductDto không được null.").Message);
 
         var productToCreate = _mapper.Map<Domain.Entities.Products.Product>(createProductDto);
-        var createdProduct = await _productRepository.CreateAsync(productToCreate, cancellationToken);
+        var createdProduct = await _productRepository.AddAsync(productToCreate, cancellationToken);
 
         return Result.Ok(createdProduct.Id);
     }

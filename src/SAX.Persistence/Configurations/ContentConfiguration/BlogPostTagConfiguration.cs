@@ -13,16 +13,16 @@ public class BlogPostTagConfiguration : IEntityTypeConfiguration<BlogPostTag>
         builder.HasKey(bpt => bpt.Id);
 
         builder.HasOne(bpt => bpt.BlogPost)
-            .WithMany(bp => bp.BlogPostTags)
+            .WithMany(bp => bp.BlogPostsTags)
             .HasForeignKey(bpt => bpt.BlogPostId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(bpt => bpt.Tag)
-            .WithMany(t => t.BlogPostTags)
+            .WithMany(t => t.BlogPostsTags)
             .HasForeignKey(bpt => bpt.TagId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // BaseEntity configuration (if needed)
+        // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(bpt => bpt.CreatedByUser)
             .WithMany()
             .HasForeignKey(bpt => bpt.CreatedByUserId)

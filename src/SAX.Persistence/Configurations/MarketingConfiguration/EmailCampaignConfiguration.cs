@@ -26,6 +26,7 @@ public class EmailCampaignConfiguration : IEntityTypeConfiguration<EmailCampaign
             .WithMany(s => s.EmailCampaigns)
             .HasForeignKey(ec => ec.SegmentId)
             .OnDelete(DeleteBehavior.Restrict);
+
         // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(ec => ec.CreatedByUser)
             .WithMany()

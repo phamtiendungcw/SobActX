@@ -35,7 +35,7 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
 
         var createCategoryDto = request.CreateCategoryDto;
         var categoryToCreate = _mapper.Map<Domain.Entities.Content.Category>(createCategoryDto);
-        var createdCategory = await _categoryRepository.CreateAsync(categoryToCreate, cancellationToken);
+        var createdCategory = await _categoryRepository.AddAsync(categoryToCreate, cancellationToken);
 
         return Result.Ok(createdCategory.Id);
     }

@@ -35,7 +35,7 @@ public class CreateStockMovementCommandHandler : IRequestHandler<CreateStockMove
 
         var createStockMovementDto = request.StockMovementDto;
         var stockMovementToCreate = _mapper.Map<Domain.Entities.Inventory.StockMovement>(createStockMovementDto);
-        var createdStockMovement = await _stockMovementRepository.CreateAsync(stockMovementToCreate, cancellationToken);
+        var createdStockMovement = await _stockMovementRepository.AddAsync(stockMovementToCreate, cancellationToken);
 
         return Result.Ok(createdStockMovement.Id);
     }

@@ -33,11 +33,11 @@ public static class PersistenceServiceRegistration
         services.AddDbContext<SaxDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SobActXDatabaseConnectionString")));
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-        services.AddScoped(typeof(ISpecification<>), typeof(BaseSpecification<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // Content
         services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+        services.AddScoped<IBlogPostTagRepository, BlogPostTagRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IMediaRepository, MediaRepository>();
         services.AddScoped<IPageRepository, PageRepository>();

@@ -2,15 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 
+/// <summary>
+///     Interface cho repository của entity OrderItem.
+/// </summary>
 public interface IOrderItemRepository : IGenericRepository<OrderItem>
 {
     /// <summary>
-    ///     Liệt kê các order items thuộc về một đơn hàng cụ thể.
+    ///     Lấy danh sách các OrderItem theo OrderId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<OrderItem>> ListOrderItemsForOrderAsync(Guid orderId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy order item chi tiết bao gồm cả thông tin sản phẩm (eager loading).
-    /// </summary>
-    Task<OrderItem?> GetOrderItemDetailsWithProductAsync(Guid orderItemId, CancellationToken cancellationToken = default);
+    /// <param name="orderId">Id của Order.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách OrderItem theo OrderId.</returns>
+    Task<IReadOnlyList<OrderItem>> GetOrderItemsByOrderAsync(Guid orderId, CancellationToken cancellationToken = default);
 }

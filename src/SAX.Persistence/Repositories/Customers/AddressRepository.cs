@@ -1,26 +1,19 @@
-﻿using SAX.Persistence.DatabaseContext;
+﻿using SAX.Application.Common.Contracts.Persistence.Repositories.Customers;
+using SAX.Domain.Entities.Customers;
+using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Customers;
 
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-
-using SAX.Application.Common.Contracts.Persistence.Repositories.Customers;
-using SAX.Domain.Entities.Customers;
-
+/// <summary>
+///     Repository cho entity Address.
+/// </summary>
 public class AddressRepository : GenericRepository<Address>, IAddressRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của AddressRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public AddressRepository(SaxDbContext dbContext) : base(dbContext)
     {
-    }
-
-    public async Task<IReadOnlyList<Address>> ListAddressesByCountryAsync(string country, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Addresses
-            .Where(a => a.Country == country)
-            .ToListAsync(cancellationToken);
     }
 }

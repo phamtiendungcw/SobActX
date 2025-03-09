@@ -13,12 +13,12 @@ public class PromotionProductConfiguration : IEntityTypeConfiguration<PromotionP
         builder.HasKey(pp => pp.Id);
 
         builder.HasOne(pp => pp.Promotion)
-            .WithMany(p => p.PromotionProducts)
+            .WithMany(p => p.PromotionsProducts)
             .HasForeignKey(pp => pp.PromotionId)
             .OnDelete(DeleteBehavior.Cascade); // Xóa PromotionProduct khi Promotion bị xóa
 
         builder.HasOne(pp => pp.Product)
-            .WithMany(p => p.PromotionProducts)
+            .WithMany(p => p.PromotionsProducts)
             .HasForeignKey(pp => pp.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
 

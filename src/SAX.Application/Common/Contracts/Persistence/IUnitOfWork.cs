@@ -2,37 +2,17 @@
 
 namespace SAX.Application.Common.Contracts.Persistence;
 
-/// <summary>
-///     Quản lý transaction và DbContext lifecycle.
-/// </summary>
 public interface IUnitOfWork : IDisposable
 {
-    /// <summary>
-    ///     Lấy repository cho một entity cụ thể.
-    /// </summary>
-    /// <typeparam name="T">Loại entity.</typeparam>
-    /// <returns>Repository cho entity.</returns>
     IGenericRepository<T> Repository<T>() where T : BaseEntity;
 
-    /// <summary>
-    ///     Lưu tất cả các thay đổi vào database trong transaction hiện tại một cách bất đồng bộ.
-    /// </summary>
-    /// <param name="cancellationToken">Token hủy bỏ.</param>
-    /// <returns>Task đại diện cho hoạt động lưu.</returns>
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Bắt đầu một transaction mới.
-    /// </summary>
-    void BeginTransaction();
+    // Các phương thức quản lý transaction
+    Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+    Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+    Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
 
-    /// <summary>
-    ///     Commit transaction hiện tại.
-    /// </summary>
-    void CommitTransaction();
-
-    /// <summary>
-    ///     Rollback transaction hiện tại.
-    /// </summary>
-    void RollbackTransaction();
+    // Sử dụng TransactionScope (tùy chọn):
+    // ITransactionScope CreateTransactionScope(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
 }

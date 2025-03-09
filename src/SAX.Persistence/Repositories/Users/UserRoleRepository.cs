@@ -32,7 +32,6 @@ public class UserRoleRepository : GenericRepository<UserRole>, IUserRoleReposito
 
     public async Task<UserRole?> GetUserRoleByUserAndRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.UsersRoles
-            .FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId, cancellationToken);
+        return await _dbContext.UsersRoles.FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId, cancellationToken);
     }
 }

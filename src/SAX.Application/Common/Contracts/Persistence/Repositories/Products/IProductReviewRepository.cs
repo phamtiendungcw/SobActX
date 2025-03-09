@@ -2,21 +2,23 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Products;
 
+/// <summary>
+///     Interface cho repository của entity ProductReview.
+/// </summary>
 public interface IProductReviewRepository : IGenericRepository<ProductReview>
 {
     /// <summary>
-    ///     Liệt kê các product reviews đã được duyệt (cho trang chi tiết sản phẩm).
+    ///     Lấy danh sách các ProductReview theo ProductId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<ProductReview>> GetApprovedProductReviewsAsync(Guid productId, CancellationToken cancellationToken = default);
+    /// <param name="productId">Id của Product.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách ProductReview theo ProductId.</returns>
+    Task<IReadOnlyList<ProductReview>> GetProductReviewsByProductAsync(Guid productId, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Liệt kê các product reviews chưa được duyệt (cho trang quản lý admin).
+    ///     Lấy danh sách các ProductReview đã được approve một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<ProductReview>> GetPendingProductReviewsAsync(Guid productId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy product review theo customer ID và product ID (cho mục đích kiểm tra xem khách hàng đã review sản phẩm hay
-    ///     chưa).
-    /// </summary>
-    Task<ProductReview?> GetProductReviewByCustomerAndProductAsync(Guid customerId, Guid productId, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách ProductReview đã được approve.</returns>
+    Task<IReadOnlyList<ProductReview>> GetApprovedProductReviewsAsync(CancellationToken cancellationToken = default);
 }

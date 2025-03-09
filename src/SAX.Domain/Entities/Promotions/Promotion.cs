@@ -10,6 +10,6 @@ public class Promotion : BaseEntity
     public DateTime EndDate { get; set; }
     public string? CouponCode { get; set; } // Optional coupon code
     public decimal? MinimumOrderValue { get; set; } // Minimum order value to apply promotion
-    public ICollection<PromotionProduct> PromotionProducts { get; set; } = new List<PromotionProduct>();
-    public ICollection<PromotionCategory> PromotionCategories { get; set; } = new List<PromotionCategory>();
+    public ICollection<PromotionProduct> PromotionsProducts { get; set; } = new List<PromotionProduct>();
+    public ICollection<PromotionCategory> PromotionsCategories { get; set; } = new List<PromotionCategory>();
 }

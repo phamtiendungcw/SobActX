@@ -35,7 +35,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 
         var createCustomerDto = request.CreateCustomerDto;
         var customerToCreate = _mapper.Map<Domain.Entities.Customers.Customer>(createCustomerDto);
-        var createdCustomer = await _customerRepository.CreateAsync(customerToCreate, cancellationToken);
+        var createdCustomer = await _customerRepository.AddAsync(customerToCreate, cancellationToken);
 
         return Result.Ok(createdCustomer.Id);
     }

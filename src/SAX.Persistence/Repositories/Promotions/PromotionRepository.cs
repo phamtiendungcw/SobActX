@@ -7,37 +7,32 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Promotions;
 
+/// <summary>
+///     Repository cho entity Promotion.
+/// </summary>
 public class PromotionRepository : GenericRepository<Promotion>, IPromotionRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của PromotionRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public PromotionRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<Promotion>> GetActivePromotionsAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Promotions
-            .Where(p => p.StartDate <= DateTime.Now && p.EndDate >= DateTime.Now)
+            .Where(p => p.StartDate <= DateTime.UtcNow && p.EndDate >= DateTime.UtcNow && !p.IsDeleted && p.IsActive)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<Promotion?> GetPromotionByCouponCodeAsync(string couponCode, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<Promotion>> GetPromotionsByTypeAsync(PromotionType promotionType, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Promotions
-            .FirstOrDefaultAsync(p => p.CouponCode == couponCode, cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<Promotion>> ListPromotionsByTypeAsync(PromotionType promotionType, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Promotions
-            .Where(p => p.PromotionType == promotionType)
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<Promotion>> ListLatestPromotionsAsync(int count, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Promotions
-            .OrderByDescending(p => p.StartDate)  // Order by StartDate để lấy "latest"
-            .Take(count)
+            .Where(p => p.PromotionType == promotionType && !p.IsDeleted && p.IsActive)
             .ToListAsync(cancellationToken);
     }
 }

@@ -35,7 +35,7 @@ public class CreateProductInventoryCommandHandler : IRequestHandler<CreateProduc
 
         var createProductInventoryDto = request.CreateProductInventoryDto;
         var productInventoryToCreate = _mapper.Map<Domain.Entities.Inventory.ProductInventory>(createProductInventoryDto);
-        var createdProductInventory = await _productInventoryRepository.CreateAsync(productInventoryToCreate, cancellationToken);
+        var createdProductInventory = await _productInventoryRepository.AddAsync(productInventoryToCreate, cancellationToken);
 
         return Result.Ok(createdProductInventory.Id);
     }

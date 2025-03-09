@@ -37,7 +37,7 @@ public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionComm
         if (createPromotionDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo khuyến mãi không hợp lệ: CreatePromotionDto không được null.").Message);
 
         var promotionToCreate = _mapper.Map<Domain.Entities.Promotions.Promotion>(createPromotionDto);
-        var createdPromotion = await _promotionRepository.CreateAsync(promotionToCreate, cancellationToken);
+        var createdPromotion = await _promotionRepository.AddAsync(promotionToCreate, cancellationToken);
 
         return Result.Ok(createdPromotion.Id);
     }
