@@ -12,5 +12,5 @@ public class BlogPost : BaseEntity
     public User? Author { get; set; }
     public Guid CategoryId { get; set; }
     public Category? Category { get; set; }
-    public ICollection<BlogPostTag> BlogPostTags { get; set; } = new List<BlogPostTag>();
+    public ICollection<BlogPostTag> BlogPostsTags { get; set; } = new List<BlogPostTag>();
 }

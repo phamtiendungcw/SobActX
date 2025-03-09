@@ -35,7 +35,7 @@ public class CreateMediaCommandHandler : IRequestHandler<CreateMediaCommand, Res
 
         var createMediaDto = request.CreateMediaDto;
         var mediaToCreate = _mapper.Map<Domain.Entities.Content.Media>(createMediaDto);
-        var createdMedia = await _mediaRepository.CreateAsync(mediaToCreate, cancellationToken);
+        var createdMedia = await _mediaRepository.AddAsync(mediaToCreate, cancellationToken);
 
         return Result.Ok(createdMedia.Id);
     }

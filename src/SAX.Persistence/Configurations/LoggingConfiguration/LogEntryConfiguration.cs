@@ -31,6 +31,7 @@ public class LogEntryConfiguration : IEntityTypeConfiguration<LogEntry>
             .WithMany(u => u.LogEntries)
             .HasForeignKey(le => le.UserId)
             .OnDelete(DeleteBehavior.SetNull); // Nếu xóa User thì set UserId của LogEntry thành null
+
         // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(le => le.CreatedByUser)
             .WithMany()

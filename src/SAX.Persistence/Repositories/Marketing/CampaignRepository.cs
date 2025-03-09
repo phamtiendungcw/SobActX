@@ -6,28 +6,33 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Marketing;
 
+/// <summary>
+///     Repository cho entity Campaign.
+/// </summary>
 public class CampaignRepository : GenericRepository<Campaign>, ICampaignRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của CampaignRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public CampaignRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
+    /// <inheritdoc />
     public async Task<IReadOnlyList<Campaign>> GetActiveCampaignsAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Campaigns
-            .Where(c => c.StartDate <= DateTime.Now && (!c.EndDate.HasValue || c.EndDate >= DateTime.Now))
+            .Where(c => c.StartDate <= DateTime.UtcNow && (!c.EndDate.HasValue || c.EndDate > DateTime.UtcNow) && !c.IsDeleted && c.IsActive)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Campaign>> ListCampaignsByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<Campaign>> GetCampaignsEndingSoonAsync(int days, CancellationToken cancellationToken = default)
     {
+        var endDateThreshold = DateTime.UtcNow.AddDays(days);
         return await _dbContext.Campaigns
-            .Where(c => c.StartDate >= startDate && c.EndDate <= endDate)
+            .Where(c => c.EndDate.HasValue && c.EndDate <= endDateThreshold && c.EndDate > DateTime.UtcNow && !c.IsDeleted && c.IsActive)
             .ToListAsync(cancellationToken);
-    }
-
-    public async Task<Campaign?> GetCampaignByNameAsync(string campaignName, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Campaigns.FirstOrDefaultAsync(c => c.CampaignName == campaignName, cancellationToken);
     }
 }

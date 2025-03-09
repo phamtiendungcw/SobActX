@@ -37,7 +37,7 @@ public class CreateSegmentCommandHandler : IRequestHandler<CreateSegmentCommand,
         if (createSegmentDto == null) return Result.Fail(new SaxBadRequestException("CreateSegmentDto is required.").Message);
 
         var segment = _mapper.Map<Domain.Entities.Marketing.Segment>(createSegmentDto);
-        await _segmentRepository.CreateAsync(segment, cancellationToken);
+        await _segmentRepository.AddAsync(segment, cancellationToken);
 
         return Result.Ok(segment.Id);
     }

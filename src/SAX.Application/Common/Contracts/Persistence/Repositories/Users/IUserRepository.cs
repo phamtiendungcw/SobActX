@@ -2,30 +2,32 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Users;
 
+/// <summary>
+///     Interface cho repository của entity User.
+/// </summary>
 public interface IUserRepository : IGenericRepository<User>
 {
     /// <summary>
-    ///     Lấy người dùng theo username (cho đăng nhập, kiểm tra tồn tại).
+    ///     Lấy một User theo username một cách bất đồng bộ.
     /// </summary>
+    /// <param name="username">Username của User.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>User nếu tìm thấy, ngược lại trả về null.</returns>
     Task<User?> GetUserByUsernameAsync(string username, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Lấy người dùng theo email (cho quên mật khẩu, kiểm tra tồn tại).
+    ///     Lấy một User theo email một cách bất đồng bộ.
     /// </summary>
+    /// <param name="email">Email của User.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>User nếu tìm thấy, ngược lại trả về null.</returns>
     Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Liệt kê các người dùng thuộc về một role cụ thể.
+    ///     Lấy danh sách các User trong một Role nhất định một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<User>> GetUsersByRoleAsync(Guid roleId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Tìm kiếm người dùng theo tên hoặc username.
-    /// </summary>
-    Task<IReadOnlyList<User>> SearchUsersAsync(string searchTerm, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các người dùng đăng ký mới nhất (cho dashboard quản lý người dùng).
-    /// </summary>
-    Task<IReadOnlyList<User>> ListLatestRegisteredUsersAsync(int count, CancellationToken cancellationToken = default);
+    /// <param name="roleName">Tên của Role.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách User trong Role.</returns>
+    Task<IReadOnlyList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default);
 }

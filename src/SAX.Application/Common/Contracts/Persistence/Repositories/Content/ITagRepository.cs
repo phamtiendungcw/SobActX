@@ -2,15 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 
+/// <summary>
+///     Interface cho repository của entity Tag.
+/// </summary>
 public interface ITagRepository : IGenericRepository<Tag>
 {
     /// <summary>
-    ///     Lấy tag theo tên tag (cho mục đích kiểm tra tính duy nhất).
+    ///     Lấy một tag theo tên tag một cách bất đồng bộ.
     /// </summary>
+    /// <param name="tagName">Tên của tag.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Tag nếu tìm thấy, ngược lại trả về null.</returns>
     Task<Tag?> GetTagByNameAsync(string tagName, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các tags phổ biến nhất dựa trên số lượng bài viết blog sử dụng tag đó (cho cloud tags).
-    /// </summary>
-    Task<IReadOnlyList<Tag>> ListPopularTagsAsync(int count, CancellationToken cancellationToken = default);
 }

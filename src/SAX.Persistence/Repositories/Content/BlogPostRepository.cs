@@ -6,45 +6,34 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Content;
 
+/// <summary>
+///     Repository cho entity BlogPost.
+/// </summary>
 public class BlogPostRepository : GenericRepository<BlogPost>, IBlogPostRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của BlogPostRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public BlogPostRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<BlogPost>> GetBlogPostsByCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<BlogPost>> GetPublishedBlogPostsAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbContext.BlogPosts
-            .Where(bp => bp.CategoryId == categoryId)
-            .Include(bp => bp.Author) // Eager load Author và Category
-            .Include(bp => bp.Category)
-            .ToListAsync(cancellationToken);
+        return await _dbContext.BlogPosts.Where(bp => bp.PublishedAt != null && bp.PublishedAt <= DateTime.UtcNow && !bp.IsDeleted && bp.IsActive).ToListAsync(cancellationToken);
     }
 
+    /// <inheritdoc />
     public async Task<BlogPost?> GetBlogPostBySlugAsync(string slug, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.BlogPosts.FirstOrDefaultAsync(bp => bp.Slug == slug, cancellationToken);
+        return await _dbContext.BlogPosts.FirstOrDefaultAsync(bp => bp.Slug == slug && !bp.IsDeleted && bp.IsActive, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<BlogPost>> ListLatestBlogPostsAsync(int count, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<BlogPost>> SearchBlogPostsAsync(string keyword, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.BlogPosts
-            .OrderByDescending(bp => bp.PublishedAt)
-            .Take(count)
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<BlogPost>> ListPopularBlogPostsAsync(int count, CancellationToken cancellationToken = default)
-    {
-        // Cần implement logic để xác định độ phổ biến (ví dụ: dựa trên lượt xem, tương tác, v.v.)
-        // Code mẫu này chỉ trả về latest blog posts
-        return await ListLatestBlogPostsAsync(count, cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<BlogPost>> SearchBlogPostsAsync(string searchTerm, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.BlogPosts
-            .Where(bp => bp.ContentBody != null && (bp.Title.Contains(searchTerm) || bp.ContentBody.Contains(searchTerm)))
-            .ToListAsync(cancellationToken);
+        return await _dbContext.BlogPosts.Where(bp => (bp.Title.Contains(keyword) || bp.ContentBody!.Contains(keyword)) && !bp.IsDeleted && bp.IsActive).ToListAsync(cancellationToken);
     }
 }

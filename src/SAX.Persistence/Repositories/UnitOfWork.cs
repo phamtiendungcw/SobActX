@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Storage;
+﻿using System.Collections;
+
+using Microsoft.EntityFrameworkCore.Storage;
 
 using SAX.Application.Common.Contracts.Persistence;
 using SAX.Domain.Entities;
@@ -8,59 +10,52 @@ namespace SAX.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly SaxDbContext _dbContext;
-    private readonly Dictionary<Type, object> _repositories; // Cache repositories
-    private IDbContextTransaction _transaction; // Transaction management
+    private readonly SaxDbContext _context;
+    private bool _disposed;
+    private Hashtable? _repositories; // Lưu trữ các repository đã được khởi tạo
+    private IDbContextTransaction? _transaction; // Quản lý transaction
 
-    public UnitOfWork(SaxDbContext dbContext)
+    public UnitOfWork(SaxDbContext context)
     {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        _repositories = new Dictionary<Type, object>();
+        _context = context;
     }
 
     public IGenericRepository<T> Repository<T>() where T : BaseEntity
     {
-        if (!_repositories.ContainsKey(typeof(T))) _repositories.Add(typeof(T), new GenericRepository<T>(_dbContext));
-        return (IGenericRepository<T>)_repositories[typeof(T)];
+        if (_repositories == null)
+            _repositories = new Hashtable();
+
+        var type = typeof(T).Name;
+
+        if (!_repositories.ContainsKey(type))
+        {
+            var repositoryType = typeof(GenericRepository<>);
+            var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _context);
+
+            _repositories.Add(type, repositoryInstance);
+        }
+
+        return (IGenericRepository<T>)_repositories[type]!;
     }
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        return await _dbContext.SaveChangesAsync(cancellationToken);
+        return await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public void BeginTransaction()
+    public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
-        _transaction = _dbContext.Database.BeginTransaction();
+        _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
     }
 
-    public void CommitTransaction()
+    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
     {
-        try
-        {
-            _transaction?.Commit();
-        }
-        catch
-        {
-            RollbackTransaction();
-            throw;
-        }
-        finally
-        {
-            DisposeTransaction();
-        }
+        if (_transaction is not null) await _transaction.CommitAsync(cancellationToken);
     }
 
-    public void RollbackTransaction()
+    public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
-        try
-        {
-            _transaction?.Rollback();
-        }
-        finally
-        {
-            DisposeTransaction();
-        }
+        if (_transaction is not null) await _transaction.RollbackAsync(cancellationToken);
     }
 
     public void Dispose()
@@ -69,21 +64,20 @@ public class UnitOfWork : IUnitOfWork
         GC.SuppressFinalize(this);
     }
 
-    private void DisposeTransaction()
-    {
-        if (_transaction != null)
-        {
-            _transaction.Dispose();
-            _transaction = null!; // Reset transaction
-        }
-    }
-
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing)
+        if (!_disposed && disposing)
         {
-            _dbContext.Dispose();
-            DisposeTransaction(); // Ensure transaction is disposed
+            // Giải phóng managed resources (DbContext)
+            _context.Dispose();
+            if (_transaction != null) _transaction.Dispose();
         }
+
+        _disposed = true;
+    }
+
+    ~UnitOfWork()
+    {
+        Dispose(false);
     }
 }

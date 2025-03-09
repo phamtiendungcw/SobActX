@@ -1,35 +1,29 @@
-﻿using SAX.Persistence.DatabaseContext;
-
-namespace SAX.Persistence.Repositories.Orders;
-
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 using SAX.Domain.Entities.Orders;
+using SAX.Persistence.DatabaseContext;
 
+namespace SAX.Persistence.Repositories.Orders;
+
+/// <summary>
+///     Repository cho entity ShoppingCartItem.
+/// </summary>
 public class ShoppingCartItemRepository : GenericRepository<ShoppingCartItem>, IShoppingCartItemRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của ShoppingCartItemRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public ShoppingCartItemRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<ShoppingCartItem>> ListShoppingCartItemsForCartAsync(Guid shoppingCartId, CancellationToken cancellationToken = default)
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<ShoppingCartItem>> GetShoppingCartItemsByCartAsync(Guid shoppingCartId, CancellationToken cancellationToken = default)
     {
         return await _dbContext.ShoppingCartItems
-            .Where(sci => sci.ShoppingCartId == shoppingCartId)
-            .Include(sci => sci.Product) // Eager load Product
+            .Where(sci => sci.ShoppingCartId == shoppingCartId && !sci.IsDeleted && sci.IsActive)
             .ToListAsync(cancellationToken);
-    }
-
-    public async Task<ShoppingCartItem?> GetShoppingCartItemDetailsWithProductAsync(Guid shoppingCartItemId, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.ShoppingCartItems
-            .Where(sci => sci.Id == shoppingCartItemId)
-            .Include(sci => sci.Product) // Eager load Product
-            .FirstOrDefaultAsync(cancellationToken);
     }
 }

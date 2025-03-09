@@ -16,7 +16,7 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             .IsRequired()
             .HasMaxLength(255);
 
-        // Cấu hình cho các thuộc tính của BaseEntity (nếu cần)
+        // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(t => t.CreatedByUser)
             .WithMany()
             .HasForeignKey(t => t.CreatedByUserId)

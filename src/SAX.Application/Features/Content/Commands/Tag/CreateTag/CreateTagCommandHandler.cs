@@ -35,7 +35,7 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Result<
 
         var createTagDto = request.CreateTagDto;
         var tagToCreate = _mapper.Map<Domain.Entities.Content.Tag>(createTagDto);
-        var createdTag = await _tagRepository.CreateAsync(tagToCreate, cancellationToken);
+        var createdTag = await _tagRepository.AddAsync(tagToCreate, cancellationToken);
 
         return Result.Ok(createdTag.Id);
     }

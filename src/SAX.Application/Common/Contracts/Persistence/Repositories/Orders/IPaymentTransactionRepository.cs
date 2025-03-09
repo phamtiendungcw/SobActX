@@ -2,16 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 
+/// <summary>
+///     Interface cho repository của entity PaymentTransaction.
+/// </summary>
 public interface IPaymentTransactionRepository : IGenericRepository<PaymentTransaction>
 {
     /// <summary>
-    ///     Liệt kê các payment transactions thuộc về một đơn hàng cụ thể.
+    ///     Lấy danh sách các PaymentTransaction theo OrderId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<PaymentTransaction>> ListPaymentTransactionsForOrderAsync(Guid orderId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy payment transaction theo payment gateway reference (transaction ID từ cổng thanh toán - cho mục đích kiểm tra
-    ///     trùng lặp).
-    /// </summary>
-    Task<PaymentTransaction?> GetPaymentTransactionByGatewayReferenceAsync(string paymentGatewayReference, CancellationToken cancellationToken = default);
+    /// <param name="orderId">Id của Order.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách PaymentTransaction theo OrderId.</returns>
+    Task<IReadOnlyList<PaymentTransaction>> GetPaymentTransactionsByOrderAsync(Guid orderId, CancellationToken cancellationToken = default);
 }

@@ -2,25 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Customers;
 
+/// <summary>
+///     Interface cho repository của entity Customer.
+/// </summary>
 public interface ICustomerRepository : IGenericRepository<Customer>
 {
     /// <summary>
-    ///     Lấy khách hàng theo email (cho đăng nhập, kiểm tra tồn tại).
+    ///     Lấy một khách hàng theo email một cách bất đồng bộ.
     /// </summary>
+    /// <param name="email">Email của khách hàng.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Khách hàng nếu tìm thấy, ngược lại trả về null.</returns>
     Task<Customer?> GetCustomerByEmailAsync(string email, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các khách hàng đăng ký trong một khoảng thời gian cụ thể (cho báo cáo).
-    /// </summary>
-    Task<IReadOnlyList<Customer>> ListCustomersByRegistrationDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các khách hàng có nhiều đơn hàng nhất (cho phân tích khách hàng VIP).
-    /// </summary>
-    Task<IReadOnlyList<Customer>> ListTopCustomersByOrderCountAsync(int count, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Tìm kiếm khách hàng theo tên hoặc email.
-    /// </summary>
-    Task<IReadOnlyList<Customer>> SearchCustomersAsync(string searchTerm, CancellationToken cancellationToken = default);
 }

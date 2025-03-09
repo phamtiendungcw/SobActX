@@ -35,7 +35,7 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
 
         var createCampaignDto = request.CreateCampaignDto;
         var campaignToCreate = _mapper.Map<Domain.Entities.Marketing.Campaign>(createCampaignDto);
-        var createdCampaign = await _campaignRepository.CreateAsync(campaignToCreate, cancellationToken);
+        var createdCampaign = await _campaignRepository.AddAsync(campaignToCreate, cancellationToken);
 
         return Result.Ok(createdCampaign.Id);
     }

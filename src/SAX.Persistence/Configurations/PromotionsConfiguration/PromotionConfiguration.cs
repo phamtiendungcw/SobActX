@@ -31,6 +31,7 @@ public class PromotionConfiguration : IEntityTypeConfiguration<Promotion>
 
         builder.Property(p => p.MinimumOrderValue)
             .HasColumnType("decimal(18, 2)");
+
         // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(p => p.CreatedByUser)
             .WithMany()

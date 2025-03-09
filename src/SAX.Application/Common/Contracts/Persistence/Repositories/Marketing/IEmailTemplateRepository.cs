@@ -2,15 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 
+/// <summary>
+///     Interface cho repository của entity EmailTemplate.
+/// </summary>
 public interface IEmailTemplateRepository : IGenericRepository<EmailTemplate>
 {
     /// <summary>
-    ///     Lấy email template theo tên template (cho mục đích kiểm tra tính duy nhất).
+    ///     Lấy một EmailTemplate theo TemplateName một cách bất đồng bộ.
     /// </summary>
+    /// <param name="templateName">TemplateName của EmailTemplate.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>EmailTemplate nếu tìm thấy, ngược lại trả về null.</returns>
     Task<EmailTemplate?> GetEmailTemplateByNameAsync(string templateName, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các email templates được sử dụng gần đây nhất (cho dashboard marketing).
-    /// </summary>
-    Task<IReadOnlyList<EmailTemplate>> ListLatestUsedEmailTemplatesAsync(int count, CancellationToken cancellationToken = default);
 }

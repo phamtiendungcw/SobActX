@@ -2,21 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Promotions;
 
+/// <summary>
+///     Interface cho repository của entity PromotionProduct.
+/// </summary>
 public interface IPromotionProductRepository : IGenericRepository<PromotionProduct>
 {
     /// <summary>
-    ///     Liệt kê các promotion products thuộc về một promotion cụ thể.
+    ///     Lấy danh sách các PromotionProduct theo PromotionId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<PromotionProduct>> ListPromotionProductsForPromotionAsync(Guid promotionId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Kiểm tra xem một sản phẩm cụ thể có đang được áp dụng promotion nào không.
-    /// </summary>
-    Task<bool> IsProductInPromotionAsync(Guid productId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy promotion product theo promotion ID và product ID (cho mục đích kiểm tra trùng lặp hoặc lấy thông tin chi
-    ///     tiết).
-    /// </summary>
-    Task<PromotionProduct?> GetPromotionProductByPromotionAndProductAsync(Guid promotionId, Guid productId, CancellationToken cancellationToken = default);
+    /// <param name="promotionId">Id của Promotion.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách PromotionProduct theo PromotionId.</returns>
+    Task<IReadOnlyList<PromotionProduct>> GetPromotionProductsByPromotionAsync(Guid promotionId, CancellationToken cancellationToken = default);
 }

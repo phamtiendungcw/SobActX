@@ -35,7 +35,7 @@ public class CreatePageCommandHandler : IRequestHandler<CreatePageCommand, Resul
 
         var createPageDto = request.CreatePageDto;
         var pageToCreate = _mapper.Map<Domain.Entities.Content.Page>(createPageDto);
-        var createdPage = await _pageRepository.CreateAsync(pageToCreate, cancellationToken);
+        var createdPage = await _pageRepository.AddAsync(pageToCreate, cancellationToken);
 
         return Result.Ok(createdPage.Id);
     }

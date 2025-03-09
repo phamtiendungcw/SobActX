@@ -6,22 +6,22 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Inventory;
 
+/// <summary>
+///     Repository cho entity Warehouse.
+/// </summary>
 public class WarehouseRepository : GenericRepository<Warehouse>, IWarehouseRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của WarehouseRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public WarehouseRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
+    /// <inheritdoc />
     public async Task<Warehouse?> GetWarehouseByNameAsync(string warehouseName, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Warehouses.FirstOrDefaultAsync(w => w.WarehouseName == warehouseName, cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<Warehouse>> ListWarehousesByCountryAsync(string country, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.Warehouses
-            .Where(w => w.Address != null && w.Address.Country == country)
-            .Include(w => w.Address) // Eager load Address để lọc theo Country
-            .ToListAsync(cancellationToken);
+        return await _dbContext.Warehouses.FirstOrDefaultAsync(w => w.WarehouseName == warehouseName && !w.IsDeleted && w.IsActive, cancellationToken);
     }
 }

@@ -35,7 +35,7 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
 
         var createBlogPostDto = request.CreateBlogPostDto;
         var blogPostToCreate = _mapper.Map<Domain.Entities.Content.BlogPost>(createBlogPostDto);
-        var createdBlogPost = await _blogPostRepository.CreateAsync(blogPostToCreate, cancellationToken);
+        var createdBlogPost = await _blogPostRepository.AddAsync(blogPostToCreate, cancellationToken);
 
         return Result.Ok(createdBlogPost.Id);
     }

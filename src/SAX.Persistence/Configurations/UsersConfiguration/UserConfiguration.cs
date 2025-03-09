@@ -34,5 +34,21 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.LastName)
             .IsRequired()
             .HasMaxLength(255);
+
+        // Cấu hình cho các thuộc tính của BaseEntity
+        builder.HasOne(u => u.CreatedByUser)
+            .WithMany()
+            .HasForeignKey(u => u.CreatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(u => u.UpdatedByUser)
+            .WithMany()
+            .HasForeignKey(u => u.UpdatedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(u => u.DeletedByUser)
+            .WithMany()
+            .HasForeignKey(u => u.DeletedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

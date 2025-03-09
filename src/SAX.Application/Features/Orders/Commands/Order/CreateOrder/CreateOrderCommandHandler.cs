@@ -35,7 +35,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
 
         var createOrderDto = request.CreateOrderDto;
         var orderToCreate = _mapper.Map<Domain.Entities.Orders.Order>(createOrderDto);
-        var createdOrder = await _orderRepository.CreateAsync(orderToCreate, cancellationToken);
+        var createdOrder = await _orderRepository.AddAsync(orderToCreate, cancellationToken);
 
         return Result.Ok(createdOrder.Id);
     }

@@ -25,6 +25,7 @@ public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<Produ
             .WithMany(pa => pa.ProductAttributeValues)
             .HasForeignKey(pav => pav.ProductAttributeId)
             .OnDelete(DeleteBehavior.Restrict);
+
         // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(pav => pav.CreatedByUser)
             .WithMany()

@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ardalis.Specification" Version="8.0.0" />
+    <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="FluentResults" Version="3.16.0" />
     <PackageReference Include="FluentValidation" Version="11.11.0" />
@@ -18,8 +20,8 @@
     <Folder Include="Features\Content\Queries\BlogPost\" />
     <Folder Include="Features\Content\Queries\Category\" />
     <Folder Include="Features\Content\Queries\Media\" />
-    <Folder Include="Features\Content\Queries\Tag\" />
     <Folder Include="Features\Content\Queries\Page\" />
+    <Folder Include="Features\Content\Queries\Tag\" />
     <Folder Include="Features\Customers\Queries\Customer\" />
     <Folder Include="Features\Inventory\Queries\ProductInventory\" />
     <Folder Include="Features\Inventory\Queries\StockMovement\" />
@@ -30,12 +32,12 @@
     <Folder Include="Features\Marketing\Queries\Segment\" />
     <Folder Include="Features\Orders\Queries\Order\" />
     <Folder Include="Features\Products\Queries\Product\" />
-    <Folder Include="Features\Promotions\Queries\PromotionProduct\" />
-    <Folder Include="Features\Promotions\Queries\PromotionCategory\" />
     <Folder Include="Features\Promotions\Queries\Promotion\" />
-    <Folder Include="Features\Users\Queries\User\" />
-    <Folder Include="Features\Users\Queries\Role\" />
+    <Folder Include="Features\Promotions\Queries\PromotionCategory\" />
+    <Folder Include="Features\Promotions\Queries\PromotionProduct\" />
     <Folder Include="Features\Users\Queries\Permission\" />
+    <Folder Include="Features\Users\Queries\Role\" />
+    <Folder Include="Features\Users\Queries\User\" />
   </ItemGroup>
 
   <ItemGroup>

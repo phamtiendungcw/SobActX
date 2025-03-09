@@ -5,28 +5,25 @@ namespace SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 public interface IBlogPostRepository : IGenericRepository<BlogPost>
 {
     /// <summary>
-    ///     Lấy danh sách bài viết blog theo ID danh mục.
+    ///     Lấy danh sách các bài đăng blog đã được xuất bản một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<BlogPost>> GetBlogPostsByCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default);
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách các bài đăng blog đã được xuất bản.</returns>
+    Task<IReadOnlyList<BlogPost>> GetPublishedBlogPostsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Lấy danh sách bài viết blog theo slug (cho việc hiển thị bài viết đơn).
+    ///     Lấy một bài đăng blog theo slug một cách bất đồng bộ.
     /// </summary>
+    /// <param name="slug">Slug của bài đăng blog.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Bài đăng blog nếu tìm thấy, ngược lại trả về null.</returns>
     Task<BlogPost?> GetBlogPostBySlugAsync(string slug, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Liệt kê các bài viết blog mới nhất (cho trang chủ hoặc trang blog).
+    ///     Tìm kiếm các bài đăng blog theo từ khóa trong tiêu đề hoặc nội dung một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<BlogPost>> ListLatestBlogPostsAsync(int count, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các bài viết blog phổ biến nhất (dựa trên số lượt xem hoặc tương tác - cần thêm trường Count vào Entity nếu
-    ///     muốn thống kê).
-    /// </summary>
-    Task<IReadOnlyList<BlogPost>> ListPopularBlogPostsAsync(int count, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Tìm kiếm bài viết blog theo từ khóa trong tiêu đề hoặc nội dung.
-    /// </summary>
-    Task<IReadOnlyList<BlogPost>> SearchBlogPostsAsync(string searchTerm, CancellationToken cancellationToken = default);
+    /// <param name="keyword">Từ khóa tìm kiếm.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách các bài đăng blog phù hợp với từ khóa tìm kiếm.</returns>
+    Task<IReadOnlyList<BlogPost>> SearchBlogPostsAsync(string keyword, CancellationToken cancellationToken = default);
 }

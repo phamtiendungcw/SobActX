@@ -2,15 +2,16 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 
+/// <summary>
+///     Interface cho repository của entity ShoppingCartItem.
+/// </summary>
 public interface IShoppingCartItemRepository : IGenericRepository<ShoppingCartItem>
 {
     /// <summary>
-    ///     Liệt kê các shopping cart items thuộc về một shopping cart cụ thể.
+    ///     Lấy danh sách các ShoppingCartItem theo ShoppingCartId một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<ShoppingCartItem>> ListShoppingCartItemsForCartAsync(Guid shoppingCartId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy shopping cart item chi tiết bao gồm cả thông tin sản phẩm (eager loading).
-    /// </summary>
-    Task<ShoppingCartItem?> GetShoppingCartItemDetailsWithProductAsync(Guid shoppingCartItemId, CancellationToken cancellationToken = default);
+    /// <param name="shoppingCartId">Id của ShoppingCart.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách ShoppingCartItem theo ShoppingCartId.</returns>
+    Task<IReadOnlyList<ShoppingCartItem>> GetShoppingCartItemsByCartAsync(Guid shoppingCartId, CancellationToken cancellationToken = default);
 }

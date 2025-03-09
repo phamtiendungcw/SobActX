@@ -6,40 +6,22 @@ using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Inventory;
 
+/// <summary>
+///     Repository cho entity ProductInventory.
+/// </summary>
 public class ProductInventoryRepository : GenericRepository<ProductInventory>, IProductInventoryRepository
 {
+    /// <summary>
+    ///     Khởi tạo một instance của ProductInventoryRepository.
+    /// </summary>
+    /// <param name="dbContext">DbContext của ứng dụng.</param>
     public ProductInventoryRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
+    /// <inheritdoc />
     public async Task<ProductInventory?> GetProductInventoryByProductAndWarehouseAsync(Guid productId, Guid warehouseId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.ProductInventories
-            .FirstOrDefaultAsync(pi => pi.ProductId == productId && pi.WarehouseId == warehouseId, cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<ProductInventory>> GetLowStockProductsAsync(int threshold, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.ProductInventories
-            .Where(pi => pi.QuantityAvailable < threshold)
-            .Include(pi => pi.Product) // Eager load Product và Warehouse
-            .Include(pi => pi.Warehouse)
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<ProductInventory>> ListProductInventoriesForProductAsync(Guid productId, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.ProductInventories
-            .Where(pi => pi.ProductId == productId)
-            .Include(pi => pi.Warehouse) // Eager load Warehouse
-            .ToListAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyList<ProductInventory>> ListProductInventoriesForWarehouseAsync(Guid warehouseId, CancellationToken cancellationToken = default)
-    {
-        return await _dbContext.ProductInventories
-            .Where(pi => pi.WarehouseId == warehouseId)
-            .Include(pi => pi.Product) // Eager load Product
-            .ToListAsync(cancellationToken);
+        return await _dbContext.ProductInventories.FirstOrDefaultAsync(pi => pi.ProductId == productId && pi.WarehouseId == warehouseId && !pi.IsDeleted && pi.IsActive, cancellationToken);
     }
 }

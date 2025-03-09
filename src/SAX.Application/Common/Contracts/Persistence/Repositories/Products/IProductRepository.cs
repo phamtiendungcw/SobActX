@@ -2,31 +2,32 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Products;
 
+/// <summary>
+///     Interface cho repository của entity Product.
+/// </summary>
 public interface IProductRepository : IGenericRepository<Product>
 {
     /// <summary>
-    ///     Liệt kê các sản phẩm theo ID danh mục sản phẩm.
+    ///     Lấy danh sách các Product theo CategoryId một cách bất đồng bộ.
     /// </summary>
+    /// <param name="categoryId">Id của ProductCategory.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách Product theo CategoryId.</returns>
     Task<IReadOnlyList<Product>> GetProductsByCategoryAsync(Guid categoryId, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Tìm kiếm sản phẩm theo tên sản phẩm hoặc mô tả sản phẩm.
+    ///     Tìm kiếm các Product theo từ khóa trong ProductName hoặc Description một cách bất đồng bộ.
     /// </summary>
-    Task<IReadOnlyList<Product>> SearchProductsByNameAsync(string productName, CancellationToken cancellationToken = default);
+    /// <param name="keyword">Từ khóa tìm kiếm.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách Product phù hợp với từ khóa tìm kiếm.</returns>
+    Task<IReadOnlyList<Product>> SearchProductsAsync(string keyword, CancellationToken cancellationToken = default);
 
     /// <summary>
-    ///     Liệt kê các sản phẩm nổi bật (sản phẩm mới, sản phẩm giảm giá, sản phẩm bán chạy nhất - cần thêm trường
-    ///     IsFeatured hoặc logic xác định sản phẩm nổi bật).
+    ///     Lấy danh sách các Product nổi bật (ví dụ: sản phẩm bán chạy, sản phẩm mới) một cách bất đồng bộ.
     /// </summary>
+    /// <param name="count">Số lượng sản phẩm nổi bật cần lấy.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>Danh sách Product nổi bật.</returns>
     Task<IReadOnlyList<Product>> GetFeaturedProductsAsync(int count, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Lấy sản phẩm theo SKU (Stock Keeping Unit - mã sản phẩm - cho mục đích kiểm tra tính duy nhất hoặc tìm kiếm nhanh).
-    /// </summary>
-    Task<Product?> GetProductBySkuAsync(string sku, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các sản phẩm mới nhất (cho trang sản phẩm mới).
-    /// </summary>
-    Task<IReadOnlyList<Product>> ListLatestProductsAsync(int count, CancellationToken cancellationToken = default);
 }

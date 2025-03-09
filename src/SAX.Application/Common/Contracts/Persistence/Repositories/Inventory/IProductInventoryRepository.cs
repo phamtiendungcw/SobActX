@@ -2,25 +2,17 @@
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Inventory;
 
+/// <summary>
+///     Interface cho repository của entity ProductInventory.
+/// </summary>
 public interface IProductInventoryRepository : IGenericRepository<ProductInventory>
 {
     /// <summary>
-    ///     Lấy thông tin tồn kho của sản phẩm tại một kho cụ thể.
+    ///     Lấy ProductInventory theo ProductId và WarehouseId một cách bất đồng bộ.
     /// </summary>
+    /// <param name="productId">Id của sản phẩm.</param>
+    /// <param name="warehouseId">Id của kho hàng.</param>
+    /// <param name="cancellationToken">Token hủy bỏ.</param>
+    /// <returns>ProductInventory nếu tìm thấy, ngược lại trả về null.</returns>
     Task<ProductInventory?> GetProductInventoryByProductAndWarehouseAsync(Guid productId, Guid warehouseId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê các sản phẩm có số lượng tồn kho thấp hơn một ngưỡng nhất định (cho cảnh báo tồn kho).
-    /// </summary>
-    Task<IReadOnlyList<ProductInventory>> GetLowStockProductsAsync(int threshold, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê thông tin tồn kho của một sản phẩm trên tất cả các kho (cho trang chi tiết sản phẩm).
-    /// </summary>
-    Task<IReadOnlyList<ProductInventory>> ListProductInventoriesForProductAsync(Guid productId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    ///     Liệt kê thông tin tồn kho tại một kho cụ thể cho tất cả các sản phẩm (cho trang quản lý kho).
-    /// </summary>
-    Task<IReadOnlyList<ProductInventory>> ListProductInventoriesForWarehouseAsync(Guid warehouseId, CancellationToken cancellationToken = default);
 }

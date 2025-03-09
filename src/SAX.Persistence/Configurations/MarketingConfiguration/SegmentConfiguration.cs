@@ -18,6 +18,7 @@ public class SegmentConfiguration : IEntityTypeConfiguration<Segment>
 
         builder.Property(s => s.Criteria)
             .HasColumnType("ntext");
+
         // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(s => s.CreatedByUser)
             .WithMany()

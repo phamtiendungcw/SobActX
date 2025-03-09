@@ -34,7 +34,7 @@ public class CreateEmailCampaignCommandHandler : IRequestHandler<CreateEmailCamp
         }
         var createEmailCampaignDto = request.CreateEmailCampaignDto;
         var emailCampaignToCreate = _mapper.Map<Domain.Entities.Marketing.EmailCampaign>(createEmailCampaignDto);
-        var createdEmailCampaign = await _emailCampaignRepository.CreateAsync(emailCampaignToCreate, cancellationToken);
+        var createdEmailCampaign = await _emailCampaignRepository.AddAsync(emailCampaignToCreate, cancellationToken);
 
         return Result.Ok(createdEmailCampaign.Id);
     }

@@ -13,16 +13,16 @@ public class PromotionCategoryConfiguration : IEntityTypeConfiguration<Promotion
         builder.HasKey(pc => pc.Id);
 
         builder.HasOne(pc => pc.Promotion)
-            .WithMany(p => p.PromotionCategories)
+            .WithMany(p => p.PromotionsCategories)
             .HasForeignKey(pc => pc.PromotionId)
             .OnDelete(DeleteBehavior.Cascade); // Xóa PromotionCategory khi Promotion bị xóa
 
         builder.HasOne(pc => pc.ProductCategory)
-            .WithMany(c => c.PromotionCategories)
+            .WithMany(c => c.PromotionsCategories)
             .HasForeignKey(pc => pc.ProductCategoryId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        //BaseEntity
+        // Cấu hình cho các thuộc tính của BaseEntity
         builder.HasOne(pc => pc.CreatedByUser)
             .WithMany()
             .HasForeignKey(pc => pc.CreatedByUserId)

@@ -37,7 +37,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         if (createUserDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo người dùng không hợp lệ: CreateUserDto không được null.").Message);
 
         var userToCreate = _mapper.Map<Domain.Entities.Users.User>(createUserDto);
-        var createdUser = await _repository.CreateAsync(userToCreate, cancellationToken);
+        var createdUser = await _repository.AddAsync(userToCreate, cancellationToken);
 
         return Result.Ok(createdUser.Id);
     }
