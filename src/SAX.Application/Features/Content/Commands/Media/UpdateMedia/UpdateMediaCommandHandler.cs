@@ -30,13 +30,15 @@ public class UpdateMediaCommandHandler : IRequestHandler<UpdateMediaCommand, Res
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
         var updateMediaDto = request.UpdateMediaDto;
-        if (updateMediaDto == null) return Result.Fail("UpdateMediaDto cannot be null.");
-        var mediaToUpdate = await _mediaRepository.GetByIdAsync(updateMediaDto.MediaId, cancellationToken);
-        if (mediaToUpdate == null) return Result.Fail($"Không tìm thấy phương tiện truyền thông với ID: {updateMediaDto.MediaId}");
+        if (updateMediaDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật media không hợp lệ: UpdateMediaDto không được null.").Message);
+
+        var mediaToUpdate = await _mediaRepository.GetByIdAsync(updateMediaDto.Id, cancellationToken);
+        if (mediaToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.Media), updateMediaDto.Id).Message);
+
         _mapper.Map(request.UpdateMediaDto, mediaToUpdate);
         await _mediaRepository.UpdateAsync(mediaToUpdate, cancellationToken);
 

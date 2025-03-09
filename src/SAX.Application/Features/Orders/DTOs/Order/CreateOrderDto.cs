@@ -1,20 +1,18 @@
 ﻿using SAX.Application.Features.Orders.DTOs.OrderItem;
+using SAX.Domain;
 
 namespace SAX.Application.Features.Orders.DTOs.Order;
 
 public class CreateOrderDto
 {
     public Guid CustomerId { get; set; }
-    public List<OrderItemCreateDto> OrderItems { get; set; } = new();
-    public string ShippingAddressStreet { get; set; } = string.Empty;
-    public string ShippingAddressCity { get; set; } = string.Empty;
-    public string? ShippingAddressState { get; set; }
-    public string? ShippingAddressZipCode { get; set; }
-    public string ShippingAddressCountry { get; set; } = string.Empty;
-    public string BillingAddressStreet { get; set; } = string.Empty;
-    public string BillingAddressCity { get; set; } = string.Empty;
-    public string? BillingAddressState { get; set; }
-    public string? BillingAddressZipCode { get; set; }
-    public string BillingAddressCountry { get; set; } = string.Empty;
+    public DateTime OrderDate { get; set; }
+    public OrderStatus OrderStatus { get; set; }
+    public Guid? ShippingAddressId { get; set; }
+    public Guid? BillingAddressId { get; set; }
     public string PaymentMethod { get; set; } = string.Empty;
+    public decimal TotalAmount { get; set; }
+    public decimal? DiscountAmount { get; set; }
+    public decimal? ShippingCost { get; set; }
+    public List<CreateOrderItemDto> OrderItems { get; set; } = new();
 }

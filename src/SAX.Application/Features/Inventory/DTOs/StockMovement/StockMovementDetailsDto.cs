@@ -2,4 +2,5 @@
 
 public class StockMovementDetailsDto : StockMovementDto
 {
+    public string ProductName { get; set; } = string.Empty;
 }

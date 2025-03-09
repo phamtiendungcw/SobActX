@@ -1,5 +1,14 @@
-﻿namespace SAX.Application.Features.Products.Commands.Product.UpdateProduct;
+﻿using FluentValidation;
 
-public class UpdateProductCommandValidator
+using SAX.Application.Features.Products.Validators;
+
+namespace SAX.Application.Features.Products.Commands.Product.UpdateProduct;
+
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(p => p.UpdateProductDto).NotNull().WithMessage("UpdateProductDto is required.");
+        RuleFor(x => x.UpdateProductDto!).SetValidator(new UpdateProductDtoValidator());
+    }
 }

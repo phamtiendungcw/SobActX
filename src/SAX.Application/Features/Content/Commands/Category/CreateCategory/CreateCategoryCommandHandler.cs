@@ -30,12 +30,13 @@ public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryComman
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var categoryToCreate = _mapper.Map<Domain.Entities.Content.Category>(request.CreateCategoryDto);
-        await _categoryRepository.CreateAsync(categoryToCreate, cancellationToken);
+        var createCategoryDto = request.CreateCategoryDto;
+        var categoryToCreate = _mapper.Map<Domain.Entities.Content.Category>(createCategoryDto);
+        var createdCategory = await _categoryRepository.CreateAsync(categoryToCreate, cancellationToken);
 
-        return Result.Ok(categoryToCreate.Id);
+        return Result.Ok(createdCategory.Id);
     }
 }

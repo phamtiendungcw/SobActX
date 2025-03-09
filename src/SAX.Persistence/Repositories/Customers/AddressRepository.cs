@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Customers;
 
 public class AddressRepository : GenericRepository<Address>, IAddressRepository
 {
-    public AddressRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public AddressRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

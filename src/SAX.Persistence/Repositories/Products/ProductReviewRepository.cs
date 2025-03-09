@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Products;
 
 public class ProductReviewRepository : GenericRepository<ProductReview>, IProductReviewRepository
 {
-    public ProductReviewRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public ProductReviewRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

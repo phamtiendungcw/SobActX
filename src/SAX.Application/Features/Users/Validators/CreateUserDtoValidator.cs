@@ -9,29 +9,25 @@ public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
     public CreateUserDtoValidator()
     {
         RuleFor(p => p.Username)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Password)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MinimumLength(8).WithMessage("{PropertyName} must be at least {MinLength} characters."); // Yêu cầu mật khẩu mạnh hơn
-        RuleFor(p => p.Password)
-            .Matches(@"[A-Z]+").WithMessage("{PropertyName} must contain at least one capital letter.") // Yêu cầu mật khẩu mạnh hơn
-            .Matches(@"[a-z]+").WithMessage("{PropertyName} must contain at least one normal letter.")
-            .Matches(@"[0-9]+").WithMessage("{PropertyName} must contain at least some.")
-            .Matches(@"[\W_]+").WithMessage("{PropertyName} must contain at least one special characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự."); // Validate password complexity *at service level*
         RuleFor(p => p.Email)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .EmailAddress().WithMessage("{PropertyName} not in accordance with email format.")
-            .MaximumLength(255).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.")
+            .EmailAddress().WithMessage("Email không hợp lệ.");
         RuleFor(p => p.FirstName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.LastName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

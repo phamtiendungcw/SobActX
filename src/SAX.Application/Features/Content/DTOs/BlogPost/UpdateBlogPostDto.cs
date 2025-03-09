@@ -2,12 +2,12 @@
 
 public class UpdateBlogPostDto
 {
-    public Guid BlogPostId { get; set; }
-    public string? Title { get; set; }
-    public string? Slug { get; set; }
+    public Guid Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
     public string? ContentBody { get; set; }
-    public DateTime? PublishDate { get; set; }
-    public Guid? AuthorId { get; set; }
-    public Guid? CategoryId { get; set; }
-    public List<Guid>? TagIds { get; set; } // Allow updating tags
+    public string? ContentSummary { get; set; }
+    public DateTime? PublishedAt { get; set; }
+    public Guid AuthorId { get; set; }
+    public Guid CategoryId { get; set; }
 }

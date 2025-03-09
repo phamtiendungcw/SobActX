@@ -8,18 +8,21 @@ public class OrderItemDtoValidator : AbstractValidator<OrderItemDto>
 {
     public OrderItemDtoValidator()
     {
-        RuleFor(p => p.Product)
-            .NotNull().WithMessage("{PropertyName} cannot be null.")
-            .DependentRules(() =>
-            {
-                RuleFor(p => p.Product!.ProductId)
-                    .NotEmpty().WithMessage("Product.ProductId is required.");
-            });
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
+        RuleFor(p => p.ProductId)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.Quantity)
-            .GreaterThanOrEqualTo(1).WithMessage("{PropertyName} must be greater than or equal to 1.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
         RuleFor(p => p.UnitPrice)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
+        RuleFor(p => p.LineItemTotal)
+            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} phải lớn hơn hoặc bằng 0.");
     }
 }

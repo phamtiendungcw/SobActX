@@ -1,13 +1,9 @@
-﻿using SAX.Application.Features.Marketing.DTOs.Campaign;
-using SAX.Application.Features.Marketing.DTOs.EmailTemplate;
-using SAX.Application.Features.Marketing.DTOs.Segment;
-
-namespace SAX.Application.Features.Marketing.DTOs.EmailCampaign;
+﻿namespace SAX.Application.Features.Marketing.DTOs.EmailCampaign;
 
 public class EmailCampaignDto
 {
-    public Guid EmailCampaignId { get; set; }
-    public CampaignDto? Campaign { get; set; }
-    public EmailTemplateDto? EmailTemplate { get; set; }
-    public SegmentDto? Segment { get; set; }
+    public Guid Id { get; set; }
+    public Guid CampaignId { get; set; }
+    public Guid EmailTemplateId { get; set; }
+    public Guid? SegmentId { get; set; }
 }

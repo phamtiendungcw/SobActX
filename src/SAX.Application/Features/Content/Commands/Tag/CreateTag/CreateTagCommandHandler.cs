@@ -30,12 +30,13 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Result<
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var tagToCreate = _mapper.Map<Domain.Entities.Content.Tag>(request.CreateTagDto);
-        await _tagRepository.CreateAsync(tagToCreate, cancellationToken);
+        var createTagDto = request.CreateTagDto;
+        var tagToCreate = _mapper.Map<Domain.Entities.Content.Tag>(createTagDto);
+        var createdTag = await _tagRepository.CreateAsync(tagToCreate, cancellationToken);
 
-        return Result.Ok(tagToCreate.Id);
+        return Result.Ok(createdTag.Id);
     }
 }

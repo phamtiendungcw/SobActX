@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Content;
 
 public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
 {
-    public CategoryRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public CategoryRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -19,7 +19,7 @@ public class CategoryRepository : GenericRepository<Category>, ICategoryReposito
 
     public async Task<IReadOnlyList<Category>> ListCategoriesWithBlogPostCountsAsync(CancellationToken cancellationToken = default)
     {
-        // Ví dụ: Truy vấn phức tạp hơn, có thể sử dụng raw SQL hoặc LINQ to Entities nâng cao
+        // Truy vấn phức tạp hơn, có thể sử dụng raw SQL hoặc LINQ to Entities nâng cao
         // Code mẫu này chỉ trả về danh sách Category đơn giản, bạn cần tùy chỉnh để tính BlogPost counts
         return await ListAllAsync(cancellationToken);
     }

@@ -8,7 +8,11 @@ public class ShoppingCartDtoValidator : AbstractValidator<ShoppingCartDto>
 {
     public ShoppingCartDtoValidator()
     {
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.CustomerId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
     }
 }

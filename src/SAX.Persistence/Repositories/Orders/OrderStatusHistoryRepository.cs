@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Orders;
 
 public class OrderStatusHistoryRepository : GenericRepository<OrderStatusHistory>, IOrderStatusHistoryRepository
 {
-    public OrderStatusHistoryRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public OrderStatusHistoryRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

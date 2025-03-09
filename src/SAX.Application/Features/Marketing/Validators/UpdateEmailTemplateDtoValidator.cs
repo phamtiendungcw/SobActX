@@ -8,19 +8,16 @@ public class UpdateEmailTemplateDtoValidator : AbstractValidator<UpdateEmailTemp
 {
     public UpdateEmailTemplateDtoValidator()
     {
-        RuleFor(p => p.EmailTemplateId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.TemplateName)
-            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.")
-            .When(p => !string.IsNullOrEmpty(p.TemplateName));
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Subject)
-            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
-            .When(p => !string.IsNullOrEmpty(p.Subject));
-
-        RuleFor(p => p.Body)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .When(p => !string.IsNullOrEmpty(p.Body)); // Body có thể null khi update
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

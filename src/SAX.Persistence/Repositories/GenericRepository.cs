@@ -8,9 +8,9 @@ namespace SAX.Persistence.Repositories;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
-    protected readonly SobActXDatabaseContext _dbContext;
+    protected readonly SaxDbContext _dbContext;
 
-    public GenericRepository(SobActXDatabaseContext dbContext)
+    public GenericRepository(SaxDbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }

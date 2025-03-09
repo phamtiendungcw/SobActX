@@ -1,7 +1,4 @@
-﻿using SAX.Application.Features.Promotions.DTOs.PromotionCategory;
-using SAX.Application.Features.Promotions.DTOs.PromotionProduct;
-
-namespace SAX.Application.Features.Promotions.DTOs.Promotion;
+﻿namespace SAX.Application.Features.Promotions.DTOs.Promotion;
 
 public class PromotionDetailsDto : PromotionDto
 {

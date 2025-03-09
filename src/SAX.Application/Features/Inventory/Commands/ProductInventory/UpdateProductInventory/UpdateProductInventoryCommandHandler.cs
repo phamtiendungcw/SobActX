@@ -30,19 +30,13 @@ public class UpdateProductInventoryCommandHandler : IRequestHandler<UpdateProduc
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
         var productInventoryDto = request.UpdateProductInventoryDto;
-        if (productInventoryDto == null)
-        {
-            return Result.Fail("Product Inventory is null.");
-        }
-        var productInventoryToUpdate = await _productInventoryRepository.GetByIdAsync(productInventoryDto.ProductInventoryId, cancellationToken);
-        if (productInventoryToUpdate == null)
-        {
-            return Result.Fail($"Product Inventory with id: {productInventoryDto.ProductInventoryId} not found.");
-        }
+        if (productInventoryDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật sản phẩm tồn kho không hợp lệ: UpdateProductInventoryDto không được null.").Message);
+        var productInventoryToUpdate = await _productInventoryRepository.GetByIdAsync(productInventoryDto.Id, cancellationToken);
+        if (productInventoryToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Inventory.ProductInventory), productInventoryDto.Id).Message);
 
         _mapper.Map(productInventoryDto, productInventoryToUpdate);
         await _productInventoryRepository.UpdateAsync(productInventoryToUpdate, cancellationToken);

@@ -12,8 +12,8 @@ public class User : BaseEntity
     public string LastName { get; set; } = string.Empty;
     public DateTime RegistrationDate { get; set; }
     public DateTime? LastLoginDate { get; set; } // Nullable if user never logged in
-    public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>(); // Navigation property
-    public ICollection<LogEntry> LogEntries { get; set; } = new List<LogEntry>(); // Navigation property for logs
-    public ICollection<Page> Pages { get; set; } = new List<Page>(); // Navigation property for authored pages
-    public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>(); // Navigation property for authored blog posts
+    public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    public ICollection<LogEntry> LogEntries { get; set; } = new List<LogEntry>();
+    public ICollection<Page> Pages { get; set; } = new List<Page>();
+    public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>();
 }

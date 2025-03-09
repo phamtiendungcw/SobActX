@@ -1,19 +1,14 @@
-﻿using SAX.Persistence.DatabaseContext;
-
-namespace SAX.Persistence.Repositories.Content;
-
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Domain.Entities.Content;
+using SAX.Persistence.DatabaseContext;
+
+namespace SAX.Persistence.Repositories.Content;
 
 public class PageRepository : GenericRepository<Page>, IPageRepository
 {
-    public PageRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public PageRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -25,7 +20,7 @@ public class PageRepository : GenericRepository<Page>, IPageRepository
     public async Task<IReadOnlyList<Page>> ListLatestPublishedPagesAsync(int count, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Pages
-            .OrderByDescending(p => p.PublishDate)
+            .OrderByDescending(p => p.PublishedAt)
             .Take(count)
             .ToListAsync(cancellationToken);
     }

@@ -30,7 +30,7 @@ public static class PersistenceServiceRegistration
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<SobActXDatabaseContext>(options => options.UseSqlServer(configuration.GetConnectionString("SobActXDatabaseConnectionString")));
+        services.AddDbContext<SaxDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SobActXDatabaseConnectionString")));
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped(typeof(ISpecification<>), typeof(BaseSpecification<>));

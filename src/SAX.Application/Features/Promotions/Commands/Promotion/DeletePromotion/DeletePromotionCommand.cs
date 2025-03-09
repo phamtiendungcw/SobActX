@@ -1,5 +1,10 @@
-﻿namespace SAX.Application.Features.Promotions.Commands.Promotion.DeletePromotion;
+﻿using FluentResults;
 
-public class DeletePromotionCommand
+using MediatR;
+
+namespace SAX.Application.Features.Promotions.Commands.Promotion.DeletePromotion;
+
+public class DeletePromotionCommand : IRequest<Result>
 {
+    public Guid Id { get; set; }
 }

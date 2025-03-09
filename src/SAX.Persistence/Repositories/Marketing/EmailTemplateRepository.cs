@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Marketing;
 
 public class EmailTemplateRepository : GenericRepository<EmailTemplate>, IEmailTemplateRepository
 {
-    public EmailTemplateRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public EmailTemplateRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

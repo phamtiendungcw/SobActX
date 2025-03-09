@@ -10,11 +10,12 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
+using SAX.Domain;
 using SAX.Domain.Entities.Orders;
 
 public class OrderRepository : GenericRepository<Order>, IOrderRepository
 {
-    public OrderRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public OrderRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -28,7 +29,7 @@ public class OrderRepository : GenericRepository<Order>, IOrderRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<IReadOnlyList<Order>> ListOrdersByStatusAsync(string status, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Order>> ListOrdersByStatusAsync(OrderStatus status, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Orders
             .Where(o => o.OrderStatus == status)

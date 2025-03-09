@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Products;
 
 public class ProductAttributeValueRepository : GenericRepository<ProductAttributeValue>, IProductAttributeValueRepository
 {
-    public ProductAttributeValueRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public ProductAttributeValueRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

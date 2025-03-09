@@ -30,11 +30,11 @@ public class CreateWarehouseCommandHandler : IRequestHandler<CreateWarehouseComm
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var warehouseDto = request.CreateWarehouseDto;
-        var warehouseToCreate = _mapper.Map<Domain.Entities.Inventory.Warehouse>(warehouseDto);
+        var createWarehouseDto = request.CreateWarehouseDto;
+        var warehouseToCreate = _mapper.Map<Domain.Entities.Inventory.Warehouse>(createWarehouseDto);
         var createdWarehouse = await _warehouseRepository.CreateAsync(warehouseToCreate, cancellationToken);
 
         return Result.Ok(createdWarehouse.Id);

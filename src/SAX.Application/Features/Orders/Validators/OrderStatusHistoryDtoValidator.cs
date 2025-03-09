@@ -8,17 +8,15 @@ public class OrderStatusHistoryDtoValidator : AbstractValidator<OrderStatusHisto
 {
     public OrderStatusHistoryDtoValidator()
     {
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.OrderId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.Status)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
-
-        RuleFor(p => p.StatusDate)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+            .IsInEnum().WithMessage("{PropertyName} phải là một giá trị hợp lệ.");
         RuleFor(p => p.Notes)
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

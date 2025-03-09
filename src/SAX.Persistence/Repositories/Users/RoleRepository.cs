@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Users;
 
 public class RoleRepository : GenericRepository<Role>, IRoleRepository
 {
-    public RoleRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public RoleRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

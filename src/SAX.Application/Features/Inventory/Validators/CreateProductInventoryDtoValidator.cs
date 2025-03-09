@@ -9,15 +9,10 @@ public class CreateProductInventoryDtoValidator : AbstractValidator<CreateProduc
     public CreateProductInventoryDtoValidator()
     {
         RuleFor(p => p.ProductId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.WarehouseId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
-        RuleFor(p => p.QuantityOnHand)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.");
-
-        RuleFor(p => p.QuantityAvailable)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
     }
 }

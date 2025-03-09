@@ -2,6 +2,6 @@
 
 public class UpdateTagDto
 {
-    public Guid TagId { get; set; }
-    public string? TagName { get; set; }
+    public Guid Id { get; set; }
+    public string TagName { get; set; } = string.Empty;
 }

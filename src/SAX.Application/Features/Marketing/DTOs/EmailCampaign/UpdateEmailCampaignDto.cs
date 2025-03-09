@@ -2,8 +2,8 @@
 
 public class UpdateEmailCampaignDto
 {
-    public Guid EmailCampaignId { get; set; }
-    public Guid? CampaignId { get; set; }
-    public Guid? EmailTemplateId { get; set; }
+    public Guid Id { get; set; }
+    public Guid CampaignId { get; set; }
+    public Guid EmailTemplateId { get; set; }
     public Guid? SegmentId { get; set; }
 }

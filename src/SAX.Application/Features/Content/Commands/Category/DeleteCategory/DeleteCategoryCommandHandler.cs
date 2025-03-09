@@ -19,11 +19,7 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
     public async Task<Result> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
         var categoryToDelete = await _categoryRepository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (categoryToDelete == null)
-        {
-            return Result.Fail(new SobActXNotFoundException($"Category with Id {request.Id} not found.").Message);
-        }
+        if (categoryToDelete == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.Category), request.Id).Message);
 
         await _categoryRepository.DeleteAsync(categoryToDelete, cancellationToken);
 

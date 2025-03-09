@@ -2,7 +2,7 @@
 
 public class CampaignDto
 {
-    public Guid CampaignId { get; set; }
+    public Guid Id { get; set; }
     public string CampaignName { get; set; } = string.Empty;
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }

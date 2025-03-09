@@ -1,13 +1,10 @@
-﻿using SAX.Application.Features.Customers.DTOs.Customer;
-using SAX.Application.Features.Products.DTOs.Product;
-
-namespace SAX.Application.Features.Products.DTOs.ProductReview;
+﻿namespace SAX.Application.Features.Products.DTOs.ProductReview;
 
 public class ProductReviewDto
 {
-    public Guid ProductReviewId { get; set; }
-    public ProductDto? Product { get; set; }
-    public CustomerDto? Customer { get; set; }
+    public Guid Id { get; set; }
+    public Guid ProductId { get; set; }
+    public Guid CustomerId { get; set; }
     public int Rating { get; set; }
     public string? Comment { get; set; }
     public DateTime ReviewDate { get; set; }

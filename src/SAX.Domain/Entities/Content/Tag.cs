@@ -3,5 +3,5 @@
 public class Tag : BaseEntity
 {
     public string TagName { get; set; } = string.Empty;
-    public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>(); // Navigation property
+    public ICollection<BlogPostTag> BlogPostTags { get; set; } = new List<BlogPostTag>();
 }

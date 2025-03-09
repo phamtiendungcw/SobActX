@@ -8,11 +8,11 @@ namespace SAX.Persistence.Repositories;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly SobActXDatabaseContext _dbContext;
+    private readonly SaxDbContext _dbContext;
     private readonly Dictionary<Type, object> _repositories; // Cache repositories
     private IDbContextTransaction _transaction; // Transaction management
 
-    public UnitOfWork(SobActXDatabaseContext dbContext)
+    public UnitOfWork(SaxDbContext dbContext)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         _repositories = new Dictionary<Type, object>();

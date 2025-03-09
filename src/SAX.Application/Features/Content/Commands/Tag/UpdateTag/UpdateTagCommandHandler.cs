@@ -30,13 +30,15 @@ public class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand, Result>
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
         var updateTagDto = request.UpdateTagDto;
         if (updateTagDto == null) return Result.Fail("UpdateTagDto cannot be null.");
-        var tagToUpdate = await _tagRepository.GetByIdAsync(updateTagDto.TagId, cancellationToken);
-        if (tagToUpdate == null) return Result.Fail($"Không tìm thấy thẻ với ID: {updateTagDto.TagId}");
+
+        var tagToUpdate = await _tagRepository.GetByIdAsync(updateTagDto.Id, cancellationToken);
+        if (tagToUpdate == null) return Result.Fail($"Không tìm thấy thẻ với ID: {updateTagDto.Id}");
+
         _mapper.Map(request.UpdateTagDto, tagToUpdate);
         await _tagRepository.UpdateAsync(tagToUpdate, cancellationToken);
 

@@ -8,39 +8,22 @@ public class UpdatePromotionDtoValidator : AbstractValidator<UpdatePromotionDto>
 {
     public UpdatePromotionDtoValidator()
     {
-        RuleFor(p => p.PromotionId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.PromotionName)
-            .MaximumLength(100).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
-            .When(p => !string.IsNullOrEmpty(p.PromotionName));
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Description)
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
-            .When(p => !string.IsNullOrEmpty(p.Description));
-
+            .MaximumLength(1000).WithMessage("{PropertyName} không được vượt quá 1000 ký tự.");
         RuleFor(p => p.PromotionType)
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
-            .When(p => !string.IsNullOrEmpty(p.PromotionType));
-
+            .IsInEnum().WithMessage("{PropertyName} phải là một giá trị hợp lệ.");
         RuleFor(p => p.DiscountValue)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.")
-            .When(p => p.DiscountValue != 0); // Validate DiscountValue nếu giá trị khác 0 (mặc định)
-
-        RuleFor(p => p.StartDate)
-            .LessThanOrEqualTo(p => p.EndDate).WithMessage("{PropertyName} must be less than or equal to {ComparisonValue}.")
-            .When(p => p.StartDate.HasValue && p.EndDate.HasValue);
-
-        RuleFor(p => p.EndDate)
-            .GreaterThanOrEqualTo(p => p.StartDate).WithMessage("{PropertyName} must be greater than or equal to {ComparisonValue}.")
-            .When(p => p.StartDate.HasValue && p.EndDate.HasValue);
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
         RuleFor(p => p.CouponCode)
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed {MaxLength} characters.")
-            .When(p => !string.IsNullOrEmpty(p.CouponCode));
-
-        RuleFor(p => p.MinimumOrderValue)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.")
-            .When(p => p.MinimumOrderValue.HasValue);
+            .MaximumLength(50).WithMessage("{PropertyName} không được vượt quá 50 ký tự.");
     }
 }

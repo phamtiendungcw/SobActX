@@ -12,13 +12,13 @@ public class Product : BaseEntity
     public decimal UnitPrice { get; set; }
     public string? ImageUrl { get; set; }
     public Guid CategoryId { get; set; } // Foreign key to ProductCategory
-    public ProductCategory? Category { get; set; } // Navigation property
+    public ProductCategory? Category { get; set; }
     public Guid? BrandId { get; set; } // Foreign key to ProductBrand, nullable
-    public ProductBrand? Brand { get; set; } // Navigation property
-    public ICollection<ProductInventory> ProductInventories { get; set; } = new List<ProductInventory>(); // Navigation property
-    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>(); // Navigation property
-    public ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>(); // Navigation property
-    public ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>(); // Navigation property
-    public ICollection<ProductAttributeValue> ProductAttributeValues { get; set; } = new List<ProductAttributeValue>(); // Navigation property
-    public ICollection<PromotionProduct> PromotionProducts { get; set; } = new List<PromotionProduct>(); // Navigation property
+    public ProductBrand? Brand { get; set; }
+    public ICollection<ProductInventory> ProductInventories { get; set; } = new List<ProductInventory>();
+    public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+    public ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = new List<ShoppingCartItem>();
+    public ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>();
+    public ICollection<ProductAttributeValue> ProductAttributeValues { get; set; } = new List<ProductAttributeValue>();
+    public ICollection<PromotionProduct> PromotionProducts { get; set; } = new List<PromotionProduct>();
 }

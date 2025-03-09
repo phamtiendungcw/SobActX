@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Marketing;
 
 public class EmailCampaignRepository : GenericRepository<EmailCampaign>, IEmailCampaignRepository
 {
-    public EmailCampaignRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public EmailCampaignRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

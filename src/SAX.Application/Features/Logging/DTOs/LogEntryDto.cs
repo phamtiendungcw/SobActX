@@ -1,14 +1,15 @@
 ﻿using SAX.Application.Features.Users.DTOs.User;
+using SAX.Domain;
 
 namespace SAX.Application.Features.Logging.DTOs;
 
 public class LogEntryDto
 {
-    public Guid LogEntryId { get; set; }
+    public Guid Id { get; set; }
     public DateTime Timestamp { get; set; }
-    public string LogLevel { get; set; } = string.Empty;
+    public LogLevel LogLevel { get; set; }
     public string Source { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public string? Exception { get; set; }
-    public UserDto? User { get; set; }
+    public Guid? UserId { get; set; }
 }

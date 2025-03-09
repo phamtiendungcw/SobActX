@@ -2,4 +2,5 @@
 
 public class PageDetailsDto : PageDto
 {
+    public string AuthorName { get; set; } = string.Empty;
 }

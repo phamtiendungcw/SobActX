@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Users;
 
 public class UserRepository : GenericRepository<User>, IUserRepository
 {
-    public UserRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public UserRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -24,7 +24,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
     public async Task<IReadOnlyList<User>> GetUsersByRoleAsync(Guid roleId, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.UserRoles
+        return await _dbContext.UsersRoles
             .Where(ur => ur.RoleId == roleId)
             .Select(ur => ur.User) // Select User từ UserRole
             .ToListAsync(cancellationToken);

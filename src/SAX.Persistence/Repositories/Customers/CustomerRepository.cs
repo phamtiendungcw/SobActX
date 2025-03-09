@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Customers;
 
 public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
 {
-    public CustomerRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public CustomerRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

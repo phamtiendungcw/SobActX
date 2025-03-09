@@ -1,7 +1,4 @@
-﻿using SAX.Application.Features.Users.DTOs.RolePermission;
-using SAX.Application.Features.Users.DTOs.UserRole;
-
-namespace SAX.Application.Features.Users.DTOs.Role;
+﻿namespace SAX.Application.Features.Users.DTOs.Role;
 
 public class RoleDetailsDto : RoleDto
 {

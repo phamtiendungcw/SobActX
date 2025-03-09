@@ -2,10 +2,11 @@
 
 public class UpdatePageDto
 {
-    public Guid PageId { get; set; }
-    public string? Title { get; set; }
-    public string? Slug { get; set; }
+    public Guid Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Slug { get; set; } = string.Empty;
     public string? ContentBody { get; set; }
-    public DateTime? PublishDate { get; set; }
-    public Guid? AuthorId { get; set; } // Allow changing author
+    public string? ContentSummary { get; set; }
+    public DateTime? PublishedAt { get; set; }
+    public Guid AuthorId { get; set; }
 }
