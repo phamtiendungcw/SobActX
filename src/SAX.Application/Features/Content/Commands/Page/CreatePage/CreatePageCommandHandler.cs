@@ -30,12 +30,13 @@ public class CreatePageCommandHandler : IRequestHandler<CreatePageCommand, Resul
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var pageToCreate = _mapper.Map<Domain.Entities.Content.Page>(request.CreatePageDto);
-        await _pageRepository.CreateAsync(pageToCreate, cancellationToken);
+        var createPageDto = request.CreatePageDto;
+        var pageToCreate = _mapper.Map<Domain.Entities.Content.Page>(createPageDto);
+        var createdPage = await _pageRepository.CreateAsync(pageToCreate, cancellationToken);
 
-        return Result.Ok(pageToCreate.Id);
+        return Result.Ok(createdPage.Id);
     }
 }

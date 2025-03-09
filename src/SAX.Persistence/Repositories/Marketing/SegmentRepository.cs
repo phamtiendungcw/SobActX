@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Marketing;
 
 public class SegmentRepository : GenericRepository<Segment>, ISegmentRepository
 {
-    public SegmentRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public SegmentRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

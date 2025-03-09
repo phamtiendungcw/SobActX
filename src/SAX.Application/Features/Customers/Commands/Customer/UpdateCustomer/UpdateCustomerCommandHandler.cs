@@ -30,13 +30,15 @@ public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerComman
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
         var updateCustomerDto = request.UpdateCustomerDto;
-        if (updateCustomerDto == null) return Result.Fail("Dữ liệu cập nhật khách hàng không hợp lệ");
-        var customerToUpdate = await _customerRepository.GetByIdAsync(updateCustomerDto.CustomerId, cancellationToken);
-        if (customerToUpdate == null) return Result.Fail($"Không tìm thấy khách hàng với ID: {updateCustomerDto.CustomerId}");
+        if (updateCustomerDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật khách hàng không hợp lệ: UpdateCustomerDto không được null.").Message);
+
+        var customerToUpdate = await _customerRepository.GetByIdAsync(updateCustomerDto.Id, cancellationToken);
+        if (customerToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Customers.Customer), updateCustomerDto.Id).Message);
+
         _mapper.Map(request.UpdateCustomerDto, customerToUpdate);
         await _customerRepository.UpdateAsync(customerToUpdate, cancellationToken);
 

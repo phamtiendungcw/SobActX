@@ -8,22 +8,18 @@ public class StockMovementDtoValidator : AbstractValidator<StockMovementDto>
 {
     public StockMovementDtoValidator()
     {
-        RuleFor(p => p.ProductInventory)
-            .NotNull().WithMessage("{PropertyName} cannot be null.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
+        RuleFor(p => p.ProductInventoryId)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.QuantityChanged)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .NotEqual(0).WithMessage("{PropertyName} must not be zero.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.MovementType)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
-
-        RuleFor(p => p.MovementDate)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("{PropertyName} must be a date in the past or present.");
-
+            .IsInEnum().WithMessage("{PropertyName} phải là một giá trị hợp lệ.");
         RuleFor(p => p.Reason)
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed 500 characters.");
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

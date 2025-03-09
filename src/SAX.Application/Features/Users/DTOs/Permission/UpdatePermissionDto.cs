@@ -2,7 +2,7 @@
 
 public class UpdatePermissionDto
 {
-    public Guid PermissionId { get; set; }
-    public string? PermissionName { get; set; }
+    public Guid Id { get; set; }
+    public string PermissionName { get; set; } = string.Empty;
     public string? Description { get; set; }
 }

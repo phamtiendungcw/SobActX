@@ -30,12 +30,13 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var blogPostToCreate = _mapper.Map<Domain.Entities.Content.BlogPost>(request.CreateBlogPostDto);
-        await _blogPostRepository.CreateAsync(blogPostToCreate, cancellationToken);
+        var createBlogPostDto = request.CreateBlogPostDto;
+        var blogPostToCreate = _mapper.Map<Domain.Entities.Content.BlogPost>(createBlogPostDto);
+        var createdBlogPost = await _blogPostRepository.CreateAsync(blogPostToCreate, cancellationToken);
 
-        return Result.Ok(blogPostToCreate.Id);
+        return Result.Ok(createdBlogPost.Id);
     }
 }

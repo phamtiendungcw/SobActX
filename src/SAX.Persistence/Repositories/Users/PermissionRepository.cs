@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Users;
 
 public class PermissionRepository : GenericRepository<Permission>, IPermissionRepository
 {
-    public PermissionRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public PermissionRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

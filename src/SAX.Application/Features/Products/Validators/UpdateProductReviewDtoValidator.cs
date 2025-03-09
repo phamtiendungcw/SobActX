@@ -8,15 +8,18 @@ public class UpdateProductReviewDtoValidator : AbstractValidator<UpdateProductRe
 {
     public UpdateProductReviewDtoValidator()
     {
-        RuleFor(p => p.ProductReviewId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
+        RuleFor(p => p.ProductId)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
+        RuleFor(p => p.CustomerId)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.Rating)
-            .InclusiveBetween(1, 5).WithMessage("{PropertyName} must be between 1 and 5.")
-            .When(p => p.Rating != 0); // Validate Rating nếu giá trị khác 0 (mặc định)
-
+            .InclusiveBetween(1, 5).WithMessage("{PropertyName} phải từ 1 đến 5.");
         RuleFor(p => p.Comment)
-            .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.")
-            .When(p => !string.IsNullOrEmpty(p.Comment));
+            .MaximumLength(1000).WithMessage("{PropertyName} không được vượt quá 1000 ký tự.");
     }
 }

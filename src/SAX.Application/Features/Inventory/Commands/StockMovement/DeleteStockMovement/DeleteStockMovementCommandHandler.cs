@@ -3,6 +3,7 @@
 using MediatR;
 
 using SAX.Application.Common.Contracts.Persistence.Repositories.Inventory;
+using SAX.Application.Common.Exceptions;
 
 namespace SAX.Application.Features.Inventory.Commands.StockMovement.DeleteStockMovement;
 
@@ -18,12 +19,9 @@ public class DeleteStockMovementCommandHandler : IRequestHandler<DeleteStockMove
     public async Task<Result> Handle(DeleteStockMovementCommand request, CancellationToken cancellationToken)
     {
         var stockMovementToDelete = await _stockMovementRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (stockMovementToDelete != null)
-        {
-            await _stockMovementRepository.DeleteAsync(stockMovementToDelete, cancellationToken);
-            return Result.Ok();
-        }
+        if (stockMovementToDelete == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Inventory.StockMovement), request.Id).Message);
+        await _stockMovementRepository.DeleteAsync(stockMovementToDelete, cancellationToken);
 
-        return Result.Fail($"Stock Movement with id: {request.Id} not found.");
+        return Result.Ok();
     }
 }

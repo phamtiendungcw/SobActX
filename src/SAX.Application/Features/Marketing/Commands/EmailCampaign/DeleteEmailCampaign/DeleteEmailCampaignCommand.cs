@@ -1,5 +1,10 @@
-﻿namespace SAX.Application.Features.Marketing.Commands.EmailCampaign.DeleteEmailCampaign;
+﻿using FluentResults;
 
-public class DeleteEmailCampaignCommand
+using MediatR;
+
+namespace SAX.Application.Features.Marketing.Commands.EmailCampaign.DeleteEmailCampaign;
+
+public record DeleteEmailCampaignCommand : IRequest<Result>
 {
+    public Guid Id { get; set; }
 }

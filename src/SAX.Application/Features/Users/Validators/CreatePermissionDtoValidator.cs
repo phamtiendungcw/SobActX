@@ -9,10 +9,10 @@ public class CreatePermissionDtoValidator : AbstractValidator<CreatePermissionDt
     public CreatePermissionDtoValidator()
     {
         RuleFor(p => p.PermissionName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(100).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Description)
-            .MaximumLength(500).WithMessage("{PropertyName} must not exceed {MaxLength} characters.");
+            .MaximumLength(1000).WithMessage("{PropertyName} không được vượt quá 1000 ký tự.");
     }
 }

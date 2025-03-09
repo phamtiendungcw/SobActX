@@ -2,8 +2,11 @@
 
 public class UpdateProductReviewDto
 {
-    public Guid ProductReviewId { get; set; }
+    public Guid Id { get; set; }
+    public Guid ProductId { get; set; }
+    public Guid CustomerId { get; set; }
     public int Rating { get; set; }
     public string? Comment { get; set; }
-    public bool IsApproved { get; set; } // Cho phép admin cập nhật trạng thái duyệt
+    public DateTime ReviewDate { get; set; }
+    public bool IsApproved { get; set; }
 }

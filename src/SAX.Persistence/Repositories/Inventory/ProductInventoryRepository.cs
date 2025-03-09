@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Inventory;
 
 public class ProductInventoryRepository : GenericRepository<ProductInventory>, IProductInventoryRepository
 {
-    public ProductInventoryRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public ProductInventoryRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

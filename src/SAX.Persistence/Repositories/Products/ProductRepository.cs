@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Products;
 
 public class ProductRepository : GenericRepository<Product>, IProductRepository
 {
-    public ProductRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public ProductRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -34,7 +34,7 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
     public async Task<IReadOnlyList<Product>> ListLatestProductsAsync(int count, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Products
-            .OrderByDescending(p => p.Id) // Ví dụ: Order by ID để lấy "latest"
+            .OrderByDescending(p => p.Id)  // Order by ID để lấy "latest"
             .Take(count)
             .ToListAsync(cancellationToken);
     }

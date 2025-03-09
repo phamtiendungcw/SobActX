@@ -1,5 +1,10 @@
-﻿namespace SAX.Application.Features.Customers.Commands.Customer.DeleteCustomer;
+﻿using FluentResults;
 
-public class DeleteCustomerCommand
+using MediatR;
+
+namespace SAX.Application.Features.Customers.Commands.Customer.DeleteCustomer;
+
+public record DeleteCustomerCommand : IRequest<Result>
 {
+    public Guid Id { get; set; }
 }

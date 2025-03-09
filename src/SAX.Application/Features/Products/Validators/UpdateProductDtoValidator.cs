@@ -8,27 +8,32 @@ public class UpdateProductDtoValidator : AbstractValidator<UpdateProductDto>
 {
     public UpdateProductDtoValidator()
     {
-        RuleFor(p => p.ProductId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.ProductName)
-            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
-            .When(p => !string.IsNullOrEmpty(p.ProductName));
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
 
         RuleFor(p => p.Description)
-            .MaximumLength(2000).WithMessage("{PropertyName} must not exceed 2000 characters.")
-            .When(p => !string.IsNullOrEmpty(p.Description));
+            .MaximumLength(1000).WithMessage("{PropertyName} không được vượt quá 1000 ký tự.");
+
+        RuleFor(p => p.SKU)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(50).WithMessage("{PropertyName} không được vượt quá 50 ký tự.");
 
         RuleFor(p => p.UnitPrice)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.")
-            .When(p => p.UnitPrice.HasValue);
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
 
         RuleFor(p => p.ImageUrl)
-            .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.")
-            .When(p => !string.IsNullOrEmpty(p.ImageUrl));
+            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá 500 ký tự.");
 
         RuleFor(p => p.CategoryId)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .When(p => p.CategoryId.HasValue);
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
     }
 }

@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Marketing;
 
 public class CampaignRepository : GenericRepository<Campaign>, ICampaignRepository
 {
-    public CampaignRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public CampaignRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Products;
 
 public class ProductBrandRepository : GenericRepository<ProductBrand>, IProductBrandRepository
 {
-    public ProductBrandRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public ProductBrandRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

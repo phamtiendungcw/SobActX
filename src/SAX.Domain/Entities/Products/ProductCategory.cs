@@ -6,6 +6,6 @@ public class ProductCategory : BaseEntity
 {
     public string CategoryName { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public ICollection<Product> Products { get; set; } = new List<Product>(); // Navigation property
-    public ICollection<PromotionCategory> PromotionCategories { get; set; } = new List<PromotionCategory>(); // Navigation property
+    public ICollection<Product> Products { get; set; } = new List<Product>();
+    public ICollection<PromotionCategory> PromotionCategories { get; set; } = new List<PromotionCategory>();
 }

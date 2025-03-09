@@ -30,13 +30,15 @@ public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, Resul
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
         var updatePageDto = request.UpdatePageDto;
-        if (updatePageDto == null) return Result.Fail("UpdatePageDto cannot be null.");
-        var pageToUpdate = await _pageRepository.GetByIdAsync(updatePageDto.PageId, cancellationToken);
-        if (pageToUpdate == null) return Result.Fail($"Không tìm thấy trang với ID: {updatePageDto.PageId}");
+        if (updatePageDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật trang không hợp lệ: UpdatePageDto không được null.").Message);
+
+        var pageToUpdate = await _pageRepository.GetByIdAsync(updatePageDto.Id, cancellationToken);
+        if (pageToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.Page), updatePageDto.Id).Message);
+
         _mapper.Map(request.UpdatePageDto, pageToUpdate);
         await _pageRepository.UpdateAsync(pageToUpdate, cancellationToken);
 

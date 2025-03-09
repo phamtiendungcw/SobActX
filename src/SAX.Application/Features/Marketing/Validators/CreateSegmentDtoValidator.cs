@@ -9,10 +9,8 @@ public class CreateSegmentDtoValidator : AbstractValidator<CreateSegmentDto>
     public CreateSegmentDtoValidator()
     {
         RuleFor(p => p.SegmentName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-
-        RuleFor(p => p.Criteria)
-            .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

@@ -30,13 +30,15 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
         var updateCategoryDto = request.UpdateCategoryDto;
-        if (updateCategoryDto == null) return Result.Fail("Dữ liệu cập nhật danh mục không hợp lệ");
-        var categoryToUpdate = await _categoryRepository.GetByIdAsync(updateCategoryDto.CategoryId, cancellationToken);
-        if (categoryToUpdate == null) return Result.Fail($"Không tìm thấy danh mục với ID: {updateCategoryDto.CategoryId}");
+        if (updateCategoryDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật danh mục không hợp lệ: UpdateCategoryDto không được null.").Message);
+
+        var categoryToUpdate = await _categoryRepository.GetByIdAsync(updateCategoryDto.Id, cancellationToken);
+        if (categoryToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.Category), updateCategoryDto.Id).Message);
+
         _mapper.Map(request.UpdateCategoryDto, categoryToUpdate);
         await _categoryRepository.UpdateAsync(categoryToUpdate, cancellationToken);
 

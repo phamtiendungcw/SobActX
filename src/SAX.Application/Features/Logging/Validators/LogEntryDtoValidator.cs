@@ -8,21 +8,18 @@ public class LogEntryDtoValidator : AbstractValidator<LogEntryDto>
 {
     public LogEntryDtoValidator()
     {
-        RuleFor(p => p.Timestamp)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.LogLevel)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(20).WithMessage("{PropertyName} must not exceed 20 characters.");
-
+            .IsInEnum().WithMessage("{PropertyName} phải là một giá trị hợp lệ.");
         RuleFor(p => p.Source)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Message)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
-        RuleFor(p => p.Exception)
-            .MaximumLength(2000).WithMessage("{PropertyName} must not exceed 2000 characters.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

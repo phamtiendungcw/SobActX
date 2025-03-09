@@ -1,4 +1,5 @@
-﻿using SAX.Domain.Entities.Orders;
+﻿using SAX.Domain;
+using SAX.Domain.Entities.Orders;
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 
@@ -12,7 +13,7 @@ public interface IOrderRepository : IGenericRepository<Order>
     /// <summary>
     ///     Liệt kê các đơn hàng theo trạng thái đơn hàng.
     /// </summary>
-    Task<IReadOnlyList<Order>> ListOrdersByStatusAsync(string status, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Order>> ListOrdersByStatusAsync(OrderStatus status, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Liệt kê các đơn hàng được tạo trong một khoảng thời gian cụ thể (cho báo cáo bán hàng).

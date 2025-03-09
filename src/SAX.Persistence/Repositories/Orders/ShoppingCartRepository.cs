@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Orders;
 
 public class ShoppingCartRepository : GenericRepository<ShoppingCart>, IShoppingCartRepository
 {
-    public ShoppingCartRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public ShoppingCartRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

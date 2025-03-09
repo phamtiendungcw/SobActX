@@ -9,23 +9,28 @@ public class CreateProductDtoValidator : AbstractValidator<CreateProductDto>
     public CreateProductDtoValidator()
     {
         RuleFor(p => p.ProductName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
 
         RuleFor(p => p.Description)
-            .MaximumLength(2000).WithMessage("{PropertyName} must not exceed 2000 characters.");
+            .MaximumLength(1000).WithMessage("{PropertyName} không được vượt quá 1000 ký tự.");
 
         RuleFor(p => p.SKU)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(50).WithMessage("{PropertyName} không được vượt quá 50 ký tự.");
 
         RuleFor(p => p.UnitPrice)
-            .GreaterThanOrEqualTo(0).WithMessage("{PropertyName} must be greater than or equal to 0.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
 
         RuleFor(p => p.ImageUrl)
-            .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.");
+            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá 500 ký tự.");
 
         RuleFor(p => p.CategoryId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
     }
 }

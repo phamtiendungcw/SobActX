@@ -13,7 +13,7 @@ using SAX.Domain.Entities.Content;
 
 public class TagRepository : GenericRepository<Tag>, ITagRepository
 {
-    public TagRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public TagRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -24,7 +24,7 @@ public class TagRepository : GenericRepository<Tag>, ITagRepository
 
     public async Task<IReadOnlyList<Tag>> ListPopularTagsAsync(int count, CancellationToken cancellationToken = default)
     {
-        // Ví dụ: Truy vấn phức tạp hơn, cần join bảng và group by
+        // Truy vấn phức tạp hơn, cần join bảng và group by
         // Code mẫu này chỉ trả về danh sách Tag đơn giản, bạn cần tùy chỉnh để tính Popular Tags
         return await ListAllAsync(cancellationToken);
     }

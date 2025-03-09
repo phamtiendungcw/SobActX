@@ -1,4 +1,5 @@
-﻿using SAX.Domain.Entities.Logging;
+﻿using SAX.Domain;
+using SAX.Domain.Entities.Logging;
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Logging;
 
@@ -7,7 +8,7 @@ public interface ILogEntryRepository : IGenericRepository<LogEntry>
     /// <summary>
     ///     Liệt kê các log entries theo mức độ log (Information, Warning, Error).
     /// </summary>
-    Task<IReadOnlyList<LogEntry>> ListLogEntriesByLevelAsync(string logLevel, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<LogEntry>> ListLogEntriesByLevelAsync(LogLevel logLevel, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Tìm kiếm log entries theo từ khóa trong message.

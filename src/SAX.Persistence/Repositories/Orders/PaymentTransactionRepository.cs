@@ -8,7 +8,7 @@ namespace SAX.Persistence.Repositories.Orders;
 
 public class PaymentTransactionRepository : GenericRepository<PaymentTransaction>, IPaymentTransactionRepository
 {
-    public PaymentTransactionRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public PaymentTransactionRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 

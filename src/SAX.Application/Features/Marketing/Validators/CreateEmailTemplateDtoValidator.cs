@@ -9,14 +9,12 @@ public class CreateEmailTemplateDtoValidator : AbstractValidator<CreateEmailTemp
     public CreateEmailTemplateDtoValidator()
     {
         RuleFor(p => p.TemplateName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Subject)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.");
-
-        RuleFor(p => p.Body)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

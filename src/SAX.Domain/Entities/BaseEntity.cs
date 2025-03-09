@@ -1,4 +1,6 @@
-﻿namespace SAX.Domain.Entities;
+﻿using SAX.Domain.Entities.Users;
+
+namespace SAX.Domain.Entities;
 
 public abstract class BaseEntity
 {
@@ -9,6 +11,9 @@ public abstract class BaseEntity
     public bool IsDeleted { get; set; }
     public bool IsActive { get; set; }
     public Guid? CreatedByUserId { get; set; }
+    public User? CreatedByUser { get; set; }
     public Guid? UpdatedByUserId { get; set; }
+    public User? UpdatedByUser { get; set; }
     public Guid? DeletedByUserId { get; set; }
+    public User? DeletedByUser { get; set; }
 }

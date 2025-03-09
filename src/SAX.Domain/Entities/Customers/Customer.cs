@@ -11,8 +11,8 @@ public class Customer : BaseEntity
     public string? PhoneNumber { get; set; }
     public DateTime RegistrationDate { get; set; }
     public Guid? AddressId { get; set; } // Foreign key to Address, nullable as address might be optional
-    public Address? Address { get; set; } // Navigation property
-    public ICollection<Order> Orders { get; set; } = new List<Order>(); // Navigation property
-    public ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>(); // Navigation property
-    public ShoppingCart? ShoppingCart { get; set; } // Navigation property
+    public Address? Address { get; set; }
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public ICollection<ProductReview> ProductReviews { get; set; } = new List<ProductReview>();
+    public ShoppingCart? ShoppingCart { get; set; } // One-to-One
 }

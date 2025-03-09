@@ -1,4 +1,5 @@
-﻿using SAX.Domain.Entities.Promotions;
+﻿using SAX.Domain;
+using SAX.Domain.Entities.Promotions;
 
 namespace SAX.Application.Common.Contracts.Persistence.Repositories.Promotions;
 
@@ -17,7 +18,7 @@ public interface IPromotionRepository : IGenericRepository<Promotion>
     /// <summary>
     ///     Liệt kê các promotions theo loại promotion (Percentage, FixedAmount).
     /// </summary>
-    Task<IReadOnlyList<Promotion>> ListPromotionsByTypeAsync(string promotionType, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Promotion>> ListPromotionsByTypeAsync(PromotionType promotionType, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Liệt kê các promotions mới nhất (cho trang khuyến mãi hoặc dashboard marketing).

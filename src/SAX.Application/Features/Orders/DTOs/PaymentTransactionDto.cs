@@ -1,11 +1,13 @@
-﻿namespace SAX.Application.Features.Orders.DTOs;
+﻿using SAX.Domain;
+
+namespace SAX.Application.Features.Orders.DTOs;
 
 public class PaymentTransactionDto
 {
-    public Guid PaymentTransactionId { get; set; }
+    public Guid Id { get; set; }
     public Guid OrderId { get; set; }
     public DateTime TransactionDate { get; set; }
     public decimal Amount { get; set; }
-    public string PaymentStatus { get; set; } = string.Empty;
+    public PaymentStatus PaymentStatus { get; set; }
     public string? PaymentGatewayReference { get; set; }
 }

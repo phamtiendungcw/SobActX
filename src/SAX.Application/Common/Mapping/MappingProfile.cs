@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 
 using SAX.Application.Features.Content.DTOs.BlogPost;
+using SAX.Application.Features.Content.DTOs.BlogPostTag;
 using SAX.Application.Features.Content.DTOs.Category;
 using SAX.Application.Features.Content.DTOs.Media;
 using SAX.Application.Features.Content.DTOs.Page;
@@ -21,14 +22,12 @@ using SAX.Application.Features.Orders.DTOs.OrderItem;
 using SAX.Application.Features.Products.DTOs;
 using SAX.Application.Features.Products.DTOs.Product;
 using SAX.Application.Features.Products.DTOs.ProductReview;
+using SAX.Application.Features.Promotions.DTOs;
 using SAX.Application.Features.Promotions.DTOs.Promotion;
-using SAX.Application.Features.Promotions.DTOs.PromotionCategory;
-using SAX.Application.Features.Promotions.DTOs.PromotionProduct;
+using SAX.Application.Features.Users.DTOs;
 using SAX.Application.Features.Users.DTOs.Permission;
 using SAX.Application.Features.Users.DTOs.Role;
-using SAX.Application.Features.Users.DTOs.RolePermission;
 using SAX.Application.Features.Users.DTOs.User;
-using SAX.Application.Features.Users.DTOs.UserRole;
 using SAX.Domain.Entities.Content;
 using SAX.Domain.Entities.Customers;
 using SAX.Domain.Entities.Inventory;
@@ -45,336 +44,145 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Content Feature Mappings
-        CreateMap<Category, CategoryDto>()
-            .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CategoryId));
-        CreateMap<Category, CategoryDetailsDto>()
-            .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CategoryId));
-        CreateMap<Category, CreateCategoryDto>().ReverseMap();
-        CreateMap<Category, UpdateCategoryDto>().ReverseMap();
-
-        CreateMap<Tag, TagDto>()
-            .ForMember(dest => dest.TagId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TagId));
-        CreateMap<Tag, TagDetailsDto>()
-            .ForMember(dest => dest.TagId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.TagId));
-        CreateMap<Tag, CreateTagDto>().ReverseMap();
-        CreateMap<Tag, UpdateTagDto>().ReverseMap();
-
-        CreateMap<Page, PageDto>()
-            .ForMember(dest => dest.PageId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PageId));
-        CreateMap<Page, PageDetailsDto>()
-            .ForMember(dest => dest.PageId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PageId));
-        CreateMap<Page, CreatePageDto>().ReverseMap();
-        CreateMap<Page, UpdatePageDto>().ReverseMap();
-
-        CreateMap<BlogPost, BlogPostDto>()
-            .ForMember(dest => dest.BlogPostId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BlogPostId));
+        // Content
+        CreateMap<BlogPost, BlogPostDto>().ReverseMap();
         CreateMap<BlogPost, BlogPostDetailsDto>()
-            .ForMember(dest => dest.BlogPostId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.BlogPostId));
+            .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? $"{src.Author.FirstName} {src.Author.LastName}" : null))
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.CategoryName : null))
+            .ReverseMap();
         CreateMap<BlogPost, CreateBlogPostDto>().ReverseMap();
         CreateMap<BlogPost, UpdateBlogPostDto>().ReverseMap();
 
-        CreateMap<Media, MediaDto>()
-            .ForMember(dest => dest.MediaId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.MediaId));
-        CreateMap<Media, MediaDetailsDto>()
-            .ForMember(dest => dest.MediaId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.MediaId));
+        CreateMap<Category, CategoryDto>().ReverseMap();
+        CreateMap<Category, CategoryDetailsDto>().ReverseMap();
+        // Create/Update DTOs
+
+        CreateMap<Page, PageDto>().ReverseMap();
+        CreateMap<Page, PageDetailsDto>()
+            .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? $"{src.Author.FirstName} {src.Author.LastName}" : null))
+            .ReverseMap();
+        CreateMap<Page, CreatePageDto>().ReverseMap();
+        CreateMap<Page, UpdatePageDto>().ReverseMap();
+
+        CreateMap<Tag, TagDto>().ReverseMap();
+        CreateMap<Tag, TagDetailsDto>().ReverseMap();
+        // Create/Update DTOs
+
+        CreateMap<Media, MediaDto>().ReverseMap();
+        CreateMap<Media, MediaDetailsDto>().ReverseMap();
         CreateMap<Media, CreateMediaDto>().ReverseMap();
         CreateMap<Media, UpdateMediaDto>().ReverseMap();
+        CreateMap<BlogPostTag, BlogPostTagDto>().ReverseMap();
+        CreateMap<BlogPostTag, BlogPostTagDetailsDto>().ReverseMap();
+        // Create/Update DTOs
 
-        // Customers Feature Mappings
-        CreateMap<Customer, CustomerDto>()
-            .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CustomerId));
-        CreateMap<Customer, CustomerDetailsDto>()
-            .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CustomerId));
+        // Customers
+        CreateMap<Customer, CustomerDto>().ReverseMap();
+        CreateMap<Customer, CustomerDetailsDto>().ReverseMap();
         CreateMap<Customer, CreateCustomerDto>().ReverseMap();
         CreateMap<Customer, UpdateCustomerDto>().ReverseMap();
 
-        CreateMap<Address, AddressDto>()
-            .ForMember(dest => dest.AddressId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AddressId));
+        CreateMap<Address, AddressDto>().ReverseMap();
 
-        // Inventory Feature Mappings
-        CreateMap<Warehouse, WarehouseDto>()
-            .ForMember(dest => dest.WarehouseId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.WarehouseId));
-        CreateMap<Warehouse, WarehouseDetailsDto>()
-            .ForMember(dest => dest.WarehouseId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.WarehouseId));
+        // Inventory
+        CreateMap<ProductInventory, ProductInventoryDto>().ReverseMap();
+        CreateMap<ProductInventory, ProductInventoryDetailsDto>()
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product != null ? src.Product.ProductName : string.Empty))
+            .ForMember(dest => dest.WarehouseName, opt => opt.MapFrom(src => src.Warehouse != null ? src.Warehouse.WarehouseName : string.Empty))
+            .ReverseMap();
+        CreateMap<ProductInventory, CreateProductInventoryDto>().ReverseMap();
+        CreateMap<ProductInventory, UpdateProductInventoryDto>().ReverseMap();
+        CreateMap<StockMovement, StockMovementDto>().ReverseMap();
+        CreateMap<StockMovement, StockMovementDetailsDto>()
+            .ForMember(dest => dest.ProductName,
+                opt => opt.MapFrom(src => src.ProductInventory != null && src.ProductInventory.Product != null ? src.ProductInventory.Product.ProductName : string.Empty))
+            .ReverseMap();
+        CreateMap<StockMovement, CreateStockMovementDto>().ReverseMap();
+        CreateMap<StockMovement, StockMovementDetailsDto>()
+            .ForMember(dest => dest.ProductName,
+                opt => opt.MapFrom(src => src.ProductInventory != null && src.ProductInventory.Product != null ? src.ProductInventory.Product.ProductName : string.Empty))
+            .ReverseMap();
+        CreateMap<StockMovement, UpdateStockMovementDto>().ReverseMap();
+        CreateMap<Warehouse, WarehouseDto>().ReverseMap();
+        CreateMap<Warehouse, WarehouseDetailsDto>().ReverseMap();
         CreateMap<Warehouse, CreateWarehouseDto>().ReverseMap();
         CreateMap<Warehouse, UpdateWarehouseDto>().ReverseMap();
 
-        CreateMap<ProductInventory, ProductInventoryDto>()
-            .ForMember(dest => dest.ProductInventoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductInventoryId));
-        CreateMap<ProductInventory, ProductInventoryDetailsDto>()
-            .ForMember(dest => dest.ProductInventoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductInventoryId));
-        CreateMap<ProductInventory, CreateProductInventoryDto>().ReverseMap();
-        CreateMap<ProductInventory, UpdateProductInventoryDto>().ReverseMap();
+        // Logging
+        CreateMap<LogEntry, LogEntryDto>().ReverseMap();
 
-        CreateMap<StockMovement, StockMovementDto>()
-            .ForMember(dest => dest.StockMovementId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.StockMovementId));
-        CreateMap<StockMovement, StockMovementDetailsDto>()
-            .ForMember(dest => dest.StockMovementId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.StockMovementId));
-
-        // Logging Feature Mappings
-        CreateMap<LogEntry, LogEntryDto>()
-            .ForMember(dest => dest.LogEntryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.LogEntryId));
-        CreateMap<LogEntry, LogEntryDetailsDto>()
-            .ForMember(dest => dest.LogEntryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.LogEntryId));
-
-        // Marketing Feature Mappings
-        CreateMap<Campaign, CampaignDto>()
-            .ForMember(dest => dest.CampaignId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CampaignId));
-        CreateMap<Campaign, CampaignDetailsDto>()
-            .ForMember(dest => dest.CampaignId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CampaignId));
+        // Marketing
+        CreateMap<Campaign, CampaignDto>().ReverseMap();
+        CreateMap<Campaign, CampaignDetailsDto>().ReverseMap();
         CreateMap<Campaign, CreateCampaignDto>().ReverseMap();
         CreateMap<Campaign, UpdateCampaignDto>().ReverseMap();
-
-        CreateMap<EmailCampaign, EmailCampaignDto>()
-            .ForMember(dest => dest.EmailCampaignId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.EmailCampaignId));
-        CreateMap<EmailCampaign, EmailCampaignDetailsDto>()
-            .ForMember(dest => dest.EmailCampaignId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.EmailCampaignId));
+        CreateMap<EmailCampaign, EmailCampaignDto>().ReverseMap();
+        CreateMap<EmailCampaign, EmailCampaignDetailsDto>().ReverseMap();
         CreateMap<EmailCampaign, CreateEmailCampaignDto>().ReverseMap();
         CreateMap<EmailCampaign, UpdateEmailCampaignDto>().ReverseMap();
-
-        CreateMap<Segment, SegmentDto>()
-            .ForMember(dest => dest.SegmentId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SegmentId));
-        CreateMap<Segment, SegmentDetailsDto>()
-            .ForMember(dest => dest.SegmentId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SegmentId));
+        CreateMap<EmailTemplate, EmailTemplateDto>().ReverseMap();
+        CreateMap<EmailTemplate, EmailTemplateDetailsDto>().ReverseMap();
+        CreateMap<EmailTemplate, CreateEmailTemplateDto>().ReverseMap();
+        CreateMap<EmailTemplate, UpdateEmailTemplateDto>().ReverseMap();
+        CreateMap<Segment, SegmentDto>().ReverseMap();
+        CreateMap<Segment, SegmentDetailsDto>().ReverseMap();
         CreateMap<Segment, CreateSegmentDto>().ReverseMap();
         CreateMap<Segment, UpdateSegmentDto>().ReverseMap();
 
-        CreateMap<EmailTemplate, EmailTemplateDto>()
-            .ForMember(dest => dest.EmailTemplateId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.EmailTemplateId));
-        CreateMap<EmailTemplate, EmailTemplateDetailsDto>()
-            .ForMember(dest => dest.EmailTemplateId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.EmailTemplateId));
-        CreateMap<EmailTemplate, CreateEmailTemplateDto>().ReverseMap();
-        CreateMap<EmailTemplate, UpdateEmailTemplateDto>().ReverseMap();
-
-        // Orders Feature Mappings
-        CreateMap<Order, OrderDto>()
-            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId));
+        // Orders
+        CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<Order, OrderDetailsDto>()
-            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId));
+            .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? $"{src.Customer.FirstName} {src.Customer.LastName}" : null))
+            .ReverseMap();
         CreateMap<Order, CreateOrderDto>().ReverseMap();
         CreateMap<Order, UpdateOrderDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemDto>().ReverseMap();
+        CreateMap<OrderItem, OrderItemDetailsDto>()
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product != null ? src.Product.ProductName : string.Empty))
+            .ReverseMap();
+        // Create/Update DTOs cho OrderItem (thao tác qua Order)
+        CreateMap<OrderStatusHistory, OrderStatusHistoryDto>().ReverseMap();
+        CreateMap<PaymentTransaction, PaymentTransactionDto>().ReverseMap();
+        CreateMap<ShoppingCart, ShoppingCartDto>().ReverseMap();
+        CreateMap<ShoppingCartItem, ShoppingCartItemDto>().ReverseMap();
 
-        CreateMap<OrderItem, OrderItemDto>()
-            .ForMember(dest => dest.OrderItemId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderItemId));
-        CreateMap<OrderItem, OrderItemCreateDto>().ReverseMap()
-            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
-            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
-
-        CreateMap<OrderStatusHistory, OrderStatusHistoryDto>()
-            .ForMember(dest => dest.OrderStatusHistoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderStatusHistoryId))
-            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId));
-        CreateMap<PaymentTransaction, PaymentTransactionDto>()
-            .ForMember(dest => dest.PaymentTransactionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PaymentTransactionId))
-            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderId));
-
-        CreateMap<ShoppingCart, ShoppingCartDto>()
-            .ForMember(dest => dest.ShoppingCartId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ShoppingCartId))
-            .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId));
-        CreateMap<ShoppingCartItem, ShoppingCartItemDto>()
-            .ForMember(dest => dest.ShoppingCartItemId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ShoppingCartItemId))
-            .ForMember(dest => dest.ShoppingCartId, opt => opt.MapFrom(src => src.ShoppingCartId));
-
-        // Products Feature Mappings
-        CreateMap<Product, ProductDto>()
-            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId));
+        // Products
+        CreateMap<Product, ProductDto>().ReverseMap();
         CreateMap<Product, ProductDetailsDto>()
-            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId));
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.CategoryName : null))
+            .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.Brand != null ? src.Brand.BrandName : null))
+            .ReverseMap();
         CreateMap<Product, CreateProductDto>().ReverseMap();
         CreateMap<Product, UpdateProductDto>().ReverseMap();
 
-        CreateMap<ProductCategory, ProductCategoryDto>()
-            .ForMember(dest => dest.ProductCategoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductCategoryId));
-        CreateMap<ProductBrand, ProductBrandDto>()
-            .ForMember(dest => dest.ProductBrandId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductBrandId));
-        CreateMap<ProductAttribute, ProductAttributeDto>()
-            .ForMember(dest => dest.ProductAttributeId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductAttributeId));
-        CreateMap<ProductAttributeValue, ProductAttributeValueDto>()
-            .ForMember(dest => dest.ProductAttributeValueId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductAttributeValueId));
-
-        CreateMap<ProductReview, ProductReviewDto>()
-            .ForMember(dest => dest.ProductReviewId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductReviewId));
+        CreateMap<ProductCategory, ProductCategoryDto>().ReverseMap();
+        CreateMap<ProductBrand, ProductBrandDto>().ReverseMap();
+        CreateMap<ProductAttribute, ProductAttributeDto>().ReverseMap();
+        CreateMap<ProductAttributeValue, ProductAttributeValueDto>().ReverseMap();
+        CreateMap<ProductReview, ProductReviewDto>().ReverseMap();
         CreateMap<ProductReview, ProductReviewDetailsDto>()
-            .ForMember(dest => dest.ProductReviewId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductReviewId));
-        CreateMap<ProductReview, CreateProductReviewDto>().ReverseMap();
-        CreateMap<ProductReview, UpdateProductReviewDto>().ReverseMap();
+            .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product != null ? src.Product.ProductName : null))
+            .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? $"{src.Customer.FirstName} {src.Customer.LastName}" : null))
+            .ReverseMap();
 
-        // Promotions Feature Mappings
-        CreateMap<Promotion, PromotionDto>()
-            .ForMember(dest => dest.PromotionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PromotionId));
-        CreateMap<Promotion, PromotionDetailsDto>()
-            .ForMember(dest => dest.PromotionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PromotionId));
+        // Promotions
+        CreateMap<Promotion, PromotionDto>().ReverseMap();
+        CreateMap<Promotion, PromotionDetailsDto>().ReverseMap();
         CreateMap<Promotion, CreatePromotionDto>().ReverseMap();
         CreateMap<Promotion, UpdatePromotionDto>().ReverseMap();
+        CreateMap<PromotionCategory, PromotionCategoryDto>().ReverseMap();
+        CreateMap<PromotionProduct, PromotionProductDto>().ReverseMap();
 
-        CreateMap<PromotionProduct, PromotionProductDto>()
-            .ForMember(dest => dest.PromotionProductId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PromotionProductId));
-        CreateMap<PromotionProduct, PromotionProductDetailsDto>()
-            .ForMember(dest => dest.PromotionProductId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PromotionProductId));
-        CreateMap<PromotionProduct, CreatePromotionProductDto>().ReverseMap();
-        CreateMap<PromotionProduct, UpdatePromotionProductDto>().ReverseMap();
-
-        CreateMap<PromotionCategory, PromotionCategoryDto>()
-            .ForMember(dest => dest.PromotionCategoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PromotionCategoryId));
-        CreateMap<PromotionCategory, PromotionCategoryDetailsDto>()
-            .ForMember(dest => dest.PromotionCategoryId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PromotionCategoryId));
-        CreateMap<PromotionCategory, CreatePromotionCategoryDto>().ReverseMap();
-        CreateMap<PromotionCategory, UpdatePromotionCategoryDto>().ReverseMap();
-
-        // Users Feature Mappings
-        CreateMap<User, UserDto>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId));
-        CreateMap<User, UserDetailsDto>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId));
+        // Users
+        CreateMap<User, UserDto>().ReverseMap();
+        CreateMap<User, UserDetailsDto>().ReverseMap();
         CreateMap<User, CreateUserDto>().ReverseMap();
         CreateMap<User, UpdateUserDto>().ReverseMap();
-
-        CreateMap<Role, RoleDto>()
-            .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RoleId));
-        CreateMap<Role, RoleDetailsDto>()
-            .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RoleId));
-        CreateMap<Role, CreateRoleDto>().ReverseMap();
-        CreateMap<Role, UpdateRoleDto>().ReverseMap();
-
-        CreateMap<Permission, PermissionDto>()
-            .ForMember(dest => dest.PermissionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PermissionId));
-        CreateMap<Permission, PermissionDetailsDto>()
-            .ForMember(dest => dest.PermissionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.PermissionId));
-        CreateMap<Permission, CreatePermissionDto>().ReverseMap();
-        CreateMap<Permission, UpdatePermissionDto>().ReverseMap();
-
-        CreateMap<UserRole, UserRoleDto>()
-            .ForMember(dest => dest.UserRoleId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserRoleId));
-        CreateMap<UserRole, UserRoleDetailsDto>()
-            .ForMember(dest => dest.UserRoleId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserRoleId));
-        CreateMap<UserRole, CreateUserRoleDto>().ReverseMap();
-        CreateMap<UserRole, UpdateUserRoleDto>().ReverseMap();
-
-        CreateMap<RolePermission, RolePermissionDto>()
-            .ForMember(dest => dest.RolePermissionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RolePermissionId));
-        CreateMap<RolePermission, RolePermissionDetailsDto>()
-            .ForMember(dest => dest.RolePermissionId, opt => opt.MapFrom(src => src.Id))
-            .ReverseMap()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RolePermissionId));
-        CreateMap<RolePermission, CreateRolePermissionDto>().ReverseMap();
-        CreateMap<RolePermission, UpdateRolePermissionDto>().ReverseMap();
+        CreateMap<Role, RoleDto>().ReverseMap();
+        CreateMap<Role, RoleDetailsDto>().ReverseMap();
+        CreateMap<Permission, PermissionDto>().ReverseMap();
+        CreateMap<Permission, PermissionDetailsDto>().ReverseMap();
+        CreateMap<UserRole, UserRoleDto>().ReverseMap();
+        CreateMap<RolePermission, RolePermissionDto>().ReverseMap();
     }
 }

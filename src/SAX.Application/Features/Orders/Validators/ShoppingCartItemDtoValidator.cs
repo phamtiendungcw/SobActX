@@ -8,18 +8,18 @@ public class ShoppingCartItemDtoValidator : AbstractValidator<ShoppingCartItemDt
 {
     public ShoppingCartItemDtoValidator()
     {
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.ShoppingCartId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
-        RuleFor(p => p.Product)
-            .NotNull().WithMessage("{PropertyName} cannot be null.")
-            .DependentRules(() => // Sử dụng các quy tắc phụ thuộc cho các quy tắc chuỗi trên property của sản phẩm
-            {
-                RuleFor(p => p.Product!.ProductId)
-                    .NotEmpty().WithMessage("Product.ProductId is required.");
-            });
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
+        RuleFor(p => p.ProductId)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.Quantity)
-            .GreaterThanOrEqualTo(1).WithMessage("{PropertyName} must be greater than or equal to 1.");
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
     }
 }

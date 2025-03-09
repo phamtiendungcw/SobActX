@@ -2,6 +2,6 @@
 
 public class ProductAttributeDto
 {
-    public Guid ProductAttributeId { get; set; }
+    public Guid Id { get; set; }
     public string AttributeName { get; set; } = string.Empty;
 }

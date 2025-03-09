@@ -2,11 +2,7 @@
 
 public class UpdateWarehouseDto
 {
-    public Guid WarehouseId { get; set; }
-    public string? WarehouseName { get; set; }
-    public string? StreetAddress { get; set; }
-    public string? City { get; set; }
-    public string? State { get; set; }
-    public string? ZipCode { get; set; }
-    public string? Country { get; set; }
+    public Guid Id { get; set; }
+    public string WarehouseName { get; set; } = string.Empty;
+    public Guid? AddressId { get; set; }
 }

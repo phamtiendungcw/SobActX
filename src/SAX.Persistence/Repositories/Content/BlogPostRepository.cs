@@ -1,20 +1,14 @@
-﻿using SAX.Persistence.DatabaseContext;
-
-namespace SAX.Persistence.Repositories.Content;
-
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Domain.Entities.Content;
+using SAX.Persistence.DatabaseContext;
+
+namespace SAX.Persistence.Repositories.Content;
 
 public class BlogPostRepository : GenericRepository<BlogPost>, IBlogPostRepository
 {
-    public BlogPostRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public BlogPostRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
@@ -35,7 +29,7 @@ public class BlogPostRepository : GenericRepository<BlogPost>, IBlogPostReposito
     public async Task<IReadOnlyList<BlogPost>> ListLatestBlogPostsAsync(int count, CancellationToken cancellationToken = default)
     {
         return await _dbContext.BlogPosts
-            .OrderByDescending(bp => bp.PublishDate)
+            .OrderByDescending(bp => bp.PublishedAt)
             .Take(count)
             .ToListAsync(cancellationToken);
     }

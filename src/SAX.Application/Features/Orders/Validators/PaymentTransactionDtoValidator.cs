@@ -8,20 +8,19 @@ public class PaymentTransactionDtoValidator : AbstractValidator<PaymentTransacti
 {
     public PaymentTransactionDtoValidator()
     {
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.OrderId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
-        RuleFor(p => p.TransactionDate)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.Amount)
-            .GreaterThan(0).WithMessage("{PropertyName} must be greater than 0.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .GreaterThan(0).WithMessage("{PropertyName} phải lớn hơn 0.");
         RuleFor(p => p.PaymentStatus)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
-
+            .IsInEnum().WithMessage("{PropertyName} phải là một giá trị hợp lệ.");
         RuleFor(p => p.PaymentGatewayReference)
-            .MaximumLength(255).WithMessage("{PropertyName} must not exceed 255 characters.");
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
     }
 }

@@ -1,13 +1,13 @@
-﻿using SAX.Application.Features.Inventory.DTOs.ProductInventory;
+﻿using SAX.Domain;
 
 namespace SAX.Application.Features.Inventory.DTOs.StockMovement;
 
 public class StockMovementDto
 {
-    public Guid StockMovementId { get; set; }
-    public ProductInventoryDto? ProductInventory { get; set; }
+    public Guid Id { get; set; }
+    public Guid ProductInventoryId { get; set; }
     public int QuantityChanged { get; set; }
-    public string MovementType { get; set; } = string.Empty;
+    public MovementType MovementType { get; set; }
     public DateTime MovementDate { get; set; }
     public string? Reason { get; set; }
 }

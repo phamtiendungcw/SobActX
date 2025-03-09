@@ -1,5 +1,10 @@
-﻿namespace SAX.Application.Features.Content.Commands.Page.DeletePage;
+﻿using FluentResults;
 
-public class DeletePageCommand
+using MediatR;
+
+namespace SAX.Application.Features.Content.Commands.Page.DeletePage;
+
+public record DeletePageCommand : IRequest<Result>
 {
+    public Guid Id { get; set; }
 }

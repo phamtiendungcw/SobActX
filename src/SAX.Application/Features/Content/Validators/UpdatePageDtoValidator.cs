@@ -8,27 +8,25 @@ public class UpdatePageDtoValidator : AbstractValidator<UpdatePageDto>
 {
     public UpdatePageDtoValidator()
     {
-        RuleFor(p => p.PageId)
-            .NotEmpty().WithMessage("{PropertyName} is required.");
-
+        RuleFor(p => p.Id)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
         RuleFor(p => p.Title)
-            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
-            .When(p => !string.IsNullOrEmpty(p.Title));
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.Slug)
-            .MaximumLength(200).WithMessage("{PropertyName} must not exceed 200 characters.")
-            .When(p => !string.IsNullOrEmpty(p.Slug));
-
-        RuleFor(p => p.ContentBody)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .When(p => !string.IsNullOrEmpty(p.ContentBody));
-
-        RuleFor(p => p.PublishDate)
-            .LessThanOrEqualTo(DateTime.UtcNow).WithMessage("{PropertyName} must be a date in the past or present.")
-            .When(p => p.PublishDate.HasValue);
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
+        RuleFor(p => p.ContentSummary)
+            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá 500 ký tự.");
         RuleFor(p => p.AuthorId)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .When(p => p.AuthorId.HasValue);
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.");
+        RuleFor(p => p.PublishedAt)
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .When(x => x.PublishedAt.HasValue);
     }
 }

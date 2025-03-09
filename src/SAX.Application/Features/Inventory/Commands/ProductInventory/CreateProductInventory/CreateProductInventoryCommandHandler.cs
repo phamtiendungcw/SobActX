@@ -30,11 +30,11 @@ public class CreateProductInventoryCommandHandler : IRequestHandler<CreateProduc
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var productInventoryDto = request.CreateProductInventoryDto;
-        var productInventoryToCreate = _mapper.Map<Domain.Entities.Inventory.ProductInventory>(productInventoryDto);
+        var createProductInventoryDto = request.CreateProductInventoryDto;
+        var productInventoryToCreate = _mapper.Map<Domain.Entities.Inventory.ProductInventory>(createProductInventoryDto);
         var createdProductInventory = await _productInventoryRepository.CreateAsync(productInventoryToCreate, cancellationToken);
 
         return Result.Ok(createdProductInventory.Id);

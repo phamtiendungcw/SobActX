@@ -1,4 +1,5 @@
-﻿using SAX.Persistence.DatabaseContext;
+﻿using SAX.Domain;
+using SAX.Persistence.DatabaseContext;
 
 namespace SAX.Persistence.Repositories.Content;
 
@@ -13,11 +14,11 @@ using SAX.Domain.Entities.Content;
 
 public class MediaRepository : GenericRepository<Media>, IMediaRepository
 {
-    public MediaRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public MediaRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
-    public async Task<IReadOnlyList<Media>> ListMediaByTypeAsync(string mediaType, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Media>> ListMediaByTypeAsync(MediaType mediaType, CancellationToken cancellationToken = default)
     {
         return await _dbContext.Media
             .Where(m => m.MediaType == mediaType)

@@ -30,12 +30,13 @@ public class CreateMediaCommandHandler : IRequestHandler<CreateMediaCommand, Res
         if (!validationResult.IsValid)
         {
             var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
-            return Result.Fail<Guid>(new SobActXValidationException(validationResult.Errors).Message).WithErrors(errors);
+            return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var mediaToCreate = _mapper.Map<Domain.Entities.Content.Media>(request.CreateMediaDto);
-        await _mediaRepository.CreateAsync(mediaToCreate, cancellationToken);
+        var createMediaDto = request.CreateMediaDto;
+        var mediaToCreate = _mapper.Map<Domain.Entities.Content.Media>(createMediaDto);
+        var createdMedia = await _mediaRepository.CreateAsync(mediaToCreate, cancellationToken);
 
-        return Result.Ok(mediaToCreate.Id);
+        return Result.Ok(createdMedia.Id);
     }
 }

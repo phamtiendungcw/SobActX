@@ -9,15 +9,14 @@ public class CreateMediaDtoValidator : AbstractValidator<CreateMediaDto>
     public CreateMediaDtoValidator()
     {
         RuleFor(p => p.FileName)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(255).WithMessage("{PropertyName} must not exceed 255 characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(255).WithMessage("{PropertyName} không được vượt quá 255 ký tự.");
         RuleFor(p => p.FilePath)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(1000).WithMessage("{PropertyName} must not exceed 1000 characters.");
-
+            .NotEmpty().WithMessage("{PropertyName} không được để trống.")
+            .NotNull().WithMessage("{PropertyName} không được null.")
+            .MaximumLength(500).WithMessage("{PropertyName} không được vượt quá 500 ký tự.");
         RuleFor(p => p.MediaType)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
-            .MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
+            .IsInEnum().WithMessage("{PropertyName} phải là một giá trị hợp lệ."); // Validate enum
     }
 }

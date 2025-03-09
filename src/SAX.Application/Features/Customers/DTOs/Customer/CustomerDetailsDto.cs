@@ -6,7 +6,9 @@ namespace SAX.Application.Features.Customers.DTOs.Customer;
 
 public class CustomerDetailsDto : CustomerDto
 {
-    public List<OrderDto> Orders { get; set; } = new();
-    public ShoppingCartDto? ShoppingCart { get; set; }
-    public List<ProductReviewDto> ProductReviews { get; set; } = new();
+    public string? StreetAddress { get; set; }
+    public string? City { get; set; }
+    public string? State { get; set; }
+    public string? ZipCode { get; set; }
+    public string? Country { get; set; }
 }

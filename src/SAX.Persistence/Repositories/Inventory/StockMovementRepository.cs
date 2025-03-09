@@ -14,7 +14,7 @@ using SAX.Domain.Entities.Inventory;
 
 public class StockMovementRepository : GenericRepository<StockMovement>, IStockMovementRepository
 {
-    public StockMovementRepository(SobActXDatabaseContext dbContext) : base(dbContext)
+    public StockMovementRepository(SaxDbContext dbContext) : base(dbContext)
     {
     }
 
