@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,14 @@ public class UpdateEmailTemplateCommandHandler : IRequestHandler<UpdateEmailTemp
 {
     private readonly IEmailTemplateRepository _emailTemplateRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateEmailTemplateCommand> _validator;
 
-    public UpdateEmailTemplateCommandHandler(IEmailTemplateRepository emailTemplateRepository, IMapper mapper, IValidator<UpdateEmailTemplateCommand> validator)
+    public UpdateEmailTemplateCommandHandler(IEmailTemplateRepository emailTemplateRepository, IUnitOfWork unitOfWork, IMapper mapper,
+        IValidator<UpdateEmailTemplateCommand> validator)
     {
         _emailTemplateRepository = emailTemplateRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,13 +38,12 @@ public class UpdateEmailTemplateCommandHandler : IRequestHandler<UpdateEmailTemp
         }
 
         var emailTemplateDto = request.UpdateEmailTemplateDto;
-        if (emailTemplateDto == null) return Result.Fail(new SaxBadRequestException("UpdateEmailTemplateDto is required.").Message);
+        var emailTemplate = await _unitOfWork.Repository<Domain.Entities.Marketing.EmailTemplate>().GetByIdAsync(emailTemplateDto.Id, cancellationToken);
+        if (emailTemplate is null) return Result.Fail(new SaxNotFoundException(nameof(EmailTemplate), emailTemplateDto.Id).Message);
+        _mapper.Map(emailTemplateDto, emailTemplate);
 
-        var emailTemplateToUpdate = await _emailTemplateRepository.GetByIdAsync(emailTemplateDto.Id, cancellationToken);
-        if (emailTemplateToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Marketing.EmailTemplate), emailTemplateDto.Id).Message);
-
-        _mapper.Map(request.UpdateEmailTemplateDto, emailTemplateToUpdate);
-        await _emailTemplateRepository.UpdateAsync(emailTemplateToUpdate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Marketing.EmailTemplate>().UpdateAsync(emailTemplate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }

@@ -6,7 +6,4 @@ using SAX.Application.Features.Marketing.DTOs.EmailCampaign;
 
 namespace SAX.Application.Features.Marketing.Commands.EmailCampaign.CreateEmailCampaign;
 
-public record CreateEmailCampaignCommand : IRequest<Result<Guid>>
-{
-    public CreateEmailCampaignDto? CreateEmailCampaignDto { get; set; }
-}
+public abstract record CreateEmailCampaignCommand(CreateEmailCampaignDto CreateEmailCampaignDto) : IRequest<Result<Guid>>;

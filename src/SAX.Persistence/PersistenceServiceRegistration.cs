@@ -35,6 +35,8 @@ public static class PersistenceServiceRegistration
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        #region Register Repositories
+
         // Content
         services.AddScoped<IBlogPostRepository, BlogPostRepository>();
         services.AddScoped<IBlogPostTagRepository, BlogPostTagRepository>();
@@ -88,6 +90,8 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+
+        #endregion Register Repositories
 
         return services;
     }

@@ -6,7 +6,4 @@ using SAX.Application.Features.Promotions.DTOs.Promotion;
 
 namespace SAX.Application.Features.Promotions.Commands.Promotion.UpdatePromotion;
 
-public record UpdatePromotionCommand : IRequest<Result>
-{
-    public UpdatePromotionDto? UpdatePromotionDto { get; set; }
-}
+public abstract record UpdatePromotionCommand(UpdatePromotionDto UpdatePromotionDto) : IRequest<Result>;

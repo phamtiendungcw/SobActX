@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Orders.Commands.Order.DeleteOrder;
 
-public record DeleteOrderCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteOrderCommand(Guid Id) : IRequest<Result>;

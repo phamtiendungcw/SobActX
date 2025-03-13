@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Inventory;
 using SAX.Application.Common.Exceptions;
 
@@ -15,12 +16,15 @@ public class UpdateProductInventoryCommandHandler : IRequestHandler<UpdateProduc
 {
     private readonly IMapper _mapper;
     private readonly IProductInventoryRepository _productInventoryRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateProductInventoryCommand> _validator;
 
-    public UpdateProductInventoryCommandHandler(IMapper mapper, IProductInventoryRepository productInventoryRepository, IValidator<UpdateProductInventoryCommand> validator)
+    public UpdateProductInventoryCommandHandler(IMapper mapper, IProductInventoryRepository productInventoryRepository, IUnitOfWork unitOfWork,
+        IValidator<UpdateProductInventoryCommand> validator)
     {
         _mapper = mapper;
         _productInventoryRepository = productInventoryRepository;
+        _unitOfWork = unitOfWork;
         _validator = validator;
     }
 
@@ -34,12 +38,12 @@ public class UpdateProductInventoryCommandHandler : IRequestHandler<UpdateProduc
         }
 
         var productInventoryDto = request.UpdateProductInventoryDto;
-        if (productInventoryDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật sản phẩm tồn kho không hợp lệ: UpdateProductInventoryDto không được null.").Message);
-        var productInventoryToUpdate = await _productInventoryRepository.GetByIdAsync(productInventoryDto.Id, cancellationToken);
+        var productInventoryToUpdate = await _unitOfWork.Repository<Domain.Entities.Inventory.ProductInventory>().GetByIdAsync(productInventoryDto.Id, cancellationToken);
         if (productInventoryToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Inventory.ProductInventory), productInventoryDto.Id).Message);
-
         _mapper.Map(productInventoryDto, productInventoryToUpdate);
-        await _productInventoryRepository.UpdateAsync(productInventoryToUpdate, cancellationToken);
+
+        await _unitOfWork.Repository<Domain.Entities.Inventory.ProductInventory>().UpdateAsync(productInventoryToUpdate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }

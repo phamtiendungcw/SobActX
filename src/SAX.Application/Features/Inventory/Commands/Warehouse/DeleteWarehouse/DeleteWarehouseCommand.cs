@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Inventory.Commands.Warehouse.DeleteWarehouse;
 
-public record DeleteWarehouseCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteWarehouseCommand(Guid Id) : IRequest<Result>;

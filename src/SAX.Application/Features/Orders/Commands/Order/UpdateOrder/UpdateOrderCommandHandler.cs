@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Res
 {
     private readonly IMapper _mapper;
     private readonly IOrderRepository _orderRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateOrderCommand> _validator;
 
-    public UpdateOrderCommandHandler(IOrderRepository orderRepository, IMapper mapper, IValidator<UpdateOrderCommand> validator)
+    public UpdateOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdateOrderCommand> validator)
     {
         _orderRepository = orderRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,14 +36,13 @@ public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, Res
             return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var updateOrderDto = request.UpdateOrderDto;
-        if (updateOrderDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật đặt hàng không hợp lệ: UpdateOrderDto không được null.").Message);
+        var orderDto = request.UpdateOrderDto;
+        var order = await _unitOfWork.Repository<Domain.Entities.Orders.Order>().GetByIdAsync(orderDto.Id, cancellationToken);
+        if (order == null) return Result.Fail(new SaxNotFoundException(nameof(Order), orderDto.Id).Message);
+        _mapper.Map(orderDto, order);
 
-        var orderToUpdate = await _orderRepository.GetByIdAsync(updateOrderDto.Id, cancellationToken);
-        if (orderToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Orders.Order), updateOrderDto.Id).Message);
-
-        _mapper.Map(updateOrderDto, orderToUpdate);
-        await _orderRepository.UpdateAsync(orderToUpdate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Orders.Order>().UpdateAsync(order, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }

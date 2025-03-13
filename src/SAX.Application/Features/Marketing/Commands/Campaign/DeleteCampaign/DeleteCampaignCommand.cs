@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Marketing.Commands.Campaign.DeleteCampaign;
 
-public record DeleteCampaignCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteCampaignCommand(Guid Id) : IRequest<Result>;

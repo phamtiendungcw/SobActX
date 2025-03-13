@@ -4,7 +4,7 @@ using SAX.Application.Features.Content.DTOs.BlogPost;
 
 namespace SAX.Application.Features.Content.Validators;
 
-public class BlogPostDtoValidator : AbstractValidator<BlogPostDto>
+public sealed class BlogPostDtoValidator : AbstractValidator<BlogPostDto>
 {
     public BlogPostDtoValidator()
     {

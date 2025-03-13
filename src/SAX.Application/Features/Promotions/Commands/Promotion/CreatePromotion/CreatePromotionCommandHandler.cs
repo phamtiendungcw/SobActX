@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Promotions;
 using SAX.Application.Common.Exceptions;
 
@@ -14,12 +15,14 @@ namespace SAX.Application.Features.Promotions.Commands.Promotion.CreatePromotion
 public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionCommand, Result<Guid>>
 {
     private readonly IPromotionRepository _promotionRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IValidator<CreatePromotionCommand> _validator;
 
-    public CreatePromotionCommandHandler(IPromotionRepository promotionRepository, IMapper mapper, IValidator<CreatePromotionCommand> validator)
+    public CreatePromotionCommandHandler(IPromotionRepository promotionRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreatePromotionCommand> validator)
     {
         _promotionRepository = promotionRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,12 +36,12 @@ public class CreatePromotionCommandHandler : IRequestHandler<CreatePromotionComm
             return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createPromotionDto = request.CreatePromotionDto;
-        if (createPromotionDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo khuyến mãi không hợp lệ: CreatePromotionDto không được null.").Message);
+        var promotionDto = request.CreatePromotionDto;
+        var promotion = _mapper.Map<Domain.Entities.Promotions.Promotion>(promotionDto);
 
-        var promotionToCreate = _mapper.Map<Domain.Entities.Promotions.Promotion>(createPromotionDto);
-        var createdPromotion = await _promotionRepository.AddAsync(promotionToCreate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Promotions.Promotion>().AddAsync(promotion, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Ok(createdPromotion.Id);
+        return Result.Ok(promotion.Id);
     }
 }

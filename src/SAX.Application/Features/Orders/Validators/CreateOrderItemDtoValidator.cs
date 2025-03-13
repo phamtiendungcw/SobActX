@@ -4,7 +4,7 @@ using SAX.Application.Features.Orders.DTOs.OrderItem;
 
 namespace SAX.Application.Features.Orders.Validators;
 
-public class CreateOrderItemDtoValidator : AbstractValidator<CreateOrderItemDto>
+public sealed class CreateOrderItemDtoValidator : AbstractValidator<CreateOrderItemDto>
 {
     public CreateOrderItemDtoValidator()
     {

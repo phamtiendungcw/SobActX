@@ -4,7 +4,7 @@ using SAX.Application.Features.Inventory.DTOs.ProductInventory;
 
 namespace SAX.Application.Features.Inventory.Validators;
 
-public class UpdateProductInventoryDtoValidator : AbstractValidator<UpdateProductInventoryDto>
+public sealed class UpdateProductInventoryDtoValidator : AbstractValidator<UpdateProductInventoryDto>
 {
     public UpdateProductInventoryDtoValidator()
     {

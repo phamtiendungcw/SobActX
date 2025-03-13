@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateCampaignCommand> _validator;
 
-    public UpdateCampaignCommandHandler(ICampaignRepository campaignRepository, IMapper mapper, IValidator<UpdateCampaignCommand> validator)
+    public UpdateCampaignCommandHandler(ICampaignRepository campaignRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdateCampaignCommand> validator)
     {
         _campaignRepository = campaignRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,12 +37,12 @@ public class UpdateCampaignCommandHandler : IRequestHandler<UpdateCampaignComman
         }
 
         var campaignDto = request.UpdateCampaignDto;
-        if (campaignDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật chiến dịch không hợp lệ: UpdateCampaignDto không được null.").Message);
-        var campaignToUpdate = await _campaignRepository.GetByIdAsync(campaignDto.Id, cancellationToken);
-        if (campaignToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Marketing.Campaign), campaignDto.Id).Message);
-
+        var campaignToUpdate = await _unitOfWork.Repository<Domain.Entities.Marketing.Campaign>().GetByIdAsync(campaignDto.Id, cancellationToken);
+        if (campaignToUpdate is null) return Result.Fail(new SaxNotFoundException(nameof(Campaign), campaignDto.Id).Message);
         _mapper.Map(campaignDto, campaignToUpdate);
-        await _campaignRepository.UpdateAsync(campaignToUpdate, cancellationToken);
+
+        await _unitOfWork.Repository<Domain.Entities.Marketing.Campaign>().UpdateAsync(campaignToUpdate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }

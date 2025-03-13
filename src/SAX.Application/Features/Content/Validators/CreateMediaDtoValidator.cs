@@ -4,7 +4,7 @@ using SAX.Application.Features.Content.DTOs.Media;
 
 namespace SAX.Application.Features.Content.Validators;
 
-public class CreateMediaDtoValidator : AbstractValidator<CreateMediaDto>
+public sealed class CreateMediaDtoValidator : AbstractValidator<CreateMediaDto>
 {
     public CreateMediaDtoValidator()
     {

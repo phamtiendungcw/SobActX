@@ -4,7 +4,7 @@ using SAX.Application.Features.Inventory.DTOs.StockMovement;
 
 namespace SAX.Application.Features.Inventory.Validators;
 
-public class StockMovementDtoValidator : AbstractValidator<StockMovementDto>
+public sealed class StockMovementDtoValidator : AbstractValidator<StockMovementDto>
 {
     public StockMovementDtoValidator()
     {

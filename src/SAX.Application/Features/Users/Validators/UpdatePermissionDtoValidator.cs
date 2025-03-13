@@ -4,7 +4,7 @@ using SAX.Application.Features.Users.DTOs.Permission;
 
 namespace SAX.Application.Features.Users.Validators;
 
-public class UpdatePermissionDtoValidator : AbstractValidator<UpdatePermissionDto>
+public sealed class UpdatePermissionDtoValidator : AbstractValidator<UpdatePermissionDto>
 {
     public UpdatePermissionDtoValidator()
     {

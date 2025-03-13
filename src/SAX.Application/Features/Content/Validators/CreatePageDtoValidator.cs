@@ -4,7 +4,7 @@ using SAX.Application.Features.Content.DTOs.Page;
 
 namespace SAX.Application.Features.Content.Validators;
 
-public class CreatePageDtoValidator : AbstractValidator<CreatePageDto>
+public sealed class CreatePageDtoValidator : AbstractValidator<CreatePageDto>
 {
     public CreatePageDtoValidator()
     {

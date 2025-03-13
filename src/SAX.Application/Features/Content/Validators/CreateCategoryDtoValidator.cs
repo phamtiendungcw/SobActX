@@ -4,7 +4,7 @@ using SAX.Application.Features.Content.DTOs.Category;
 
 namespace SAX.Application.Features.Content.Validators;
 
-public class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
+public sealed class CreateCategoryDtoValidator : AbstractValidator<CreateCategoryDto>
 {
     public CreateCategoryDtoValidator()
     {

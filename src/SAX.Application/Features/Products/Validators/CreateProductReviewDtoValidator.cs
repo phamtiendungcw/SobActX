@@ -4,7 +4,7 @@ using SAX.Application.Features.Products.DTOs.ProductReview;
 
 namespace SAX.Application.Features.Products.Validators;
 
-public class CreateProductReviewDtoValidator : AbstractValidator<CreateProductReviewDto>
+public sealed class CreateProductReviewDtoValidator : AbstractValidator<CreateProductReviewDto>
 {
     public CreateProductReviewDtoValidator()
     {

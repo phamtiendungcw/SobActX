@@ -4,11 +4,12 @@ using SAX.Application.Features.Inventory.Validators;
 
 namespace SAX.Application.Features.Inventory.Commands.StockMovement.CreateStockMovement;
 
-public class CreateStockMovementCommandValidator : AbstractValidator<CreateStockMovementCommand>
+public sealed class CreateStockMovementCommandValidator : AbstractValidator<CreateStockMovementCommand>
 {
     public CreateStockMovementCommandValidator()
     {
-        RuleFor(p => p.StockMovementDto).NotNull().WithMessage("{PropertyName} cannot be null.");
-        RuleFor(p => p.StockMovementDto!).SetValidator(new StockMovementDtoValidator());
+        RuleFor(p => p.CreateStockMovementDto)
+            .NotNull().WithMessage("{PropertyName} is required.")
+            .SetValidator(new CreateStockMovementDtoValidator());
     }
 }

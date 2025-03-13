@@ -4,7 +4,7 @@ using SAX.Application.Features.Marketing.DTOs.Segment;
 
 namespace SAX.Application.Features.Marketing.Validators;
 
-public class CreateSegmentDtoValidator : AbstractValidator<CreateSegmentDto>
+public sealed class CreateSegmentDtoValidator : AbstractValidator<CreateSegmentDto>
 {
     public CreateSegmentDtoValidator()
     {

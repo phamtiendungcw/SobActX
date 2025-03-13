@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Inventory.Commands.ProductInventory.DeleteProductInventory;
 
-public record DeleteProductInventoryCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteProductInventoryCommand(Guid Id) : IRequest<Result>;

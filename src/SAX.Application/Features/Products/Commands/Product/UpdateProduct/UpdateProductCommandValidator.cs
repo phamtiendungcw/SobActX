@@ -8,7 +8,8 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 {
     public UpdateProductCommandValidator()
     {
-        RuleFor(p => p.UpdateProductDto).NotNull().WithMessage("UpdateProductDto is required.");
-        RuleFor(x => x.UpdateProductDto!).SetValidator(new UpdateProductDtoValidator());
+        RuleFor(p => p.UpdateProductDto)
+            .NotNull().WithMessage("{PropertyName} is required.")
+            .SetValidator(new UpdateProductDtoValidator());
     }
 }

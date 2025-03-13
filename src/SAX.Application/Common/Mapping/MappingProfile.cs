@@ -44,7 +44,7 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Content
+        // Content Feature
         CreateMap<BlogPost, BlogPostDto>().ReverseMap();
         CreateMap<BlogPost, BlogPostDetailsDto>()
             .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author != null ? $"{src.Author.FirstName} {src.Author.LastName}" : null))
@@ -76,7 +76,7 @@ public class MappingProfile : Profile
         CreateMap<BlogPostTag, BlogPostTagDetailsDto>().ReverseMap();
         // Create/Update DTOs
 
-        // Customers
+        // Customers Feature
         CreateMap<Customer, CustomerDto>().ReverseMap();
         CreateMap<Customer, CustomerDetailsDto>().ReverseMap();
         CreateMap<Customer, CreateCustomerDto>().ReverseMap();
@@ -84,7 +84,7 @@ public class MappingProfile : Profile
 
         CreateMap<Address, AddressDto>().ReverseMap();
 
-        // Inventory
+        // Inventory Feature
         CreateMap<ProductInventory, ProductInventoryDto>().ReverseMap();
         CreateMap<ProductInventory, ProductInventoryDetailsDto>()
             .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product != null ? src.Product.ProductName : string.Empty))
@@ -108,10 +108,10 @@ public class MappingProfile : Profile
         CreateMap<Warehouse, CreateWarehouseDto>().ReverseMap();
         CreateMap<Warehouse, UpdateWarehouseDto>().ReverseMap();
 
-        // Logging
+        // Logging Feature
         CreateMap<LogEntry, LogEntryDto>().ReverseMap();
 
-        // Marketing
+        // Marketing Feature
         CreateMap<Campaign, CampaignDto>().ReverseMap();
         CreateMap<Campaign, CampaignDetailsDto>().ReverseMap();
         CreateMap<Campaign, CreateCampaignDto>().ReverseMap();
@@ -129,7 +129,7 @@ public class MappingProfile : Profile
         CreateMap<Segment, CreateSegmentDto>().ReverseMap();
         CreateMap<Segment, UpdateSegmentDto>().ReverseMap();
 
-        // Orders
+        // Orders Feature
         CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<Order, OrderDetailsDto>()
             .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? $"{src.Customer.FirstName} {src.Customer.LastName}" : null))
@@ -146,7 +146,7 @@ public class MappingProfile : Profile
         CreateMap<ShoppingCart, ShoppingCartDto>().ReverseMap();
         CreateMap<ShoppingCartItem, ShoppingCartItemDto>().ReverseMap();
 
-        // Products
+        // Products Feature
         CreateMap<Product, ProductDto>().ReverseMap();
         CreateMap<Product, ProductDetailsDto>()
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.CategoryName : null))
@@ -165,7 +165,7 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer != null ? $"{src.Customer.FirstName} {src.Customer.LastName}" : null))
             .ReverseMap();
 
-        // Promotions
+        // Promotions Feature
         CreateMap<Promotion, PromotionDto>().ReverseMap();
         CreateMap<Promotion, PromotionDetailsDto>().ReverseMap();
         CreateMap<Promotion, CreatePromotionDto>().ReverseMap();
@@ -173,7 +173,7 @@ public class MappingProfile : Profile
         CreateMap<PromotionCategory, PromotionCategoryDto>().ReverseMap();
         CreateMap<PromotionProduct, PromotionProductDto>().ReverseMap();
 
-        // Users
+        // Users Feature
         CreateMap<User, UserDto>().ReverseMap();
         CreateMap<User, UserDetailsDto>().ReverseMap();
         CreateMap<User, CreateUserDto>().ReverseMap();

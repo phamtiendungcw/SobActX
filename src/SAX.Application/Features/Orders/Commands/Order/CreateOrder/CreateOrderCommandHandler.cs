@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Orders;
 using SAX.Application.Common.Exceptions;
 
@@ -14,12 +15,14 @@ namespace SAX.Application.Features.Orders.Commands.Order.CreateOrder;
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Result<Guid>>
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateOrderCommand> _validator;
 
-    public CreateOrderCommandHandler(IOrderRepository orderRepository, IMapper mapper, IValidator<CreateOrderCommand> validator)
+    public CreateOrderCommandHandler(IOrderRepository orderRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateOrderCommand> validator)
     {
         _orderRepository = orderRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,10 +36,12 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
             return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createOrderDto = request.CreateOrderDto;
-        var orderToCreate = _mapper.Map<Domain.Entities.Orders.Order>(createOrderDto);
-        var createdOrder = await _orderRepository.AddAsync(orderToCreate, cancellationToken);
+        var orderDto = request.CreateOrderDto;
+        var order = _mapper.Map<Domain.Entities.Orders.Order>(orderDto);
 
-        return Result.Ok(createdOrder.Id);
+        await _unitOfWork.Repository<Domain.Entities.Orders.Order>().AddAsync(order, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(order.Id);
     }
 }

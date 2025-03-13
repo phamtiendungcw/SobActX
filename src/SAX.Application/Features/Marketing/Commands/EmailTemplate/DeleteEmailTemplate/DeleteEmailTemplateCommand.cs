@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Marketing.Commands.EmailTemplate.DeleteEmailTemplate;
 
-public record DeleteEmailTemplateCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteEmailTemplateCommand(Guid Id) : IRequest<Result>;

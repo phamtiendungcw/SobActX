@@ -22,6 +22,7 @@
     <Folder Include="Features\Content\Queries\Media\" />
     <Folder Include="Features\Content\Queries\Page\" />
     <Folder Include="Features\Content\Queries\Tag\" />
+    <Folder Include="Features\Customers\Commands\Address\" />
     <Folder Include="Features\Customers\Queries\Customer\" />
     <Folder Include="Features\Inventory\Queries\ProductInventory\" />
     <Folder Include="Features\Inventory\Queries\StockMovement\" />
@@ -30,8 +31,19 @@
     <Folder Include="Features\Marketing\Queries\EmailCampaign\" />
     <Folder Include="Features\Marketing\Queries\EmailTemplate\" />
     <Folder Include="Features\Marketing\Queries\Segment\" />
+    <Folder Include="Features\Orders\Commands\ShoppingCartItem\" />
+    <Folder Include="Features\Orders\Commands\PaymentTransaction\" />
+    <Folder Include="Features\Orders\Commands\OrderStatusHistory\" />
+    <Folder Include="Features\Orders\Commands\OrderItem\" />
     <Folder Include="Features\Orders\Queries\Order\" />
+    <Folder Include="Features\Products\Commands\ProductReview\" />
+    <Folder Include="Features\Products\Commands\ProductAttributeValue\" />
+    <Folder Include="Features\Products\Commands\ProductAttribute\" />
+    <Folder Include="Features\Products\Commands\ProductBrand\" />
+    <Folder Include="Features\Products\Commands\ProductCategory\" />
     <Folder Include="Features\Products\Queries\Product\" />
+    <Folder Include="Features\Promotions\Commands\PromotionProduct\" />
+    <Folder Include="Features\Promotions\Commands\PomotionCategory\" />
     <Folder Include="Features\Promotions\Queries\Promotion\" />
     <Folder Include="Features\Promotions\Queries\PromotionCategory\" />
     <Folder Include="Features\Promotions\Queries\PromotionProduct\" />

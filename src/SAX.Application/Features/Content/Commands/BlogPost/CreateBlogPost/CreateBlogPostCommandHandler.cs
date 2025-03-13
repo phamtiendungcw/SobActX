@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
 {
     private readonly IBlogPostRepository _blogPostRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateBlogPostCommand> _validator;
 
-    public CreateBlogPostCommandHandler(IBlogPostRepository blogPostRepository, IMapper mapper, IValidator<CreateBlogPostCommand> validator)
+    public CreateBlogPostCommandHandler(IBlogPostRepository blogPostRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateBlogPostCommand> validator)
     {
         _blogPostRepository = blogPostRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,10 +36,12 @@ public class CreateBlogPostCommandHandler : IRequestHandler<CreateBlogPostComman
             return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createBlogPostDto = request.CreateBlogPostDto;
-        var blogPostToCreate = _mapper.Map<Domain.Entities.Content.BlogPost>(createBlogPostDto);
-        var createdBlogPost = await _blogPostRepository.AddAsync(blogPostToCreate, cancellationToken);
+        var blogPostDto = request.CreateBlogPostDto;
+        var blogPost = _mapper.Map<Domain.Entities.Content.BlogPost>(blogPostDto);
 
-        return Result.Ok(createdBlogPost.Id);
+        await _unitOfWork.Repository<Domain.Entities.Content.BlogPost>().AddAsync(blogPost, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(blogPost.Id);
     }
 }

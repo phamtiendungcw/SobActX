@@ -4,7 +4,7 @@ using SAX.Application.Features.Orders.DTOs;
 
 namespace SAX.Application.Features.Orders.Validators;
 
-public class OrderStatusHistoryDtoValidator : AbstractValidator<OrderStatusHistoryDto>
+public sealed class OrderStatusHistoryDtoValidator : AbstractValidator<OrderStatusHistoryDto>
 {
     public OrderStatusHistoryDtoValidator()
     {

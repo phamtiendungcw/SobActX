@@ -4,11 +4,12 @@ using SAX.Application.Features.Inventory.Validators;
 
 namespace SAX.Application.Features.Inventory.Commands.Warehouse.UpdateWarehouse;
 
-public class UpdateWarehouseCommandValidator : AbstractValidator<UpdateWarehouseCommand>
+public sealed class UpdateWarehouseCommandValidator : AbstractValidator<UpdateWarehouseCommand>
 {
     public UpdateWarehouseCommandValidator()
     {
-        RuleFor(p => p.UpdateWarehouseDto).NotNull().WithMessage("{PropertyName} is required.");
-        RuleFor(p => p.UpdateWarehouseDto!).SetValidator(new UpdateWarehouseDtoValidator());
+        RuleFor(p => p.UpdateWarehouseDto)
+            .NotNull().WithMessage("{PropertyName} is required.")
+            .SetValidator(new UpdateWarehouseDtoValidator());
     }
 }

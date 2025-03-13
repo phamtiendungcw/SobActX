@@ -4,7 +4,7 @@ using SAX.Application.Features.Marketing.DTOs.EmailTemplate;
 
 namespace SAX.Application.Features.Marketing.Validators;
 
-public class EmailTemplateDtoValidator : AbstractValidator<EmailTemplateDto>
+public sealed class EmailTemplateDtoValidator : AbstractValidator<EmailTemplateDto>
 {
     public EmailTemplateDtoValidator()
     {

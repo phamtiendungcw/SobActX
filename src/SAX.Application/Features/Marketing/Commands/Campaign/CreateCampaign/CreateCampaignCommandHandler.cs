@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
 {
     private readonly ICampaignRepository _campaignRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateCampaignCommand> _validator;
 
-    public CreateCampaignCommandHandler(ICampaignRepository campaignRepository, IMapper mapper, IValidator<CreateCampaignCommand> validator)
+    public CreateCampaignCommandHandler(ICampaignRepository campaignRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateCampaignCommand> validator)
     {
         _campaignRepository = campaignRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,10 +36,12 @@ public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignComman
             return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createCampaignDto = request.CreateCampaignDto;
-        var campaignToCreate = _mapper.Map<Domain.Entities.Marketing.Campaign>(createCampaignDto);
-        var createdCampaign = await _campaignRepository.AddAsync(campaignToCreate, cancellationToken);
+        var campaignDto = request.CreateCampaignDto;
+        var campaign = _mapper.Map<Domain.Entities.Marketing.Campaign>(campaignDto);
 
-        return Result.Ok(createdCampaign.Id);
+        await _unitOfWork.Repository<Domain.Entities.Marketing.Campaign>().AddAsync(campaign, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(campaign.Id);
     }
 }

@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 using SAX.Application.Common.Exceptions;
 
@@ -14,12 +15,14 @@ namespace SAX.Application.Features.Marketing.Commands.Segment.CreateSegment;
 public class CreateSegmentCommandHandler : IRequestHandler<CreateSegmentCommand, Result<Guid>>
 {
     private readonly ISegmentRepository _segmentRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateSegmentCommand> _validator;
 
-    public CreateSegmentCommandHandler(ISegmentRepository segmentRepository, IMapper mapper, IValidator<CreateSegmentCommand> validator)
+    public CreateSegmentCommandHandler(ISegmentRepository segmentRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateSegmentCommand> validator)
     {
         _segmentRepository = segmentRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,11 +36,11 @@ public class CreateSegmentCommandHandler : IRequestHandler<CreateSegmentCommand,
             return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createSegmentDto = request.CreateSegmentDto;
-        if (createSegmentDto == null) return Result.Fail(new SaxBadRequestException("CreateSegmentDto is required.").Message);
+        var segmentDto = request.CreateSegmentDto;
+        var segment = _mapper.Map<Domain.Entities.Marketing.Segment>(segmentDto);
 
-        var segment = _mapper.Map<Domain.Entities.Marketing.Segment>(createSegmentDto);
-        await _segmentRepository.AddAsync(segment, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Marketing.Segment>().AddAsync(segment, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok(segment.Id);
     }

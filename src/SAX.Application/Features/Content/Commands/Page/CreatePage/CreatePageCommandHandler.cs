@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class CreatePageCommandHandler : IRequestHandler<CreatePageCommand, Resul
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreatePageCommand> _validator;
 
-    public CreatePageCommandHandler(IPageRepository pageRepository, IMapper mapper, IValidator<CreatePageCommand> validator)
+    public CreatePageCommandHandler(IPageRepository pageRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreatePageCommand> validator)
     {
         _pageRepository = pageRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,9 +37,11 @@ public class CreatePageCommandHandler : IRequestHandler<CreatePageCommand, Resul
         }
 
         var createPageDto = request.CreatePageDto;
-        var pageToCreate = _mapper.Map<Domain.Entities.Content.Page>(createPageDto);
-        var createdPage = await _pageRepository.AddAsync(pageToCreate, cancellationToken);
+        var page = _mapper.Map<Domain.Entities.Content.Page>(createPageDto);
 
-        return Result.Ok(createdPage.Id);
+        await _unitOfWork.Repository<Domain.Entities.Content.Page>().AddAsync(page, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(page.Id);
     }
 }

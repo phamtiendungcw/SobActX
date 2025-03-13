@@ -4,7 +4,7 @@ using SAX.Application.Features.Orders.DTOs;
 
 namespace SAX.Application.Features.Orders.Validators;
 
-public class PaymentTransactionDtoValidator : AbstractValidator<PaymentTransactionDto>
+public sealed class PaymentTransactionDtoValidator : AbstractValidator<PaymentTransactionDto>
 {
     public PaymentTransactionDtoValidator()
     {

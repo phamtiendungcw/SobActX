@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class UpdateBlogPostCommandHandler : IRequestHandler<UpdateBlogPostComman
 {
     private readonly IBlogPostRepository _blogPostRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateBlogPostCommand> _validator;
 
-    public UpdateBlogPostCommandHandler(IBlogPostRepository blogPostRepository, IMapper mapper, IValidator<UpdateBlogPostCommand> validator)
+    public UpdateBlogPostCommandHandler(IBlogPostRepository blogPostRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdateBlogPostCommand> validator)
     {
         _blogPostRepository = blogPostRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,13 +37,12 @@ public class UpdateBlogPostCommandHandler : IRequestHandler<UpdateBlogPostComman
         }
 
         var updateBlogPostDto = request.UpdateBlogPostDto;
-        if (updateBlogPostDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật bài viết blog không hợp lệ: UpdateBlogPostDto không được null.").Message);
-
-        var blogPostToUpdate = await _blogPostRepository.GetByIdAsync(updateBlogPostDto.Id, cancellationToken);
-        if (blogPostToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.BlogPost), updateBlogPostDto.Id).Message);
-
+        var blogPostToUpdate = await _unitOfWork.Repository<Domain.Entities.Content.BlogPost>().GetByIdAsync(updateBlogPostDto.Id, cancellationToken);
+        if (blogPostToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(BlogPost), updateBlogPostDto.Id).Message);
         _mapper.Map(updateBlogPostDto, blogPostToUpdate);
-        await _blogPostRepository.UpdateAsync(blogPostToUpdate, cancellationToken);
+
+        await _unitOfWork.Repository<Domain.Entities.Content.BlogPost>().UpdateAsync(blogPostToUpdate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }
