@@ -4,7 +4,7 @@ using SAX.Application.Features.Inventory.DTOs.ProductInventory;
 
 namespace SAX.Application.Features.Inventory.Validators;
 
-public class CreateProductInventoryDtoValidator : AbstractValidator<CreateProductInventoryDto>
+public sealed class CreateProductInventoryDtoValidator : AbstractValidator<CreateProductInventoryDto>
 {
     public CreateProductInventoryDtoValidator()
     {

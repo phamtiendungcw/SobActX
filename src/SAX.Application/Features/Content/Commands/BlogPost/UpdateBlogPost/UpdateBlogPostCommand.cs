@@ -6,7 +6,4 @@ using SAX.Application.Features.Content.DTOs.BlogPost;
 
 namespace SAX.Application.Features.Content.Commands.BlogPost.UpdateBlogPost;
 
-public record UpdateBlogPostCommand() : IRequest<Result>
-{
-    public UpdateBlogPostDto? UpdateBlogPostDto { get; set; }
-}
+public abstract record UpdateBlogPostCommand(UpdateBlogPostDto UpdateBlogPostDto) : IRequest<Result>;

@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Customers;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,14 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 {
     private readonly ICustomerRepository _customerRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateCustomerCommand> _validator;
 
-    public CreateCustomerCommandHandler(ICustomerRepository customerRepository, IMapper mapper, IValidator<CreateCustomerCommand> validator)
+    public CreateCustomerCommandHandler(ICustomerRepository customerRepository, IUnitOfWork unitOfWork, IMapper mapper,
+        IValidator<CreateCustomerCommand> validator)
     {
         _customerRepository = customerRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,10 +37,13 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createCustomerDto = request.CreateCustomerDto;
-        var customerToCreate = _mapper.Map<Domain.Entities.Customers.Customer>(createCustomerDto);
-        var createdCustomer = await _customerRepository.AddAsync(customerToCreate, cancellationToken);
+        var customerDto = request.CreateCustomerDto;
+        var customerToCreate = _mapper.Map<Domain.Entities.Customers.Customer>(customerDto);
 
-        return Result.Ok(createdCustomer.Id);
+        await _unitOfWork.Repository<Domain.Entities.Customers.Customer>()
+            .AddAsync(customerToCreate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(customerToCreate.Id);
     }
 }

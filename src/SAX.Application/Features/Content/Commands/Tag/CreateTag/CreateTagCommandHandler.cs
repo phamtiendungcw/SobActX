@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Result<
 {
     private readonly IMapper _mapper;
     private readonly ITagRepository _tagRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateTagCommand> _validator;
 
-    public CreateTagCommandHandler(ITagRepository tagRepository, IMapper mapper, IValidator<CreateTagCommand> validator)
+    public CreateTagCommandHandler(ITagRepository tagRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateTagCommand> validator)
     {
         _tagRepository = tagRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,9 +37,11 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, Result<
         }
 
         var createTagDto = request.CreateTagDto;
-        var tagToCreate = _mapper.Map<Domain.Entities.Content.Tag>(createTagDto);
-        var createdTag = await _tagRepository.AddAsync(tagToCreate, cancellationToken);
+        var tag = _mapper.Map<Domain.Entities.Content.Tag>(createTagDto);
 
-        return Result.Ok(createdTag.Id);
+        await _unitOfWork.Repository<Domain.Entities.Content.Tag>().AddAsync(tag, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(tag.Id);
     }
 }

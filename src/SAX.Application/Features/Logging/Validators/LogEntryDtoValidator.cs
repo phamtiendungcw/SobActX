@@ -4,7 +4,7 @@ using SAX.Application.Features.Logging.DTOs;
 
 namespace SAX.Application.Features.Logging.Validators;
 
-public class LogEntryDtoValidator : AbstractValidator<LogEntryDto>
+public sealed class LogEntryDtoValidator : AbstractValidator<LogEntryDto>
 {
     public LogEntryDtoValidator()
     {

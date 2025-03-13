@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Content.Commands.Category.DeleteCategory;
 
-public record DeleteCategoryCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteCategoryCommand(Guid Id) : IRequest<Result>;

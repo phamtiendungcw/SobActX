@@ -4,7 +4,7 @@ using SAX.Application.Features.Customers.DTOs;
 
 namespace SAX.Application.Features.Customers.Validators;
 
-public class AddressDtoValidator : AbstractValidator<AddressDto>
+public sealed class AddressDtoValidator : AbstractValidator<AddressDto>
 {
     public AddressDtoValidator()
     {

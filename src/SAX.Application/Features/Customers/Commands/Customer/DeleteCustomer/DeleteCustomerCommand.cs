@@ -4,7 +4,4 @@ using MediatR;
 
 namespace SAX.Application.Features.Customers.Commands.Customer.DeleteCustomer;
 
-public record DeleteCustomerCommand : IRequest<Result>
-{
-    public Guid Id { get; set; }
-}
+public abstract record DeleteCustomerCommand(Guid Id) : IRequest<Result>;

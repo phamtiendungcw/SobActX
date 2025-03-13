@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, Resul
 {
     private readonly IMapper _mapper;
     private readonly IPageRepository _pageRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdatePageCommand> _validator;
 
-    public UpdatePageCommandHandler(IPageRepository pageRepository, IMapper mapper, IValidator<UpdatePageCommand> validator)
+    public UpdatePageCommandHandler(IPageRepository pageRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdatePageCommand> validator)
     {
         _pageRepository = pageRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,13 +37,12 @@ public class UpdatePageCommandHandler : IRequestHandler<UpdatePageCommand, Resul
         }
 
         var updatePageDto = request.UpdatePageDto;
-        if (updatePageDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật trang không hợp lệ: UpdatePageDto không được null.").Message);
-
-        var pageToUpdate = await _pageRepository.GetByIdAsync(updatePageDto.Id, cancellationToken);
+        var pageToUpdate = await _unitOfWork.Repository<Domain.Entities.Content.Page>().GetByIdAsync(updatePageDto.Id, cancellationToken);
         if (pageToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.Page), updatePageDto.Id).Message);
+        _mapper.Map(updatePageDto, pageToUpdate);
 
-        _mapper.Map(request.UpdatePageDto, pageToUpdate);
-        await _pageRepository.UpdateAsync(pageToUpdate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Content.Page>().UpdateAsync(pageToUpdate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }

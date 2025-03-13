@@ -4,7 +4,7 @@ using SAX.Application.Features.Promotions.DTOs.Promotion;
 
 namespace SAX.Application.Features.Promotions.Validators;
 
-public class UpdatePromotionDtoValidator : AbstractValidator<UpdatePromotionDto>
+public sealed class UpdatePromotionDtoValidator : AbstractValidator<UpdatePromotionDto>
 {
     public UpdatePromotionDtoValidator()
     {

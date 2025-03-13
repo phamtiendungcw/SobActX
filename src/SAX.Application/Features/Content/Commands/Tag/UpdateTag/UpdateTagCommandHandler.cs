@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -15,12 +16,14 @@ public class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand, Result>
 {
     private readonly IMapper _mapper;
     private readonly ITagRepository _tagRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<UpdateTagCommand> _validator;
 
-    public UpdateTagCommandHandler(IMapper mapper, ITagRepository tagRepository, IValidator<UpdateTagCommand> validator)
+    public UpdateTagCommandHandler(ITagRepository tagRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdateTagCommand> validator)
     {
         _mapper = mapper;
         _tagRepository = tagRepository;
+        _unitOfWork = unitOfWork;
         _validator = validator;
     }
 
@@ -34,13 +37,12 @@ public class UpdateTagCommandHandler : IRequestHandler<UpdateTagCommand, Result>
         }
 
         var updateTagDto = request.UpdateTagDto;
-        if (updateTagDto == null) return Result.Fail("UpdateTagDto cannot be null.");
+        var tagToUpdate = await _unitOfWork.Repository<Domain.Entities.Content.Tag>().GetByIdAsync(updateTagDto.Id, cancellationToken);
+        if (tagToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Content.Tag), updateTagDto.Id).Message);
+        _mapper.Map(updateTagDto, tagToUpdate);
 
-        var tagToUpdate = await _tagRepository.GetByIdAsync(updateTagDto.Id, cancellationToken);
-        if (tagToUpdate == null) return Result.Fail($"Không tìm thấy thẻ với ID: {updateTagDto.Id}");
-
-        _mapper.Map(request.UpdateTagDto, tagToUpdate);
-        await _tagRepository.UpdateAsync(tagToUpdate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Content.Tag>().UpdateAsync(tagToUpdate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }

@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Products;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 {
     private readonly IMapper _mapper;
     private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateProductCommand> _validator;
 
-    public CreateProductCommandHandler(IProductRepository productRepository, IMapper mapper, IValidator<CreateProductCommand> validator)
+    public CreateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateProductCommand> validator)
     {
         _productRepository = productRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,12 +36,12 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createProductDto = request.CreateProductDto;
-        if (createProductDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo sản phẩm không hợp lệ: CreateProductDto không được null.").Message);
+        var productDto = request.CreateProductDto;
+        var product = _mapper.Map<Domain.Entities.Products.Product>(productDto);
 
-        var productToCreate = _mapper.Map<Domain.Entities.Products.Product>(createProductDto);
-        var createdProduct = await _productRepository.AddAsync(productToCreate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Products.Product>().AddAsync(product, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result.Ok(createdProduct.Id);
+        return Result.Ok(product.Id);
     }
 }

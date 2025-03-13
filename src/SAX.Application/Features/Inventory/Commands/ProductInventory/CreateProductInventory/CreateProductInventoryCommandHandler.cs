@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Inventory;
 using SAX.Application.Common.Exceptions;
 
@@ -15,11 +16,13 @@ public class CreateProductInventoryCommandHandler : IRequestHandler<CreateProduc
 {
     private readonly IMapper _mapper;
     private readonly IProductInventoryRepository _productInventoryRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateProductInventoryCommand> _validator;
 
-    public CreateProductInventoryCommandHandler(IProductInventoryRepository productInventoryRepository, IMapper mapper, IValidator<CreateProductInventoryCommand> validator)
+    public CreateProductInventoryCommandHandler(IProductInventoryRepository productInventoryRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateProductInventoryCommand> validator)
     {
         _productInventoryRepository = productInventoryRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,10 +36,12 @@ public class CreateProductInventoryCommandHandler : IRequestHandler<CreateProduc
             return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createProductInventoryDto = request.CreateProductInventoryDto;
-        var productInventoryToCreate = _mapper.Map<Domain.Entities.Inventory.ProductInventory>(createProductInventoryDto);
-        var createdProductInventory = await _productInventoryRepository.AddAsync(productInventoryToCreate, cancellationToken);
+        var productInventoryDto = request.CreateProductInventoryDto;
+        var productInventory = _mapper.Map<Domain.Entities.Inventory.ProductInventory>(productInventoryDto);
 
-        return Result.Ok(createdProductInventory.Id);
+        await _unitOfWork.Repository<Domain.Entities.Inventory.ProductInventory>().AddAsync(productInventory, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(productInventory.Id);
     }
 }

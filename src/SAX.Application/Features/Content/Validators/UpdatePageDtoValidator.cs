@@ -4,7 +4,7 @@ using SAX.Application.Features.Content.DTOs.Page;
 
 namespace SAX.Application.Features.Content.Validators;
 
-public class UpdatePageDtoValidator : AbstractValidator<UpdatePageDto>
+public sealed class UpdatePageDtoValidator : AbstractValidator<UpdatePageDto>
 {
     public UpdatePageDtoValidator()
     {

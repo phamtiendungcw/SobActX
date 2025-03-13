@@ -4,7 +4,7 @@ using SAX.Application.Features.Users.DTOs.User;
 
 namespace SAX.Application.Features.Users.Validators;
 
-public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
+public sealed class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
 {
     public CreateUserDtoValidator()
     {

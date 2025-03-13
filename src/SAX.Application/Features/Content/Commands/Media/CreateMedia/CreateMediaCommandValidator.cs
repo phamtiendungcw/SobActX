@@ -4,11 +4,12 @@ using SAX.Application.Features.Content.Validators;
 
 namespace SAX.Application.Features.Content.Commands.Media.CreateMedia;
 
-public class CreateMediaCommandValidator : AbstractValidator<CreateMediaCommand>
+public sealed class CreateMediaCommandValidator : AbstractValidator<CreateMediaCommand>
 {
     public CreateMediaCommandValidator()
     {
-        RuleFor(x => x.CreateMediaDto).NotNull().WithMessage("CreateMediaDto cannot be null.");
-        RuleFor(x => x.CreateMediaDto!).SetValidator(new CreateMediaDtoValidator());
+        RuleFor(x => x.CreateMediaDto)
+            .NotNull().WithMessage("{PropertyName} is required.")
+            .SetValidator(new CreateMediaDtoValidator());
     }
 }

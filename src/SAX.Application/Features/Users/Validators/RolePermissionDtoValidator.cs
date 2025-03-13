@@ -4,7 +4,7 @@ using SAX.Application.Features.Users.DTOs;
 
 namespace SAX.Application.Features.Users.Validators;
 
-public class RolePermissionDtoValidator : AbstractValidator<RolePermissionDto>
+public sealed class RolePermissionDtoValidator : AbstractValidator<RolePermissionDto>
 {
     public RolePermissionDtoValidator()
     {

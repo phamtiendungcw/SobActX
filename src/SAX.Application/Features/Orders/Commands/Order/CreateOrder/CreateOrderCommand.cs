@@ -6,7 +6,4 @@ using SAX.Application.Features.Orders.DTOs.Order;
 
 namespace SAX.Application.Features.Orders.Commands.Order.CreateOrder;
 
-public record CreateOrderCommand : IRequest<Result<Guid>>
-{
-    public CreateOrderDto? CreateOrderDto { get; set; }
-}
+public abstract record CreateOrderCommand(CreateOrderDto CreateOrderDto) : IRequest<Result<Guid>>;

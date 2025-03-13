@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Inventory;
 using SAX.Application.Common.Exceptions;
 
@@ -14,12 +15,14 @@ namespace SAX.Application.Features.Inventory.Commands.StockMovement.CreateStockM
 public class CreateStockMovementCommandHandler : IRequestHandler<CreateStockMovementCommand, Result<Guid>>
 {
     private readonly IStockMovementRepository _stockMovementRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IValidator<CreateStockMovementCommand> _validator;
 
-    public CreateStockMovementCommandHandler(IStockMovementRepository stockMovementRepository, IMapper mapper, IValidator<CreateStockMovementCommand> validator)
+    public CreateStockMovementCommandHandler(IStockMovementRepository stockMovementRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateStockMovementCommand> validator)
     {
         _stockMovementRepository = stockMovementRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,10 +36,12 @@ public class CreateStockMovementCommandHandler : IRequestHandler<CreateStockMove
             return Result.Fail<Guid>(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createStockMovementDto = request.StockMovementDto;
-        var stockMovementToCreate = _mapper.Map<Domain.Entities.Inventory.StockMovement>(createStockMovementDto);
-        var createdStockMovement = await _stockMovementRepository.AddAsync(stockMovementToCreate, cancellationToken);
+        var stockMovementDto = request.CreateStockMovementDto;
+        var stockMovement = _mapper.Map<Domain.Entities.Inventory.StockMovement>(stockMovementDto);
 
-        return Result.Ok(createdStockMovement.Id);
+        await _unitOfWork.Repository<Domain.Entities.Inventory.StockMovement>().AddAsync(stockMovement, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(stockMovement.Id);
     }
 }

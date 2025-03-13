@@ -4,7 +4,7 @@ using SAX.Application.Features.Customers.DTOs.Customer;
 
 namespace SAX.Application.Features.Customers.Validators;
 
-public class CreateCustomerDtoValidator : AbstractValidator<CreateCustomerDto>
+public sealed class CreateCustomerDtoValidator : AbstractValidator<CreateCustomerDto>
 {
     public CreateCustomerDtoValidator()
     {

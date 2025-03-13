@@ -4,7 +4,7 @@ using SAX.Application.Features.Content.DTOs.Tag;
 
 namespace SAX.Application.Features.Content.Validators;
 
-public class UpdateTagDtoValidator : AbstractValidator<UpdateTagDto>
+public sealed class UpdateTagDtoValidator : AbstractValidator<UpdateTagDto>
 {
     public UpdateTagDtoValidator()
     {

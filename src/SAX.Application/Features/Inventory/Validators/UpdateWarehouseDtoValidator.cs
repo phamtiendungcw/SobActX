@@ -4,7 +4,7 @@ using SAX.Application.Features.Inventory.DTOs.Warehouse;
 
 namespace SAX.Application.Features.Inventory.Validators;
 
-public class UpdateWarehouseDtoValidator : AbstractValidator<UpdateWarehouseDto>
+public sealed class UpdateWarehouseDtoValidator : AbstractValidator<UpdateWarehouseDto>
 {
     public UpdateWarehouseDtoValidator()
     {

@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Content;
 using SAX.Application.Common.Exceptions;
 
@@ -13,13 +14,15 @@ namespace SAX.Application.Features.Content.Commands.Media.CreateMedia;
 
 public class CreateMediaCommandHandler : IRequestHandler<CreateMediaCommand, Result<Guid>>
 {
-    private readonly IMapper _mapper;
     private readonly IMediaRepository _mediaRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IMapper _mapper;
     private readonly IValidator<CreateMediaCommand> _validator;
 
-    public CreateMediaCommandHandler(IMediaRepository mediaRepository, IMapper mapper, IValidator<CreateMediaCommand> validator)
+    public CreateMediaCommandHandler(IMediaRepository mediaRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<CreateMediaCommand> validator)
     {
         _mediaRepository = mediaRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -34,9 +37,11 @@ public class CreateMediaCommandHandler : IRequestHandler<CreateMediaCommand, Res
         }
 
         var createMediaDto = request.CreateMediaDto;
-        var mediaToCreate = _mapper.Map<Domain.Entities.Content.Media>(createMediaDto);
-        var createdMedia = await _mediaRepository.AddAsync(mediaToCreate, cancellationToken);
+        var media = _mapper.Map<Domain.Entities.Content.Media>(createMediaDto);
 
-        return Result.Ok(createdMedia.Id);
+        await _unitOfWork.Repository<Domain.Entities.Content.Media>().AddAsync(media, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result.Ok(media.Id);
     }
 }

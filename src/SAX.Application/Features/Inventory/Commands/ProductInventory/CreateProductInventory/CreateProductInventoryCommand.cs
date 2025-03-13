@@ -6,7 +6,4 @@ using SAX.Application.Features.Inventory.DTOs.ProductInventory;
 
 namespace SAX.Application.Features.Inventory.Commands.ProductInventory.CreateProductInventory;
 
-public record CreateProductInventoryCommand : IRequest<Result<Guid>>
-{
-    public CreateProductInventoryDto? CreateProductInventoryDto { get; set; }
-}
+public abstract record CreateProductInventoryCommand(CreateProductInventoryDto CreateProductInventoryDto) : IRequest<Result<Guid>>;

@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Marketing;
 using SAX.Application.Common.Exceptions;
 
@@ -15,13 +16,18 @@ public class CreateEmailTemplateCommandHandler : IRequestHandler<CreateEmailTemp
 {
     private readonly IEmailTemplateRepository _emailTemplateRepository;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IValidator<CreateEmailTemplateCommand> _validator;
-    public CreateEmailTemplateCommandHandler(IEmailTemplateRepository emailTemplateRepository, IMapper mapper, IValidator<CreateEmailTemplateCommand> validator)
+
+    public CreateEmailTemplateCommandHandler(IEmailTemplateRepository emailTemplateRepository, IUnitOfWork unitOfWork, IMapper mapper,
+        IValidator<CreateEmailTemplateCommand> validator)
     {
         _emailTemplateRepository = emailTemplateRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
+
     public async Task<Result<Guid>> Handle(CreateEmailTemplateCommand request, CancellationToken cancellationToken)
     {
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
@@ -31,11 +37,11 @@ public class CreateEmailTemplateCommandHandler : IRequestHandler<CreateEmailTemp
             return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var createEmailTemplateDto = request.CreateEmailTemplateDto;
-        if (createEmailTemplateDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu tạo mẫu email không hợp lệ: CreateEmailTemplateDto không được null.").Message);
+        var emailTemplateDto = request.CreateEmailTemplateDto;
+        var emailTemplate = _mapper.Map<Domain.Entities.Marketing.EmailTemplate>(emailTemplateDto);
 
-        var emailTemplate = _mapper.Map<Domain.Entities.Marketing.EmailTemplate>(createEmailTemplateDto);
-        await _emailTemplateRepository.AddAsync(emailTemplate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Marketing.EmailTemplate>().AddAsync(emailTemplate, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok(emailTemplate.Id);
     }

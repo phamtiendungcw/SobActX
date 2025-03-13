@@ -6,6 +6,7 @@ using FluentValidation;
 
 using MediatR;
 
+using SAX.Application.Common.Contracts.Persistence;
 using SAX.Application.Common.Contracts.Persistence.Repositories.Products;
 using SAX.Application.Common.Exceptions;
 
@@ -14,12 +15,14 @@ namespace SAX.Application.Features.Products.Commands.Product.UpdateProduct;
 public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, Result>
 {
     private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
     private readonly IValidator<UpdateProductCommand> _validator;
 
-    public UpdateProductCommandHandler(IProductRepository productRepository, IMapper mapper, IValidator<UpdateProductCommand> validator)
+    public UpdateProductCommandHandler(IProductRepository productRepository, IUnitOfWork unitOfWork, IMapper mapper, IValidator<UpdateProductCommand> validator)
     {
         _productRepository = productRepository;
+        _unitOfWork = unitOfWork;
         _mapper = mapper;
         _validator = validator;
     }
@@ -33,14 +36,13 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             return Result.Fail(new SaxValidationException(validationResult.Errors).Message).WithErrors(errors);
         }
 
-        var updateProductDto = request.UpdateProductDto;
-        if (updateProductDto == null) return Result.Fail(new SaxBadRequestException("Dữ liệu cập nhật sản phẩm không hợp lệ: UpdateProductDto không được null.").Message);
+        var productDto = request.UpdateProductDto;
+        var product = await _unitOfWork.Repository<Domain.Entities.Products.Product>().GetByIdAsync(productDto.Id, cancellationToken);
+        if (product == null) return Result.Fail(new SaxNotFoundException(nameof(Product), productDto.Id).Message);
+        _mapper.Map(productDto, product);
 
-        var productToUpdate = await _productRepository.GetByIdAsync(updateProductDto.Id, cancellationToken);
-        if (productToUpdate == null) return Result.Fail(new SaxNotFoundException(nameof(Domain.Entities.Products.Product), updateProductDto.Id).Message);
-
-        _mapper.Map(updateProductDto, productToUpdate);
-        await _productRepository.UpdateAsync(productToUpdate, cancellationToken);
+        await _unitOfWork.Repository<Domain.Entities.Products.Product>().UpdateAsync(product, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Ok();
     }
